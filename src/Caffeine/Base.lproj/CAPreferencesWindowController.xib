@@ -161,7 +161,7 @@ DQ
                     <button fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="laH-Bo-r5z">
                         <rect key="frame" x="134" y="81" width="464" height="18"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <buttonCell key="cell" type="check" title="Dectivate when device goes to sleep manually" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="zrA-k4-Kvx">
+                        <buttonCell key="cell" type="check" title="Deactivate when device goes to sleep manually" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="zrA-k4-Kvx">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
