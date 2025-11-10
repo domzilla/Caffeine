@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F21DAB042C3040F70044ACF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F21DAB032C3040F70044ACF2 /* Assets.xcassets */; };
 		F21DAB112C30422A0044ACF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DAB0F2C30422A0044ACF2 /* AppDelegate.swift */; };
 		F21DAB1A2C3042430044ACF2 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F21DAB172C3042430044ACF2 /* MainMenu.xib */; };
 		F21DAB1F2C30449A0044ACF2 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F21DAB1D2C3044870044ACF2 /* Sparkle.framework */; };
@@ -22,6 +21,7 @@
 		F21DAB752C316A530044ACF2 /* PreferencesWindowController.strings in Resources */ = {isa = PBXBuildFile; fileRef = F21DAB732C316A530044ACF2 /* PreferencesWindowController.strings */; };
 		F21DAB822C316B1C0044ACF2 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DAB812C316B1C0044ACF2 /* PreferencesWindowController.swift */; };
 		F21DAB852C316B4B0044ACF2 /* PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F21DAB832C316B4B0044ACF2 /* PreferencesWindowController.xib */; };
+		F2F53B952EC22333008A08B6 /* Icon.icon in Resources */ = {isa = PBXBuildFile; fileRef = F2F53B942EC22333008A08B6 /* Icon.icon */; };
 		F2FAEE9D2D7599330082C855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F2FAEE9C2D7599330082C855 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -41,7 +41,6 @@
 
 /* Begin PBXFileReference section */
 		F21DAAFC2C3040F50044ACF2 /* Caffeine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Caffeine.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F21DAB032C3040F70044ACF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F21DAB082C3040F70044ACF2 /* Caffeine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Caffeine.entitlements; sourceTree = "<group>"; };
 		F21DAB0F2C30422A0044ACF2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F21DAB132C30423D0044ACF2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -90,6 +89,7 @@
 		F21DAB802C316A990044ACF2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PreferencesWindowController.strings"; sourceTree = "<group>"; };
 		F21DAB812C316B1C0044ACF2 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		F21DAB842C316B4B0044ACF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowController.xib; sourceTree = "<group>"; };
+		F2F53B942EC22333008A08B6 /* Icon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Icon.icon; sourceTree = "<group>"; };
 		F2FAEE9C2D7599330082C855 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,7 +160,7 @@
 				F21DAB172C3042430044ACF2 /* MainMenu.xib */,
 				F21DAB832C316B4B0044ACF2 /* PreferencesWindowController.xib */,
 				F21DAB132C30423D0044ACF2 /* Info.plist */,
-				F21DAB032C3040F70044ACF2 /* Assets.xcassets */,
+				F2F53B942EC22333008A08B6 /* Icon.icon */,
 				F2FAEE9C2D7599330082C855 /* PrivacyInfo.xcprivacy */,
 				F21DAB082C3040F70044ACF2 /* Caffeine.entitlements */,
 			);
@@ -262,9 +262,9 @@
 				F21DAB562C3048A80044ACF2 /* inactive.png in Resources */,
 				F21DAB572C3048A80044ACF2 /* inactive@2x.png in Resources */,
 				F21DAB2C2C30483A0044ACF2 /* Localizable.strings in Resources */,
-				F21DAB042C3040F70044ACF2 /* Assets.xcassets in Resources */,
 				F21DAB1A2C3042430044ACF2 /* MainMenu.xib in Resources */,
 				F21DAB552C3048A80044ACF2 /* active@2x.png in Resources */,
+				F2F53B952EC22333008A08B6 /* Icon.icon in Resources */,
 				F21DAB852C316B4B0044ACF2 /* PreferencesWindowController.xib in Resources */,
 				F21DAB752C316A530044ACF2 /* PreferencesWindowController.strings in Resources */,
 			);
@@ -482,12 +482,12 @@
 		F21DAB0C2C3040F70044ACF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Caffeine/Caffeine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = 568T6RKXH7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = ../sparkle/framework;
@@ -502,7 +502,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.5.3;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = net.domzilla.caffeine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -513,12 +513,12 @@
 		F21DAB0D2C3040F70044ACF2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Caffeine/Caffeine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = 568T6RKXH7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = ../sparkle/framework;
@@ -533,7 +533,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.5.3;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = net.domzilla.caffeine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
