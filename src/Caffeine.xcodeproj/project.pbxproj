@@ -22,6 +22,7 @@
 		F21DAB822C316B1C0044ACF2 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21DAB812C316B1C0044ACF2 /* PreferencesWindowController.swift */; };
 		F21DAB852C316B4B0044ACF2 /* PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F21DAB832C316B4B0044ACF2 /* PreferencesWindowController.xib */; };
 		F2F53B952EC22333008A08B6 /* Icon.icon in Resources */ = {isa = PBXBuildFile; fileRef = F2F53B942EC22333008A08B6 /* Icon.icon */; };
+		F2F53B9A2EC23761008A08B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2F53B992EC23761008A08B6 /* Assets.xcassets */; };
 		F2FAEE9D2D7599330082C855 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F2FAEE9C2D7599330082C855 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +91,7 @@
 		F21DAB812C316B1C0044ACF2 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		F21DAB842C316B4B0044ACF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowController.xib; sourceTree = "<group>"; };
 		F2F53B942EC22333008A08B6 /* Icon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Icon.icon; sourceTree = "<group>"; };
+		F2F53B992EC23761008A08B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F2FAEE9C2D7599330082C855 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,6 +162,7 @@
 				F21DAB172C3042430044ACF2 /* MainMenu.xib */,
 				F21DAB832C316B4B0044ACF2 /* PreferencesWindowController.xib */,
 				F21DAB132C30423D0044ACF2 /* Info.plist */,
+				F2F53B992EC23761008A08B6 /* Assets.xcassets */,
 				F2F53B942EC22333008A08B6 /* Icon.icon */,
 				F2FAEE9C2D7599330082C855 /* PrivacyInfo.xcprivacy */,
 				F21DAB082C3040F70044ACF2 /* Caffeine.entitlements */,
@@ -266,6 +269,7 @@
 				F21DAB552C3048A80044ACF2 /* active@2x.png in Resources */,
 				F2F53B952EC22333008A08B6 /* Icon.icon in Resources */,
 				F21DAB852C316B4B0044ACF2 /* PreferencesWindowController.xib in Resources */,
+				F2F53B9A2EC23761008A08B6 /* Assets.xcassets in Resources */,
 				F21DAB752C316A530044ACF2 /* PreferencesWindowController.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
