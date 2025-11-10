@@ -110,11 +110,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, SPUStandardU
         self.deactivate()
     }
     
-    @IBAction func statusItemAction(_ sender:Any?) {
+    @IBAction func statusItemAction(_ sender:NSStatusBarButton?) {
         let event = NSApp.currentEvent
         let modifierFlags = event?.modifierFlags ?? []
         if event?.type == .rightMouseUp || (event?.type == .leftMouseUp && modifierFlags.contains(.control)) {
-            statusItem.popUpMenu(menu)
+            statusItem.menu = menu
+            sender?.performClick(nil)
+            statusItem.menu = nil
         } else {
             toggleActive(sender)
         }
