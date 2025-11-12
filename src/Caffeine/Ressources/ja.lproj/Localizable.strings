@@ -1,0 +1,42 @@
+/* Activation durations */
+"1 minute" = "1分";
+"5 minutes" = "5分";
+"10 minutes" = "10分";
+"15 minutes" = "15分";
+"30 minutes" = "30分";
+"1 hour" = "1時間";
+"2 hours" = "2時間";
+"5 hours" = "5時間";
+"Indefinitely" = "無期限";
+
+/* Status messages */
+"Caffeine is active" = "Caffeineはアクティブです";
+"%d minutes" = "%d分";
+"%d seconds" = "%d秒";
+
+/* Menu items */
+"Preferences..." = "環境設定...";
+"About Caffeine" = "Caffeineについて";
+"Quit" = "終了";
+
+/* Preferences instructions */
+"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine が起動しました。メニューバー右側のアイコンをクリックすると自動スリープが無効になり、もう一度クリックすると再び有効になります。";
+"Right-click (or ⌘-click) the menu bar icon to show the Caffeine menu." = "メニューバーのアイコンを右クリック（または ⌘ キーを押しながらクリック）すると Caffeine メニューが表示されます。";
+
+/* Preferences labels */
+"Default duration:" = "デフォルトの時間:";
+"Activate when starting Caffeine" = "Caffeine 起動時に有効化";
+"Deactivate when device goes to sleep manually" = "手動でスリープしたときに無効化";
+"Show this message when starting Caffeine" = "Caffeine 起動時にこのメッセージを表示";
+"Close" = "閉じる";
+
+/* Menu additions */
+"Activate for" = "有効にする時間";
+"Welcome to Caffeine" = "Caffeine へようこそ";
+
+/* About credits */
+"© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nソースコード:\nhttps://github.caffeine-app.net";
+
+/* System messages */
+"Caffeine prevents sleep" = "Caffeine がスリープを防ぎます";
+

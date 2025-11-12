@@ -1,0 +1,42 @@
+/* Activation durations */
+"1 minute" = "1分钟";
+"5 minutes" = "5分钟";
+"10 minutes" = "10分钟";
+"15 minutes" = "15分钟";
+"30 minutes" = "30分钟";
+"1 hour" = "1小时";
+"2 hours" = "2小时";
+"5 hours" = "5小时";
+"Indefinitely" = "无限期";
+
+/* Status messages */
+"Caffeine is active" = "Caffeine已激活";
+"%d minutes" = "%d分钟";
+"%d seconds" = "%d秒";
+
+/* Menu items */
+"Preferences..." = "偏好设置...";
+"About Caffeine" = "关于Caffeine";
+"Quit" = "退出";
+
+/* Preferences instructions */
+"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine 已经在运行。您可以在菜单栏右侧找到它的图标。单击可停用自动睡眠，再次单击即可重新启用自动睡眠。";
+"Right-click (or ⌘-click) the menu bar icon to show the Caffeine menu." = "右键单击（或按住 ⌘ 键并单击）菜单栏图标即可显示 Caffeine 菜单。";
+
+/* Preferences labels */
+"Default duration:" = "默认时长：";
+"Activate when starting Caffeine" = "启动 Caffeine 时自动激活";
+"Deactivate when device goes to sleep manually" = "设备手动睡眠时停用";
+"Show this message when starting Caffeine" = "启动 Caffeine 时显示此消息";
+"Close" = "关闭";
+
+/* Menu additions */
+"Activate for" = "激活时长";
+"Welcome to Caffeine" = "欢迎使用 Caffeine";
+
+/* About credits */
+"© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\n源代码：\nhttps://github.caffeine-app.net";
+
+/* System messages */
+"Caffeine prevents sleep" = "Caffeine 会阻止睡眠";
+

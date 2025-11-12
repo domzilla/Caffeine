@@ -1,0 +1,41 @@
+/* Activation durations */
+"1 minute" = "1 минута";
+"5 minutes" = "5 минут";
+"10 minutes" = "10 минут";
+"15 minutes" = "15 минут";
+"30 minutes" = "30 минут";
+"1 hour" = "1 час";
+"2 hours" = "2 часа";
+"5 hours" = "5 часов";
+"Indefinitely" = "Бессрочно";
+
+/* Status messages */
+"Caffeine is active" = "Caffeine активен";
+"%d minutes" = "%d минут";
+"%d seconds" = "%d секунд";
+
+/* Menu items */
+"Preferences..." = "Настройки...";
+"About Caffeine" = "О Caffeine";
+"Quit" = "Выйти";
+
+/* Preferences instructions */
+"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine запущен. Его значок находится справа на панели меню. Нажмите, чтобы отключить автоматический сон, нажмите ещё раз, чтобы включить его снова.";
+"Right-click (or ⌘-click) the menu bar icon to show the Caffeine menu." = "Щёлкните значок на панели меню правой кнопкой мыши (или с зажатой клавишей ⌘), чтобы открыть меню Caffeine.";
+
+/* Preferences labels */
+"Default duration:" = "Длительность по умолчанию:";
+"Activate when starting Caffeine" = "Активировать при запуске Caffeine";
+"Deactivate when device goes to sleep manually" = "Деактивировать при ручном переводе устройства в сон";
+"Show this message when starting Caffeine" = "Показывать это сообщение при запуске Caffeine";
+"Close" = "Закрыть";
+
+/* Menu additions */
+"Activate for" = "Активировать на";
+"Welcome to Caffeine" = "Добро пожаловать в Caffeine";
+
+/* About credits */
+"© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nИсходный код:\nhttps://github.caffeine-app.net";
+
+/* System messages */
+"Caffeine prevents sleep" = "Caffeine предотвращает переход в сон";

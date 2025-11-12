@@ -1,0 +1,41 @@
+/* Activation durations */
+"1 minute" = "1 minuut";
+"5 minutes" = "5 minuten";
+"10 minutes" = "10 minuten";
+"15 minutes" = "15 minuten";
+"30 minutes" = "30 minuten";
+"1 hour" = "1 uur";
+"2 hours" = "2 uur";
+"5 hours" = "5 uur";
+"Indefinitely" = "Onbepaalde tijd";
+
+/* Status messages */
+"Caffeine is active" = "Caffeine is actief";
+"%d minutes" = "%d minuten";
+"%d seconds" = "%d seconden";
+
+/* Menu items */
+"Preferences..." = "Voorkeuren...";
+"About Caffeine" = "Over Caffeine";
+"Quit" = "Stop";
+
+/* Preferences instructions */
+"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine draait nu. Je vindt het pictogram aan de rechterkant van je menubalk. Klik om automatisch sluimeren uit te schakelen, klik nogmaals om het weer in te schakelen.";
+"Right-click (or ⌘-click) the menu bar icon to show the Caffeine menu." = "Klik met de rechtermuisknop (of met ⌘-klik) op het menubalkpictogram om het Caffeine-menu te openen.";
+
+/* Preferences labels */
+"Default duration:" = "Standaardduur:";
+"Activate when starting Caffeine" = "Caffeine bij starten inschakelen";
+"Deactivate when device goes to sleep manually" = "Uitschakelen wanneer het apparaat handmatig in sluimerstand gaat";
+"Show this message when starting Caffeine" = "Dit bericht tonen bij het starten van Caffeine";
+"Close" = "Sluiten";
+
+/* Menu additions */
+"Activate for" = "Activeren voor";
+"Welcome to Caffeine" = "Welkom bij Caffeine";
+
+/* About credits */
+"© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nBroncode:\nhttps://github.caffeine-app.net";
+
+/* System messages */
+"Caffeine prevents sleep" = "Caffeine voorkomt sluimerstand";

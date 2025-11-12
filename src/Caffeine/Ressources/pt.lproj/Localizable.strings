@@ -1,0 +1,41 @@
+/* Activation durations */
+"1 minute" = "1 minuto";
+"5 minutes" = "5 minutos";
+"10 minutes" = "10 minutos";
+"15 minutes" = "15 minutos";
+"30 minutes" = "30 minutos";
+"1 hour" = "1 hora";
+"2 hours" = "2 horas";
+"5 hours" = "5 horas";
+"Indefinitely" = "Indefinidamente";
+
+/* Status messages */
+"Caffeine is active" = "Caffeine está ativo";
+"%d minutes" = "%d minutos";
+"%d seconds" = "%d segundos";
+
+/* Menu items */
+"Preferences..." = "Preferências...";
+"About Caffeine" = "Sobre o Caffeine";
+"Quit" = "Sair";
+
+/* Preferences instructions */
+"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine está agora em execução. Pode encontrar o ícone no lado direito da barra de menus. Clique para desativar o repouso automático, clique novamente para o voltar a ativar.";
+"Right-click (or ⌘-click) the menu bar icon to show the Caffeine menu." = "Clique com o botão direito (ou com ⌘ premido) no ícone da barra de menus para mostrar o menu do Caffeine.";
+
+/* Preferences labels */
+"Default duration:" = "Duração predefinida:";
+"Activate when starting Caffeine" = "Ativar ao iniciar o Caffeine";
+"Deactivate when device goes to sleep manually" = "Desativar quando o dispositivo entra em repouso manualmente";
+"Show this message when starting Caffeine" = "Mostrar esta mensagem ao iniciar o Caffeine";
+"Close" = "Fechar";
+
+/* Menu additions */
+"Activate for" = "Ativar durante";
+"Welcome to Caffeine" = "Bem-vindo ao Caffeine";
+
+/* About credits */
+"© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nCódigo-fonte:\nhttps://github.caffeine-app.net";
+
+/* System messages */
+"Caffeine prevents sleep" = "O Caffeine impede o repouso";

@@ -1,0 +1,41 @@
+/* Activation durations */
+"1 minute" = "1분";
+"5 minutes" = "5분";
+"10 minutes" = "10분";
+"15 minutes" = "15분";
+"30 minutes" = "30분";
+"1 hour" = "1시간";
+"2 hours" = "2시간";
+"5 hours" = "5시간";
+"Indefinitely" = "무기한";
+
+/* Status messages */
+"Caffeine is active" = "Caffeine가 활성 상태입니다";
+"%d minutes" = "%d분";
+"%d seconds" = "%d초";
+
+/* Menu items */
+"Preferences..." = "환경설정...";
+"About Caffeine" = "Caffeine 정보";
+"Quit" = "종료";
+
+/* Preferences instructions */
+"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine이 실행 중입니다. 메뉴 막대 오른쪽에서 아이콘을 찾을 수 있습니다. 자동 잠자기를 끄려면 클릭하고, 다시 클릭하면 자동 잠자기가 켜집니다.";
+"Right-click (or ⌘-click) the menu bar icon to show the Caffeine menu." = "메뉴 막대 아이콘을 마우스 오른쪽 버튼으로 클릭하거나 ⌘ 키를 누른 채 클릭하면 Caffeine 메뉴가 표시됩니다.";
+
+/* Preferences labels */
+"Default duration:" = "기본 지속 시간:";
+"Activate when starting Caffeine" = "Caffeine 시작 시 활성화";
+"Deactivate when device goes to sleep manually" = "수동으로 잠자기에 들어가면 비활성화";
+"Show this message when starting Caffeine" = "Caffeine 시작 시 이 메시지 표시";
+"Close" = "닫기";
+
+/* Menu additions */
+"Activate for" = "다음 시간 동안 활성화";
+"Welcome to Caffeine" = "Caffeine에 오신 것을 환영합니다";
+
+/* About credits */
+"© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\n소스 코드:\nhttps://github.caffeine-app.net";
+
+/* System messages */
+"Caffeine prevents sleep" = "Caffeine이 잠자기를 방지합니다";
