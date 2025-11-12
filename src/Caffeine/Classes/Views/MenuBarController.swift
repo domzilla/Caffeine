@@ -136,16 +136,7 @@ class MenuBarController: NSObject {
         menu.addItem(activateForItem)
         
         menu.addItem(NSMenuItem.separator())
-        
-        //Update
-        let updatesItem = NSMenuItem(
-            title: String(localized: "Check for Updates..."),
-            action: #selector(checkForUpdates(_:)),
-            keyEquivalent: ""
-        )
-        updatesItem.target = self
-        menu.addItem(updatesItem)
-        
+                
         // Preferences
         let prefsItem = NSMenuItem(
             title: String(localized: "Preferences..."),
@@ -163,6 +154,15 @@ class MenuBarController: NSObject {
         )
         aboutItem.target = self
         menu.addItem(aboutItem)
+        
+        //Update
+        let updatesItem = NSMenuItem(
+            title: String(localized: "Check for Updates..."),
+            action: #selector(checkForUpdates(_:)),
+            keyEquivalent: ""
+        )
+        updatesItem.target = self
+        menu.addItem(updatesItem)
         
         menu.addItem(NSMenuItem.separator())
         
