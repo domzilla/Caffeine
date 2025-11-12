@@ -15,6 +15,7 @@
 "%d seconds" = "%d초";
 
 /* Menu items */
+"Check for Updates..." = "업데이트 확인...";
 "Preferences..." = "환경설정...";
 "About Caffeine" = "Caffeine 정보";
 "Quit" = "종료";

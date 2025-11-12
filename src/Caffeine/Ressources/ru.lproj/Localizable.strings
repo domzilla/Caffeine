@@ -15,6 +15,7 @@
 "%d seconds" = "%d секунд";
 
 /* Menu items */
+"Check for Updates..." = "Проверить обновления...";
 "Preferences..." = "Настройки...";
 "About Caffeine" = "О Caffeine";
 "Quit" = "Выйти";

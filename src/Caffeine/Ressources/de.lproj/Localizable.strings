@@ -15,6 +15,7 @@
 "%d seconds" = "%d Sekunden";
 
 /* Menu items */
+"Check for Updates..." = "Nach Updates suchen...";
 "Preferences..." = "Einstellungen...";
 "About Caffeine" = "Über Caffeine";
 "Quit" = "Beenden";

@@ -15,6 +15,7 @@
 "%d seconds" = "%d秒";
 
 /* Menu items */
+"Check for Updates..." = "アップデートを確認...";
 "Preferences..." = "環境設定...";
 "About Caffeine" = "Caffeineについて";
 "Quit" = "終了";
