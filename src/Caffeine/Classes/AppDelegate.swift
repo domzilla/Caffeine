@@ -9,8 +9,13 @@ import SwiftUI
 import Cocoa
 import Sparkle
 
-class AppDelegate: NSObject, NSApplicationDelegate {
-    private let updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegate {
+    // Make this lazy so `self` can be used safely
+    private lazy var updaterController = SPUStandardUpdaterController(
+        startingUpdater: true,
+        updaterDelegate: nil,
+        userDriverDelegate: self
+    )
     private var statusItem: NSStatusItem?
     private var menuBarController: MenuBarController?
     
@@ -26,5 +31,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Clean up
         menuBarController?.cleanup()
     }
+    
+    // MARK: SPUStandardUserDriverDelegate
+    // MARK: ---
+    func supportsGentleScheduledUpdateReminders() -> Bool {
+        return true
+    }
 }
-
