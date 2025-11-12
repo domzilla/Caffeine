@@ -30,9 +30,22 @@
 		F2F53BA42EC354AE008A08B6 /* Caffeine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Caffeine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F2C021882EC4934C006B4FA8 /* Exceptions for "Caffeine" folder in "Caffeine" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Ressources/Info.plist,
+			);
+			target = F2F53BA32EC354AE008A08B6 /* Caffeine */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F2F53BA62EC354AE008A08B6 /* Caffeine */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F2C021882EC4934C006B4FA8 /* Exceptions for "Caffeine" folder in "Caffeine" target */,
+			);
 			path = Caffeine;
 			sourceTree = "<group>";
 		};
