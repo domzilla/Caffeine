@@ -72,7 +72,6 @@ class MenuBarController: NSObject {
 
         let imageName = viewModel.isActive ? "active" : "inactive"
         if let image = NSImage(named: NSImage.Name(imageName)) {
-            image.isTemplate = false
             button.image = image
         }
     }
