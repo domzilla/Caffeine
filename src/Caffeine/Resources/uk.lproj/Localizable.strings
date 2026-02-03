@@ -18,24 +18,24 @@
 "Check for Updates..." = "Перевірити оновлення...";
 "Preferences..." = "Налаштування...";
 "About Caffeine" = "Про Caffeine";
-"Quit" = "Вихід";
+"Quit" = "Завершити";
 
 /* Preferences instructions */
-"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine зараз працює. Ви знайдете його іконку праворуч у рядку меню. Натисніть її, щоб вимкнути автоматичний перехід у режим сну; натисніть ще раз, щоб знову дозволити автоматичний перехід у сон.";
+"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine працює. Іконка знаходиться праворуч у смузі меню. Натисніть, щоб вимкнути автоматичний сон; натисніть знову, щоб увімкнути.";
 "Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu." = "Клацніть правою кнопкою миші (або ⌃+клік) по іконці в рядку меню, щоб відкрити меню Caffeine.";
 
 /* Preferences labels */
 "Default duration:" = "Тривалість за замовчуванням:";
 "Activate when starting Caffeine" = "Активувати при запуску Caffeine";
-"Deactivate when device goes to sleep manually" = "Вимикати при ручному переході пристрою в режим сну";
+"Deactivate when device goes to sleep manually" = "Вимикати, коли пристрій переходить у сон вручну";
 "Show this message when starting Caffeine" = "Показувати це повідомлення при запуску Caffeine";
 "Keep apps active" = "Тримати застосунки активними";
-"Prevents apps from becoming inactive and the screen saver from starting." = "Запобігає неактивності застосунків та запуску заставки.";
+"Prevents apps from becoming inactive and the screen saver from starting." = "Не дає застосункам переходити в неактивний режим і запускатися заставці.";
 "Close" = "Закрити";
 
 /* Menu additions */
-"Activate for" = "Активувати на";
-"Welcome to Caffeine" = "Ласкаво просимо в Caffeine";
+"Activate for" = "Увімкнути на";
+"Welcome to Caffeine" = "Вітаємо в Caffeine";
 
 /* About credits */
 "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nВихідний код:\nhttps://github.caffeine-app.net";
