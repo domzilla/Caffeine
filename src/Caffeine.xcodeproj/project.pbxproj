@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F26346032F27633300C56D92 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = F26346022F27633300C56D92 /* Sparkle */; };
+		F2634EAB2F375A5200C56D92 /* DZFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = F2634EAA2F375A5200C56D92 /* DZFoundation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,7 +32,7 @@
 		F2C021882EC4934C006B4FA8 /* Exceptions for "Caffeine" folder in "Caffeine" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Ressources/Info.plist,
+				Resources/Info.plist,
 			);
 			target = F2F53BA32EC354AE008A08B6 /* Caffeine */;
 		};
@@ -54,6 +55,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F26346032F27633300C56D92 /* Sparkle in Frameworks */,
+				F2634EAB2F375A5200C56D92 /* DZFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +100,7 @@
 			name = Caffeine;
 			packageProductDependencies = (
 				F26346022F27633300C56D92 /* Sparkle */,
+				F2634EAA2F375A5200C56D92 /* DZFoundation */,
 			);
 			productName = Caffeine;
 			productReference = F2F53BA42EC354AE008A08B6 /* Caffeine.app */;
@@ -141,6 +144,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F26346012F27633300C56D92 /* XCRemoteSwiftPackageReference "Sparkle" */,
+				F2634EA92F375A5200C56D92 /* XCRemoteSwiftPackageReference "DZFoundation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F2F53BA52EC354AE008A08B6 /* Products */;
@@ -395,6 +399,14 @@
 				minimumVersion = 2.8.1;
 			};
 		};
+		F2634EA92F375A5200C56D92 /* XCRemoteSwiftPackageReference "DZFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/domzilla/DZFoundation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -402,6 +414,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F26346012F27633300C56D92 /* XCRemoteSwiftPackageReference "Sparkle" */;
 			productName = Sparkle;
+		};
+		F2634EAA2F375A5200C56D92 /* DZFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F2634EA92F375A5200C56D92 /* XCRemoteSwiftPackageReference "DZFoundation" */;
+			productName = DZFoundation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

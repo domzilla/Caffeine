@@ -1,6 +1,15 @@
 {
-  "originHash" : "e721da7f9826abdffcb6185e886155efa2514bd6234475f1afa893e29eb258d6",
+  "originHash" : "f3ae84e51710b8b303c278df4d30705024d51db8c0218ec2c5db8a05e7e50baa",
   "pins" : [
+    {
+      "identity" : "dzfoundation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/domzilla/DZFoundation",
+      "state" : {
+        "revision" : "bfe543506525879ef872138f1c5541f9840a048a",
+        "version" : "1.0.0"
+      }
+    },
     {
       "identity" : "sparkle",
       "kind" : "remoteSourceControl",
