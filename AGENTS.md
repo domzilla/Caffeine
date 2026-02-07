@@ -1,4 +1,4 @@
-# Caffeine - AGENTS.md
+# Caffeine - CLAUDE.md
 
 ## Project Overview
 macOS menu bar app that prevents your Mac from sleeping.
@@ -8,7 +8,7 @@ macOS menu bar app that prevents your Mac from sleeping.
 - **UI Framework**: SwiftUI
 - **IDE**: Xcode
 - **Platforms**: macOS
-- **Minimum Deployment**: macOS 11.0
+- **Minimum Deployment**: macOS 13.5
 
 ## Style & Conventions (MANDATORY)
 **Strictly follow** the Swift/SwiftUI style guide: `~/Agents/Style/swift-swiftui-style-guide.md`
@@ -78,23 +78,23 @@ The `search` binary is located **inside** the documentation folder:
   
 ## File System Synchronized Groups (Xcode 16+)
 This project uses **File System Synchronized Groups** (internally `PBXFileSystemSynchronizedRootGroup`), introduced in Xcode 16. This means:
-- The `Classes/` and `Resources/` directories are **directly synchronized** with the file system
+- The `src/Caffeine/Classes/` and `src/Caffeine/Resources/` directories are **directly synchronized** with the file system
 - **You CAN freely create, move, rename, and delete files** in these directories
 - Xcode automatically picks up all changes — no project file updates needed
 - This is different from legacy Xcode groups, which required manual project file edits
 
-**Bottom line:** Modify source files in `Classes/` and `Resources/` freely. Just never touch the `.xcodeproj` files themselves.
+**Bottom line:** Modify source files in `src/Caffeine/Classes/` and `src/Caffeine/Resources/` freely. Just never touch the `.xcodeproj` files themselves.
 
 ## Build & Format Commands
 ```bash
 # Build
-xcodebuild -scheme "{SCHEME_NAME}" -destination "platform=iOS Simulator,name=iPhone 16" build
+xcodebuild -scheme "Caffeine" -destination "platform=macOS" build
 
 # Run tests
-xcodebuild -scheme "{SCHEME_NAME}" -destination "platform=iOS Simulator,name=iPhone 16" test
+xcodebuild -scheme "Caffeine" -destination "platform=macOS" test
 
 # Clean
-xcodebuild -scheme "{SCHEME_NAME}" clean
+xcodebuild -scheme "Caffeine" clean
 ```
 
 ## Code Formatting (MANDATORY)
@@ -116,7 +116,7 @@ SwiftFormat configuration is defined in `.swiftformat` at the project root. This
 
 ## Notes
 - The style guide emphasizes native SwiftUI patterns over MVVM boilerplate
-- Prefer `@Observable` (iOS 17+) over `ObservableObject`
+- Prefer `@Observable` (macOS 14+) over `ObservableObject`
 - Use `async/await` and `.task` modifier for async work
 - Avoid Combine unless specifically needed
 - Use `DZLog`/`DZErrorLog` for all debug logging — never `print()`
