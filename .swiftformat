@@ -1,0 +1,65 @@
+# SwiftFormat Configuration for Swift 6
+# https://github.com/nicklockwood/SwiftFormat
+
+# Self/indentation rules to match root repo
+--self insert
+--ifdef no-indent
+
+# Swift version
+--swiftversion 6
+
+# Indentation
+--indent 4
+--tabwidth 4
+--smarttabs enabled
+--indentcase false
+
+# Line length
+--maxwidth 120
+
+# Spacing
+--commas always
+--semicolons never
+--ranges no-space
+--voidtype void
+--trimwhitespace always
+
+# Wrapping
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--wrapconditions before-first
+--wrapreturntype if-multiline
+
+# Closure formatting
+--closingparen balanced
+--closurevoid remove
+--trailingclosures
+
+# Import organization
+--importgrouping testable-bottom
+
+# Enum formatting
+--enum-namespaces always
+
+# Function formatting
+--funcattributes prev-line
+--typeattributes prev-line
+
+# Access control
+--extensionacl on-declarations
+
+# Brace formatting
+--allman false
+--elseposition same-line
+--guardelse same-line
+
+# Operator formatting
+--operatorfunc spaced
+--nospaceoperators ..<,...,..
+
+# File header (preserve existing headers)
+--header ignore
+
+# Exclude files
+--exclude .build,DerivedData
