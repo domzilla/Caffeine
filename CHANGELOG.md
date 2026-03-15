@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update default editor for publishing
 - Add post_publish_commands to update website config
+- Improve Ukrainian translation
 
 ### Fixed
 
