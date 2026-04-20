@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F23FEFAF2F9623DB00C445B2 /* DZFoundation in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F2634EAA2F375A5200C56D92 /* DZFoundation */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F26346032F27633300C56D92 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = F26346022F27633300C56D92 /* Sparkle */; };
 		F2634EAB2F375A5200C56D92 /* DZFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = F2634EAA2F375A5200C56D92 /* DZFoundation */; };
 /* End PBXBuildFile section */
@@ -18,6 +19,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				F23FEFAF2F9623DB00C445B2 /* DZFoundation in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
