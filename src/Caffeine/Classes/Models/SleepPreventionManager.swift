@@ -5,60 +5,60 @@
 //  Created by Dominic Rodemer on 11.11.25.
 //
 
-import Foundation
 import AppKit
+import Foundation
 import IOKit.pwr_mgt
 
 /// Manages the core functionality of preventing system sleep
 final class SleepPreventionManager {
     static let shared = SleepPreventionManager()
-    
+
     private var sleepAssertionID: IOPMAssertionID?
     private var assertionTimer: Timer?
     private var isUserSessionActive = true
-    
+
     private init() {
-        setupWorkspaceNotifications()
+        self.setupWorkspaceNotifications()
     }
-    
+
     deinit {
         releaseSleepAssertion()
         assertionTimer?.invalidate()
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     // MARK: - Public Methods
-    
+
     /// Prevents the system from sleeping
     func preventSleep() {
         // Start or restart the assertion timer
-        assertionTimer?.invalidate()
-        assertionTimer = Timer.scheduledTimer(
+        self.assertionTimer?.invalidate()
+        self.assertionTimer = Timer.scheduledTimer(
             withTimeInterval: 10.0,
             repeats: true
         ) { [weak self] _ in
             self?.refreshSleepAssertion()
         }
-        assertionTimer?.fire() // Fire immediately
+        self.assertionTimer?.fire() // Fire immediately
     }
-    
+
     /// Allows the system to sleep normally
     func allowSleep() {
-        assertionTimer?.invalidate()
-        assertionTimer = nil
-        releaseSleepAssertion()
+        self.assertionTimer?.invalidate()
+        self.assertionTimer = nil
+        self.releaseSleepAssertion()
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func refreshSleepAssertion() {
-        guard isUserSessionActive else { return }
-        
+        guard self.isUserSessionActive else { return }
+
         // Release existing assertion
         if let assertionID = sleepAssertionID {
             IOPMAssertionRelease(assertionID)
         }
-        
+
         // Create new assertion
         var assertionID: IOPMAssertionID = 0
         let reason = String(localized: "Caffeine prevents sleep") as CFString
@@ -72,44 +72,44 @@ final class SleepPreventionManager {
             nil as CFString?,
             &assertionID
         )
-        
+
         if result == kIOReturnSuccess {
-            sleepAssertionID = assertionID
+            self.sleepAssertionID = assertionID
         }
     }
-    
+
     private func releaseSleepAssertion() {
         if let assertionID = sleepAssertionID {
             IOPMAssertionRelease(assertionID)
-            sleepAssertionID = nil
+            self.sleepAssertionID = nil
         }
     }
-    
+
     private func setupWorkspaceNotifications() {
         let notificationCenter = NSWorkspace.shared.notificationCenter
-        
+
         notificationCenter.addObserver(
             self,
-            selector: #selector(sessionDidResignActive),
+            selector: #selector(self.sessionDidResignActive),
             name: NSWorkspace.sessionDidResignActiveNotification,
             object: nil
         )
-        
+
         notificationCenter.addObserver(
             self,
-            selector: #selector(sessionDidBecomeActive),
+            selector: #selector(self.sessionDidBecomeActive),
             name: NSWorkspace.sessionDidBecomeActiveNotification,
             object: nil
         )
     }
-    
-    @objc private func sessionDidResignActive() {
-        isUserSessionActive = false
+
+    @objc
+    private func sessionDidResignActive() {
+        self.isUserSessionActive = false
     }
-    
-    @objc private func sessionDidBecomeActive() {
-        isUserSessionActive = true
+
+    @objc
+    private func sessionDidBecomeActive() {
+        self.isUserSessionActive = true
     }
 }
-
-

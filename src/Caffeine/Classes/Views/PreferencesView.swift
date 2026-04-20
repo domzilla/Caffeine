@@ -14,7 +14,7 @@ struct PreferencesView: View {
     @AppStorage(PreferenceKeys.suppressLaunchMessage) private var suppressLaunchMessage = false
     @AppStorage(PreferenceKeys.deactivateOnManualSleep) private var deactivateOnManualSleep = false
     @AppStorage(PreferenceKeys.keepAppsActive) private var keepAppsActive = false
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Icon and description
@@ -25,13 +25,15 @@ struct PreferencesView: View {
                         .resizable()
                         .frame(width: 140, height: 140)
                 }
-                
+
                 // Description text
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep.")
-                        .font(.system(size: 13))
-                        .fixedSize(horizontal: false, vertical: true)
-                    
+                    Text(
+                        "Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep."
+                    )
+                    .font(.system(size: 13))
+                    .fixedSize(horizontal: false, vertical: true)
+
                     Text("Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu.")
                         .font(.system(size: 13, weight: .bold))
                         .foregroundColor(.secondary)
@@ -40,13 +42,13 @@ struct PreferencesView: View {
             }
             .padding(.top, 20)
             .padding(.bottom, 30)
-            
+
             // Default duration
             HStack(spacing: 8) {
                 Text("Default duration:")
                     .font(.system(size: 13))
-                
-                Picker("", selection: $defaultDuration) {
+
+                Picker("", selection: self.$defaultDuration) {
                     Text("5 minutes").tag(5)
                     Text("10 minutes").tag(10)
                     Text("15 minutes").tag(15)
@@ -58,22 +60,22 @@ struct PreferencesView: View {
                 }
                 .pickerStyle(.menu)
                 .frame(width: 180)
-                
+
                 Spacer()
             }
             .padding(.bottom, 16)
-            
+
             // Checkboxes
             VStack(alignment: .leading, spacing: 8) {
-                Toggle("Activate when starting Caffeine", isOn: $activateAtLaunch)
+                Toggle("Activate when starting Caffeine", isOn: self.$activateAtLaunch)
                     .font(.system(size: 13))
-                
-                Toggle("Deactivate when device goes to sleep manually", isOn: $deactivateOnManualSleep)
+
+                Toggle("Deactivate when device goes to sleep manually", isOn: self.$deactivateOnManualSleep)
                     .font(.system(size: 13))
-                
+
                 Toggle("Show this message when starting Caffeine", isOn: Binding(
-                    get: { !suppressLaunchMessage },
-                    set: { suppressLaunchMessage = !$0 }
+                    get: { !self.suppressLaunchMessage },
+                    set: { self.suppressLaunchMessage = !$0 }
                 ))
                 .font(.system(size: 13))
 
@@ -81,10 +83,10 @@ struct PreferencesView: View {
                     .padding(.vertical, 4)
 
                 Toggle("Keep apps active", isOn: Binding(
-                    get: { keepAppsActive },
+                    get: { self.keepAppsActive },
                     set: { newValue in
-                        keepAppsActive = newValue
-                        viewModel.updateActivitySimulation(enabled: newValue)
+                        self.keepAppsActive = newValue
+                        self.viewModel.updateActivitySimulation(enabled: newValue)
                     }
                 ))
                 .font(.system(size: 13))
@@ -94,7 +96,7 @@ struct PreferencesView: View {
                     .foregroundColor(.secondary)
                     .padding(.leading, 20)
             }
-            
+
             Spacer()
                 .frame(height: 30)
 
@@ -104,9 +106,9 @@ struct PreferencesView: View {
                     NSApp.terminate(nil)
                 }
                 .controlSize(.large)
-                
+
                 Spacer()
-                
+
                 Button(String(localized: "Close")) {
                     NSApp.keyWindow?.close()
                 }
@@ -121,7 +123,6 @@ struct PreferencesView: View {
         .fixedSize(horizontal: false, vertical: true)
     }
 }
-
 
 #Preview {
     PreferencesView(viewModel: CaffeineViewModel())
