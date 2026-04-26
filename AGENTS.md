@@ -14,14 +14,9 @@ macOS menu bar app that prevents your Mac from sleeping.
 **Strictly follow** the Swift/SwiftUI style guide: `~/Agents/Style/swift-swiftui-style-guide.md`
 
 ## Changelog (MANDATORY)
-**All important code changes** (fixes, additions, deletions, changes) have to written to CHANGELOG.md.
+**All important user facing changes** (fixes, additions, deletions, changes) must be written to CHANGELOG.md.
 Changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-**Before writing to CHANGELOG.md:**
-1. Check for new release tags: `git tag --sort=-creatordate | head -1`
-2. Release tags are prefixed with `v` (e.g., `v2.0.1`)
-3. If a new tag exists that isn't in CHANGELOG.md, create a new version section with that tag's version and date, moving relevant [Unreleased] content under it
 
 ## Localization (MANDATORY)
 **Strictly follow** the localization guide: `~/Agents/Guides/localization-guide.md`
