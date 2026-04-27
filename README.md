@@ -7,7 +7,20 @@ Caffeine is a tiny program that keeps your Mac awake, useful for ensuring that l
 
 ### Installation
 
-Download Caffeine at https://caffeine-app.net and drag it into your Applications folder, then double-click the icon to launch it.
+You have two easy ways to install Caffeine:
+
+**1. Download from the Website**
+
+Download Caffeine at [caffeine-app.net](https://caffeine-app.net), drag Caffeine into your Applications folder, and double-click the icon to launch it.
+
+**2. Install with Homebrew**
+
+If you use [Homebrew](https://brew.sh), you can install Caffeine right from your Terminal:
+
+```bash
+brew install --cask domzilla-caffeine
+```
+
 
 ### Usage
 
