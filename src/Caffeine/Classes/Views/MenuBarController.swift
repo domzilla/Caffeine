@@ -18,9 +18,9 @@ class MenuBarController: NSObject {
     private var cancellables = Set<AnyCancellable>()
     private let updaterController: SPUStandardUpdaterController
 
-    init(updaterController: SPUStandardUpdaterController) {
+    init(updaterController: SPUStandardUpdaterController, launchContext: LaunchContext) {
         self.updaterController = updaterController
-        self.viewModel = CaffeineViewModel()
+        self.viewModel = CaffeineViewModel(launchContext: launchContext)
         super.init()
         self.setupMenuBar()
         self.setupObservers()

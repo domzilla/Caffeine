@@ -27,7 +27,11 @@
 /* Preferences labels */
 "Default duration:" = "デフォルトの時間:";
 "Activate when starting Caffeine" = "Caffeine 起動時に有効化";
+"Start Caffeine when logging in" = "ログイン時に Caffeine を起動";
+"Approve Caffeine in System Settings to allow it to start at login." = "ログイン時に起動できるよう、システム設定で Caffeine を許可してください。";
+"Activate when started at login" = "ログイン時の起動で有効にする";
 "Deactivate when device goes to sleep manually" = "手動でスリープしたときに無効化";
+"Deactivate when screen locks" = "画面ロック時に無効化";
 "Show this message when starting Caffeine" = "Caffeine 起動時にこのメッセージを表示";
 "Keep apps active" = "アプリをアクティブに保つ";
 "Prevents apps from becoming inactive and the screen saver from starting." = "アプリが非アクティブになるのを防ぎ、スクリーンセーバーの起動を防止します。";
@@ -42,4 +46,3 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine がスリープを防ぎます";
-

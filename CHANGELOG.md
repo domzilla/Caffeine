@@ -7,8 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Start at login preference with a separate option to activate Caffeine after login.
+- Preference to deactivate Caffeine when the screen locks.
+
 ### Changed
 
+- Caffeine activates by default on normal app launches, while login-item launches stay inactive and quiet unless enabled explicitly.
 - Improved Ukrainian translation.
 
 ### Fixed

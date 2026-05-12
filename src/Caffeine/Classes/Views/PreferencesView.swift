@@ -9,10 +9,13 @@ import SwiftUI
 
 struct PreferencesView: View {
     @ObservedObject var viewModel: CaffeineViewModel
+    @ObservedObject private var loginItemManager = LoginItemManager.shared
     @AppStorage(PreferenceKeys.defaultDuration) private var defaultDuration = 0
     @AppStorage(PreferenceKeys.activateAtLaunch) private var activateAtLaunch = false
+    @AppStorage(PreferenceKeys.activateAfterLogin) private var activateAfterLogin = false
     @AppStorage(PreferenceKeys.suppressLaunchMessage) private var suppressLaunchMessage = false
     @AppStorage(PreferenceKeys.deactivateOnManualSleep) private var deactivateOnManualSleep = false
+    @AppStorage(PreferenceKeys.deactivateOnScreenLock) private var deactivateOnScreenLock = true
     @AppStorage(PreferenceKeys.keepAppsActive) private var keepAppsActive = false
 
     var body: some View {
@@ -70,7 +73,27 @@ struct PreferencesView: View {
                 Toggle("Activate when starting Caffeine", isOn: self.$activateAtLaunch)
                     .font(.system(size: 13))
 
+                Toggle("Start Caffeine when logging in", isOn: Binding(
+                    get: { self.loginItemManager.startsAtLogin },
+                    set: { self.loginItemManager.setStartsAtLogin($0) }
+                ))
+                .font(.system(size: 13))
+
+                if self.loginItemManager.requiresApproval {
+                    Text("Approve Caffeine in System Settings to allow it to start at login.")
+                        .font(.system(size: 11))
+                        .foregroundColor(.secondary)
+                        .padding(.leading, 20)
+                }
+
+                Toggle("Activate when started at login", isOn: self.$activateAfterLogin)
+                    .font(.system(size: 13))
+                    .disabled(!self.loginItemManager.startsAtLogin)
+
                 Toggle("Deactivate when device goes to sleep manually", isOn: self.$deactivateOnManualSleep)
+                    .font(.system(size: 13))
+
+                Toggle("Deactivate when screen locks", isOn: self.$deactivateOnScreenLock)
                     .font(.system(size: 13))
 
                 Toggle("Show this message when starting Caffeine", isOn: Binding(
@@ -121,6 +144,9 @@ struct PreferencesView: View {
         .padding(.horizontal, 20)
         .frame(width: 640)
         .fixedSize(horizontal: false, vertical: true)
+        .onAppear {
+            self.loginItemManager.refresh()
+        }
     }
 }
 
