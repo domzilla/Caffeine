@@ -27,7 +27,11 @@
 /* Preferences labels */
 "Default duration:" = "Standaardduur:";
 "Activate when starting Caffeine" = "Caffeine bij starten inschakelen";
+"Start Caffeine when logging in" = "Start Caffeine bij inloggen";
+"Approve Caffeine in System Settings to allow it to start at login." = "Sta Caffeine toe in Systeeminstellingen om bij inloggen te starten.";
+"Activate when started at login" = "Activeer wanneer gestart bij inloggen";
 "Deactivate when device goes to sleep manually" = "Uitschakelen wanneer het apparaat handmatig in sluimerstand gaat";
+"Deactivate when screen locks" = "Uitschakelen wanneer het scherm vergrendelt";
 "Show this message when starting Caffeine" = "Dit bericht tonen bij het starten van Caffeine";
 "Keep apps active" = "Apps actief houden";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Voorkomt dat apps inactief worden en dat de schermbeveiliging start.";

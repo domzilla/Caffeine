@@ -27,7 +27,11 @@
 /* Preferences labels */
 "Default duration:" = "默认时长：";
 "Activate when starting Caffeine" = "启动 Caffeine 时自动激活";
+"Start Caffeine when logging in" = "登录时启动 Caffeine";
+"Approve Caffeine in System Settings to allow it to start at login." = "请在“系统设置”中批准 Caffeine，以允许它在登录时启动。";
+"Activate when started at login" = "登录启动时激活";
 "Deactivate when device goes to sleep manually" = "设备手动睡眠时停用";
+"Deactivate when screen locks" = "屏幕锁定时停用";
 "Show this message when starting Caffeine" = "启动 Caffeine 时显示此消息";
 "Keep apps active" = "保持应用活跃";
 "Prevents apps from becoming inactive and the screen saver from starting." = "防止应用变为非活跃状态并阻止屏幕保护程序启动。";
@@ -42,4 +46,3 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine 会阻止睡眠";
-

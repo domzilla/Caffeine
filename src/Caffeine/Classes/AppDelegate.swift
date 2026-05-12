@@ -21,7 +21,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
 
     func applicationDidFinishLaunching(_: Notification) {
         // Create the menu bar controller
-        self.menuBarController = MenuBarController(updaterController: self.updaterController)
+        self.menuBarController = MenuBarController(
+            updaterController: self.updaterController,
+            launchContext: LaunchContext.current
+        )
 
         // Hide the dock icon - this is a menu bar only app
         NSApp.setActivationPolicy(.accessory)

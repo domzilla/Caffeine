@@ -12,6 +12,8 @@ import SwiftUI
 /// Main view model for the Caffeine application
 @MainActor
 class CaffeineViewModel: ObservableObject {
+    private static let screenIsLockedNotification = Notification.Name("com.apple.screenIsLocked")
+
     // MARK: - Published Properties
 
     @Published var isActive = false
@@ -26,7 +28,9 @@ class CaffeineViewModel: ObservableObject {
 
     // MARK: - Initialization
 
-    init() {
+    init(launchContext: LaunchContext = .standard) {
+        self.registerDefaultPreferences()
+
         // Explicitly ensure we start inactive
         self.isActive = false
         self.timeRemaining = nil
@@ -34,12 +38,14 @@ class CaffeineViewModel: ObservableObject {
         self.setupObservers()
 
         // Check if we should activate at launch
-        if UserDefaults.standard.bool(forKey: PreferenceKeys.activateAtLaunch) {
+        if self.shouldActivateOnLaunch(launchContext: launchContext) {
             self.activate()
         }
 
-        // Show preferences on first launch
-        if !UserDefaults.standard.bool(forKey: PreferenceKeys.suppressLaunchMessage) {
+        // Show preferences on standard launches only, so login-item launches stay quiet.
+        if launchContext == .standard,
+           !UserDefaults.standard.bool(forKey: PreferenceKeys.suppressLaunchMessage)
+        {
             self.showPreferences = true
         }
     }
@@ -182,6 +188,25 @@ class CaffeineViewModel: ObservableObject {
             }
             .store(in: &self.cancellables)
 
+        // Deactivate when the user session is locked or otherwise leaves the active console session.
+        NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.sessionDidResignActiveNotification)
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    self?.deactivateForScreenLockIfNeeded()
+                }
+            }
+            .store(in: &self.cancellables)
+
+        // Manual Lock Screen posts a distributed notification even when the workspace
+        // session notification is not delivered to this app.
+        DistributedNotificationCenter.default().publisher(for: Self.screenIsLockedNotification)
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    self?.deactivateForScreenLockIfNeeded()
+                }
+            }
+            .store(in: &self.cancellables)
+
         // Run-loop timers don't advance during sleep, so on wake check whether
         // the activation period elapsed and deactivate if so
         NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didWakeNotification)
@@ -202,14 +227,38 @@ class CaffeineViewModel: ObservableObject {
         self.displayTimer?.invalidate()
         self.displayTimer = nil
     }
+
+    private func deactivateForScreenLockIfNeeded() {
+        guard UserDefaults.standard.bool(forKey: PreferenceKeys.deactivateOnScreenLock) else { return }
+        self.deactivate()
+    }
+
+    private func registerDefaultPreferences() {
+        UserDefaults.standard.register(defaults: [
+            PreferenceKeys.activateAtLaunch: true,
+            PreferenceKeys.activateAfterLogin: false,
+            PreferenceKeys.deactivateOnScreenLock: true,
+        ])
+    }
+
+    private func shouldActivateOnLaunch(launchContext: LaunchContext) -> Bool {
+        switch launchContext {
+        case .standard:
+            UserDefaults.standard.bool(forKey: PreferenceKeys.activateAtLaunch)
+        case .loginItem:
+            UserDefaults.standard.bool(forKey: PreferenceKeys.activateAfterLogin)
+        }
+    }
 }
 
 // MARK: - Preference Keys
 
 enum PreferenceKeys {
     static let activateAtLaunch = "CAActivateAtLaunch"
+    static let activateAfterLogin = "CAActivateAfterLogin"
     static let defaultDuration = "CADefaultDuration"
     static let suppressLaunchMessage = "CASuppressLaunchMessage"
     static let deactivateOnManualSleep = "CADeactivateOnManualSleep"
+    static let deactivateOnScreenLock = "CADeactivateOnScreenLock"
     static let keepAppsActive = "CAKeepAppsActive"
 }

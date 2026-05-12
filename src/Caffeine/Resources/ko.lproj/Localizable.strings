@@ -27,7 +27,11 @@
 /* Preferences labels */
 "Default duration:" = "기본 지속 시간:";
 "Activate when starting Caffeine" = "Caffeine 시작 시 활성화";
+"Start Caffeine when logging in" = "로그인할 때 Caffeine 시작";
+"Approve Caffeine in System Settings to allow it to start at login." = "로그인할 때 시작할 수 있도록 시스템 설정에서 Caffeine을 승인하세요.";
+"Activate when started at login" = "로그인 시 시작할 때 활성화";
 "Deactivate when device goes to sleep manually" = "수동으로 잠자기에 들어가면 비활성화";
+"Deactivate when screen locks" = "화면이 잠기면 비활성화";
 "Show this message when starting Caffeine" = "Caffeine 시작 시 이 메시지 표시";
 "Keep apps active" = "앱 활성 상태 유지";
 "Prevents apps from becoming inactive and the screen saver from starting." = "앱이 비활성 상태가 되거나 화면 보호기가 시작되는 것을 방지합니다.";

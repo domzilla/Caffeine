@@ -27,7 +27,11 @@
 /* Preferences labels */
 "Default duration:" = "Durée par défaut :";
 "Activate when starting Caffeine" = "Activer au lancement de Caffeine";
+"Start Caffeine when logging in" = "Lancer Caffeine à l’ouverture de session";
+"Approve Caffeine in System Settings to allow it to start at login." = "Autorisez Caffeine dans Réglages Système pour lui permettre de se lancer à l’ouverture de session.";
+"Activate when started at login" = "Activer au lancement à l’ouverture de session";
 "Deactivate when device goes to sleep manually" = "Désactiver lorsque l’appareil se met en veille manuellement";
+"Deactivate when screen locks" = "Désactiver lorsque l’écran se verrouille";
 "Show this message when starting Caffeine" = "Afficher ce message au lancement de Caffeine";
 "Keep apps active" = "Garder les apps actives";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Empêche les apps de devenir inactives et l'économiseur d'écran de démarrer.";
@@ -42,4 +46,3 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine empêche la mise en veille";
-

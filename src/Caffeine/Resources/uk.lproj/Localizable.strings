@@ -27,7 +27,11 @@
 /* Preferences labels */
 "Default duration:" = "Тривалість за замовчуванням:";
 "Activate when starting Caffeine" = "Увімкнути при запуску Caffeine";
+"Start Caffeine when logging in" = "Запускати Caffeine під час входу в систему";
+"Approve Caffeine in System Settings to allow it to start at login." = "Дозвольте Caffeine у Системних параметрах, щоб запускати його під час входу в систему.";
+"Activate when started at login" = "Активувати під час запуску після входу";
 "Deactivate when device goes to sleep manually" = "Вимикати, коли пристрій переходить у сон вручну";
+"Deactivate when screen locks" = "Вимикати, коли екран блокується";
 "Show this message when starting Caffeine" = "Показувати це повідомлення при запуску Caffeine";
 "Keep apps active" = "Тримати застосунки активними";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Не дає застосункам переходити в неактивний режим і запускатися заставці.";
@@ -42,4 +46,3 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine запобігає переходу в режим сну";
-
