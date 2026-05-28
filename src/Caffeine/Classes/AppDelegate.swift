@@ -6,6 +6,8 @@
 //
 
 import Cocoa
+import DZFoundation
+import KeyboardShortcuts
 import Sparkle
 import SwiftUI
 
@@ -25,6 +27,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
 
         // Hide the dock icon - this is a menu bar only app
         NSApp.setActivationPolicy(.accessory)
+
+        self.registerGlobalShortcut()
+    }
+
+    private func registerGlobalShortcut() {
+        KeyboardShortcuts.onKeyUp(for: .toggleActive) { [weak self] in
+            Task { @MainActor in
+                self?.menuBarController?.toggleActive()
+            }
+        }
+        DZLog("Registered global toggle shortcut")
     }
 
     func applicationWillTerminate(_: Notification) {

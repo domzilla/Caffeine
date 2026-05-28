@@ -7,6 +7,7 @@
 
 import Cocoa
 import Combine
+import KeyboardShortcuts
 import Sparkle
 import SwiftUI
 
@@ -35,6 +36,10 @@ class MenuBarController: NSObject {
         if let statusItem {
             NSStatusBar.system.removeStatusItem(statusItem)
         }
+    }
+
+    func toggleActive() {
+        self.viewModel.toggleActive()
     }
 
     private func setupMenuBar() {
@@ -89,6 +94,22 @@ class MenuBarController: NSObject {
 
     private func showContextMenu() {
         let menu = NSMenu()
+
+        // Toggle activate/deactivate
+        let toggleTitle = self.viewModel.isActive
+            ? String(localized: "Deactivate")
+            : String(localized: "Activate")
+        let toggleItem = NSMenuItem(
+            title: toggleTitle,
+            action: #selector(self.toggleActiveFromMenu(_:)),
+            keyEquivalent: ""
+        )
+        toggleItem.target = self
+        // Informational only: NSMenu key equivalents fire only while the menu is open.
+        // Real global triggering is via the KeyboardShortcuts listener in AppDelegate.
+        toggleItem.setShortcut(for: .toggleActive)
+        menu.addItem(toggleItem)
+        menu.addItem(NSMenuItem.separator())
 
         // Status info (only show if active)
         if self.viewModel.isActive, let timeString = viewModel.formattedTimeRemaining() {
@@ -185,6 +206,11 @@ class MenuBarController: NSObject {
         let minutes = sender.tag
         let seconds = minutes > 0 ? TimeInterval(minutes * 60) : 0
         self.viewModel.activate(withTimeout: seconds)
+    }
+
+    @objc
+    private func toggleActiveFromMenu(_: NSMenuItem) {
+        self.viewModel.toggleActive()
     }
 
     @objc

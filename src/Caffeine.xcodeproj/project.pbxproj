@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B3CF99362FC71C2A00929FE3 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = B3CF99352FC71C2A00929FE3 /* KeyboardShortcuts */; };
 		F23FEFAF2F9623DB00C445B2 /* DZFoundation in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F2634EAA2F375A5200C56D92 /* DZFoundation */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		F26346032F27633300C56D92 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = F26346022F27633300C56D92 /* Sparkle */; };
 		F2634EAB2F375A5200C56D92 /* DZFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = F2634EAA2F375A5200C56D92 /* DZFoundation */; };
@@ -58,6 +59,7 @@
 			files = (
 				F26346032F27633300C56D92 /* Sparkle in Frameworks */,
 				F2634EAB2F375A5200C56D92 /* DZFoundation in Frameworks */,
+				B3CF99362FC71C2A00929FE3 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +105,7 @@
 			packageProductDependencies = (
 				F26346022F27633300C56D92 /* Sparkle */,
 				F2634EAA2F375A5200C56D92 /* DZFoundation */,
+				B3CF99352FC71C2A00929FE3 /* KeyboardShortcuts */,
 			);
 			productName = Caffeine;
 			productReference = F2F53BA42EC354AE008A08B6 /* Caffeine.app */;
@@ -147,6 +150,7 @@
 			packageReferences = (
 				F26346012F27633300C56D92 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				F2634EA92F375A5200C56D92 /* XCRemoteSwiftPackageReference "DZFoundation" */,
+				B3CF99342FC71C2A00929FE3 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F2F53BA52EC354AE008A08B6 /* Products */;
@@ -393,6 +397,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B3CF99342FC71C2A00929FE3 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		F26346012F27633300C56D92 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
@@ -412,6 +424,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B3CF99352FC71C2A00929FE3 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B3CF99342FC71C2A00929FE3 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
 		F26346022F27633300C56D92 /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F26346012F27633300C56D92 /* XCRemoteSwiftPackageReference "Sparkle" */;

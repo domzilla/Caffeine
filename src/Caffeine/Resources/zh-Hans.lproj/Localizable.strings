@@ -43,3 +43,11 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine 会阻止睡眠";
 
+/* Keyboard shortcut */
+"Keyboard Shortcut" = "键盘快捷键";
+"Toggle Caffeine:" = "切换 Caffeine：";
+"Press a key combination to toggle Caffeine from anywhere. The shortcut is registered system-wide. Click the field and press Delete to clear." = "按下一组按键即可从任何位置切换 Caffeine。该快捷键将在系统范围内注册。点按字段并按 Delete 键即可清除。";
+
+/* Context menu activation */
+"Activate" = "激活";
+"Deactivate" = "停用";

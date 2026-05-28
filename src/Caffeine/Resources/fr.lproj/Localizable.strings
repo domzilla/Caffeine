@@ -43,3 +43,11 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine empêche la mise en veille";
 
+/* Keyboard shortcut */
+"Keyboard Shortcut" = "Raccourci clavier";
+"Toggle Caffeine:" = "Activer/désactiver Caffeine :";
+"Press a key combination to toggle Caffeine from anywhere. The shortcut is registered system-wide. Click the field and press Delete to clear." = "Appuyez sur une combinaison de touches pour activer ou désactiver Caffeine depuis n'importe où. Le raccourci est enregistré à l'échelle du système. Cliquez sur le champ et appuyez sur Suppr pour l'effacer.";
+
+/* Context menu activation */
+"Activate" = "Activer";
+"Deactivate" = "Désactiver";

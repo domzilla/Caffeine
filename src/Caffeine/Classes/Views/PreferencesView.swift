@@ -5,6 +5,7 @@
 //  Created by Dominic Rodemer on 11.11.25.
 //
 
+import KeyboardShortcuts
 import SwiftUI
 
 struct PreferencesView: View {
@@ -95,6 +96,28 @@ struct PreferencesView: View {
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
                     .padding(.leading, 20)
+            }
+
+            Divider()
+                .padding(.vertical, 8)
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Keyboard Shortcut")
+                    .font(.system(size: 13, weight: .semibold))
+
+                HStack(spacing: 8) {
+                    Text("Toggle Caffeine:")
+                        .font(.system(size: 13))
+                    KeyboardShortcuts.Recorder(for: .toggleActive)
+                    Spacer()
+                }
+
+                Text(
+                    "Press a key combination to toggle Caffeine from anywhere. The shortcut is registered system-wide. Click the field and press Delete to clear."
+                )
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
             }
 
             Spacer()

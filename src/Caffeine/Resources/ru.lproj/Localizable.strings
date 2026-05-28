@@ -42,3 +42,11 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine предотвращает переход в сон";
+/* Keyboard shortcut */
+"Keyboard Shortcut" = "Сочетание клавиш";
+"Toggle Caffeine:" = "Переключение Caffeine:";
+"Press a key combination to toggle Caffeine from anywhere. The shortcut is registered system-wide. Click the field and press Delete to clear." = "Нажмите сочетание клавиш, чтобы переключать Caffeine из любого приложения. Сочетание регистрируется во всей системе. Щёлкните поле и нажмите Delete, чтобы очистить.";
+
+/* Context menu activation */
+"Activate" = "Активировать";
+"Deactivate" = "Деактивировать";

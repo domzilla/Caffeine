@@ -42,3 +42,11 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine이 잠자기를 방지합니다";
+/* Keyboard shortcut */
+"Keyboard Shortcut" = "키보드 단축키";
+"Toggle Caffeine:" = "Caffeine 전환:";
+"Press a key combination to toggle Caffeine from anywhere. The shortcut is registered system-wide. Click the field and press Delete to clear." = "키 조합을 누르면 어디서든 Caffeine을 전환할 수 있습니다. 단축키는 시스템 전체에 등록됩니다. 필드를 클릭한 후 Delete 키를 누르면 지워집니다.";
+
+/* Context menu activation */
+"Activate" = "활성화";
+"Deactivate" = "비활성화";

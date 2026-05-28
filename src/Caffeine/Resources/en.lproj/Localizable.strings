@@ -43,3 +43,11 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine prevents sleep";
 
+/* Keyboard shortcut */
+"Keyboard Shortcut" = "Keyboard Shortcut";
+"Toggle Caffeine:" = "Toggle Caffeine:";
+"Press a key combination to toggle Caffeine from anywhere. The shortcut is registered system-wide. Click the field and press Delete to clear." = "Press a key combination to toggle Caffeine from anywhere. The shortcut is registered system-wide. Click the field and press Delete to clear.";
+
+/* Context menu activation */
+"Activate" = "Activate";
+"Deactivate" = "Deactivate";

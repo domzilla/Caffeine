@@ -42,3 +42,11 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "O Caffeine impede o repouso";
+/* Keyboard shortcut */
+"Keyboard Shortcut" = "Atalho de teclado";
+"Toggle Caffeine:" = "Alternar o Caffeine:";
+"Press a key combination to toggle Caffeine from anywhere. The shortcut is registered system-wide. Click the field and press Delete to clear." = "Prima uma combinação de teclas para alternar o Caffeine a partir de qualquer lado. O atalho é registado em todo o sistema. Clique no campo e prima a tecla Apagar para o limpar.";
+
+/* Context menu activation */
+"Activate" = "Ativar";
+"Deactivate" = "Desativar";

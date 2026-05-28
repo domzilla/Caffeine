@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Configurable global keyboard shortcut to toggle Caffeine from anywhere. Set it in Preferences. No default shortcut is provided to avoid conflicts with other apps.
+
 ### Changed
 
 - Improved Ukrainian translation.
