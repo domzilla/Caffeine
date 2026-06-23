@@ -29,7 +29,10 @@
 "Activate when starting Caffeine" = "Caffeine bij starten inschakelen";
 "Deactivate when device goes to sleep manually" = "Uitschakelen wanneer het apparaat handmatig in sluimerstand gaat";
 "Show this message when starting Caffeine" = "Dit bericht tonen bij het starten van Caffeine";
+"Animate coffee icon when clicked" = "Koffiepictogram animeren bij klikken";
 "Keep apps active" = "Apps actief houden";
+"Adds a short rising animation when you click the menu bar icon." = "Voegt een korte opstijgende animatie toe wanneer je op het menubalkpictogram klikt.";
+"Coffee animation is turned off while Reduce Motion is enabled in macOS Accessibility settings." = "De koffie-animatie staat uit zolang Verminder beweging is ingeschakeld in de toegankelijkheidsinstellingen van macOS.";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Voorkomt dat apps inactief worden en dat de schermbeveiliging start.";
 "Close" = "Sluiten";
 

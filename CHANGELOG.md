@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Optional coffee icon click animation with a preferences toggle.
+
 ### Changed
 
 - Improved Ukrainian translation.
+- Coffee icon animation now respects the macOS Reduce Motion accessibility setting and turns off automatically when Reduce Motion is enabled.
 
 ### Fixed
 

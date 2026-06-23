@@ -29,7 +29,10 @@
 "Activate when starting Caffeine" = "Caffeine beim Start aktivieren";
 "Deactivate when device goes to sleep manually" = "Beim manuellen Ruhezustand deaktivieren";
 "Show this message when starting Caffeine" = "Diese Nachricht beim Start von Caffeine anzeigen";
+"Animate coffee icon when clicked" = "Kaffeesymbol beim Klicken animieren";
 "Keep apps active" = "Apps aktiv halten";
+"Adds a short rising animation when you click the menu bar icon." = "Fügt eine kurze Aufwärtsanimation hinzu, wenn du auf das Menüleistensymbol klickst.";
+"Coffee animation is turned off while Reduce Motion is enabled in macOS Accessibility settings." = "Die Kaffee-Animation ist deaktiviert, solange „Bewegung reduzieren“ in den macOS-Bedienungshilfen aktiviert ist.";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Verhindert, dass Apps inaktiv werden und der Bildschirmschoner startet.";
 "Close" = "Schließen";
 
@@ -42,4 +45,3 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine verhindert den Ruhezustand";
-

@@ -212,4 +212,5 @@ enum PreferenceKeys {
     static let suppressLaunchMessage = "CASuppressLaunchMessage"
     static let deactivateOnManualSleep = "CADeactivateOnManualSleep"
     static let keepAppsActive = "CAKeepAppsActive"
+    static let animateCoffeeIcon = "CAAnimateCoffeeIcon"
 }

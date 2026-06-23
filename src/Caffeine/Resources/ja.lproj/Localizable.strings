@@ -29,7 +29,10 @@
 "Activate when starting Caffeine" = "Caffeine 起動時に有効化";
 "Deactivate when device goes to sleep manually" = "手動でスリープしたときに無効化";
 "Show this message when starting Caffeine" = "Caffeine 起動時にこのメッセージを表示";
+"Animate coffee icon when clicked" = "クリック時にコーヒーアイコンをアニメーション表示";
 "Keep apps active" = "アプリをアクティブに保つ";
+"Adds a short rising animation when you click the menu bar icon." = "メニューバーアイコンをクリックしたときに、短い上昇アニメーションを追加します。";
+"Coffee animation is turned off while Reduce Motion is enabled in macOS Accessibility settings." = "macOS のアクセシビリティ設定で視差効果を減らすが有効な間は、コーヒーのアニメーションはオフになります。";
 "Prevents apps from becoming inactive and the screen saver from starting." = "アプリが非アクティブになるのを防ぎ、スクリーンセーバーの起動を防止します。";
 "Close" = "閉じる";
 
@@ -42,4 +45,3 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine がスリープを防ぎます";
-
