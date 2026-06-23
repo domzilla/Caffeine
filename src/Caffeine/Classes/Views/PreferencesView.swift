@@ -14,6 +14,8 @@ struct PreferencesView: View {
     @AppStorage(PreferenceKeys.suppressLaunchMessage) private var suppressLaunchMessage = false
     @AppStorage(PreferenceKeys.deactivateOnManualSleep) private var deactivateOnManualSleep = false
     @AppStorage(PreferenceKeys.keepAppsActive) private var keepAppsActive = false
+    @AppStorage(PreferenceKeys.animateCoffeeIcon) private var animateCoffeeIcon = true
+    @State private var reduceMotionEnabled = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -79,6 +81,15 @@ struct PreferencesView: View {
                 ))
                 .font(.system(size: 13))
 
+                Toggle("Animate coffee icon when clicked", isOn: self.$animateCoffeeIcon)
+                    .font(.system(size: 13))
+                    .disabled(self.reduceMotionEnabled)
+
+                Text(self.coffeeAnimationDescription)
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 20)
+
                 Divider()
                     .padding(.vertical, 4)
 
@@ -121,6 +132,17 @@ struct PreferencesView: View {
         .padding(.horizontal, 20)
         .frame(width: 640)
         .fixedSize(horizontal: false, vertical: true)
+        .onReceive(NotificationCenter.default.publisher(for: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification)) { _ in
+            self.reduceMotionEnabled = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        }
+    }
+
+    private var coffeeAnimationDescription: String {
+        if self.reduceMotionEnabled {
+            return String(localized: "Coffee animation is turned off while Reduce Motion is enabled in macOS Accessibility settings.")
+        }
+
+        return String(localized: "Adds a short rising animation when you click the menu bar icon.")
     }
 }
 

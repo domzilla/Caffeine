@@ -29,7 +29,10 @@
 "Activate when starting Caffeine" = "Caffeine 시작 시 활성화";
 "Deactivate when device goes to sleep manually" = "수동으로 잠자기에 들어가면 비활성화";
 "Show this message when starting Caffeine" = "Caffeine 시작 시 이 메시지 표시";
+"Animate coffee icon when clicked" = "클릭할 때 커피 아이콘 애니메이션";
 "Keep apps active" = "앱 활성 상태 유지";
+"Adds a short rising animation when you click the menu bar icon." = "메뉴 막대 아이콘을 클릭할 때 짧게 떠오르는 애니메이션을 추가합니다.";
+"Coffee animation is turned off while Reduce Motion is enabled in macOS Accessibility settings." = "macOS 손쉬운 사용 설정에서 동작 줄이기가 켜져 있는 동안에는 커피 애니메이션이 꺼집니다.";
 "Prevents apps from becoming inactive and the screen saver from starting." = "앱이 비활성 상태가 되거나 화면 보호기가 시작되는 것을 방지합니다.";
 "Close" = "닫기";
 

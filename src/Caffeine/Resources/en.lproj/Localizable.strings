@@ -29,7 +29,10 @@
 "Activate when starting Caffeine" = "Activate when starting Caffeine";
 "Deactivate when device goes to sleep manually" = "Deactivate when device goes to sleep manually";
 "Show this message when starting Caffeine" = "Show this message when starting Caffeine";
+"Animate coffee icon when clicked" = "Animate coffee icon when clicked";
 "Keep apps active" = "Keep apps active";
+"Adds a short rising animation when you click the menu bar icon." = "Adds a short rising animation when you click the menu bar icon.";
+"Coffee animation is turned off while Reduce Motion is enabled in macOS Accessibility settings." = "Coffee animation is turned off while Reduce Motion is enabled in macOS Accessibility settings.";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Prevents apps from becoming inactive and the screen saver from starting.";
 "Close" = "Close";
 
@@ -42,4 +45,3 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine prevents sleep";
-
