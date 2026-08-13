@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Menu bar icon is visible on macOS Tahoe 26.6.1 (build 25G76).
 - Timer no longer stays active and shows negative seconds after the Mac sleeps past the activation period.
 
 ## [1.6.3] - 2026-01-26
