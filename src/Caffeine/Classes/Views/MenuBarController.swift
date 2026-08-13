@@ -38,11 +38,12 @@ class MenuBarController: NSObject {
     }
 
     private func setupMenuBar() {
-        self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
         guard let button = statusItem?.button else { return }
 
         // Set up button actions (icon will be set after observers are configured)
+        button.imagePosition = .imageOnly
         button.action = #selector(self.statusItemClicked(_:))
         button.target = self
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
