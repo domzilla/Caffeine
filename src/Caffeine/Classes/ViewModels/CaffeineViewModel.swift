@@ -176,8 +176,9 @@ class CaffeineViewModel: ObservableObject {
 
     // MARK: - Private Methods
 
-    /// Shown instead of a countdown when Caffeine is active with no timeout
-    private static let indefiniteSymbol = "\u{267E}\u{FE0F}"
+    /// Shown instead of a countdown when Caffeine is active with no timeout. Plain U+221E rather
+    /// than the emoji, so it picks up the menu bar's tint instead of rendering in color.
+    private static let indefiniteSymbol = "\u{221E}"
 
     /// The interval the menu bar timer should show
     private var displayedInterval: TimeInterval {
