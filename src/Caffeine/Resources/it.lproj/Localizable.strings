@@ -42,3 +42,12 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine impedisce lo stop";
+
+/* Timer display preferences */
+"Show timer in menu bar" = "Mostra il timer nella barra dei menu";
+"Timer display:" = "Visualizzazione timer:";
+"Elapsed" = "Trascorso";
+"Remaining" = "Rimanente";
+"Time format:" = "Formato tempo:";
+"Compact" = "Compatto";
+"Verbose" = "Esteso";

@@ -42,3 +42,12 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine voorkomt sluimerstand";
+
+/* Timer display preferences */
+"Show timer in menu bar" = "Timer in menubalk tonen";
+"Timer display:" = "Timerweergave:";
+"Elapsed" = "Verstreken";
+"Remaining" = "Resterend";
+"Time format:" = "Tijdnotatie:";
+"Compact" = "Compact";
+"Verbose" = "Uitgebreid";

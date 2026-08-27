@@ -43,3 +43,12 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine запобігає переходу в режим сну";
 
+
+/* Timer display preferences */
+"Show timer in menu bar" = "Показувати таймер у рядку меню";
+"Timer display:" = "Відображення таймера:";
+"Elapsed" = "Минуло";
+"Remaining" = "Залишилось";
+"Time format:" = "Формат часу:";
+"Compact" = "Компактний";
+"Verbose" = "Докладний";

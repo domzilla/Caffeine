@@ -43,3 +43,12 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine 会阻止睡眠";
 
+
+/* Timer display preferences */
+"Show timer in menu bar" = "在菜单栏中显示计时器";
+"Timer display:" = "计时器显示：";
+"Elapsed" = "已用时间";
+"Remaining" = "剩余时间";
+"Time format:" = "时间格式：";
+"Compact" = "紧凑";
+"Verbose" = "详细";

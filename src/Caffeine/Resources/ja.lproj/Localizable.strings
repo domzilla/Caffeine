@@ -43,3 +43,12 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine がスリープを防ぎます";
 
+
+/* Timer display preferences */
+"Show timer in menu bar" = "メニューバーにタイマーを表示";
+"Timer display:" = "タイマー表示:";
+"Elapsed" = "経過時間";
+"Remaining" = "残り時間";
+"Time format:" = "時間の形式:";
+"Compact" = "コンパクト";
+"Verbose" = "詳細";

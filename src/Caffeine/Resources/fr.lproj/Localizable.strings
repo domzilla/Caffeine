@@ -43,3 +43,12 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine empêche la mise en veille";
 
+
+/* Timer display preferences */
+"Show timer in menu bar" = "Afficher le minuteur dans la barre des menus";
+"Timer display:" = "Affichage du minuteur :";
+"Elapsed" = "Écoulé";
+"Remaining" = "Restant";
+"Time format:" = "Format de durée :";
+"Compact" = "Compact";
+"Verbose" = "Détaillé";
