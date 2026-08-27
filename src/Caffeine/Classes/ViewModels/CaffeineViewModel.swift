@@ -146,6 +146,11 @@ class CaffeineViewModel: ObservableObject {
             return nil
         }
 
+        // There is nothing to count down to for an indefinite activation
+        if self.timerDisplayMode == .remaining, self.timeRemaining == nil {
+            return Self.indefiniteSymbol
+        }
+
         return Self.formattedDuration(self.displayedInterval, format: self.timerFormat)
     }
 
@@ -171,13 +176,12 @@ class CaffeineViewModel: ObservableObject {
 
     // MARK: - Private Methods
 
-    /// The interval the menu bar timer should show. Remaining time is undefined for indefinite
-    /// activations, so those fall back to elapsed time.
+    /// Shown instead of a countdown when Caffeine is active with no timeout
+    private static let indefiniteSymbol = "\u{267E}\u{FE0F}"
+
+    /// The interval the menu bar timer should show
     private var displayedInterval: TimeInterval {
-        if self.timerDisplayMode == .remaining, let timeRemaining {
-            return timeRemaining
-        }
-        return self.elapsedTime
+        self.timerDisplayMode == .remaining ? (self.timeRemaining ?? 0) : self.elapsedTime
     }
 
     private var timerDisplayMode: TimerDisplayMode {
