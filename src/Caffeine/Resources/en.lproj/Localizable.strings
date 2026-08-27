@@ -43,3 +43,12 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine prevents sleep";
 
+
+/* Timer display preferences */
+"Show timer in menu bar" = "Show timer in menu bar";
+"Timer display:" = "Timer display:";
+"Elapsed" = "Elapsed";
+"Remaining" = "Remaining";
+"Time format:" = "Time format:";
+"Compact" = "Compact";
+"Verbose" = "Verbose";

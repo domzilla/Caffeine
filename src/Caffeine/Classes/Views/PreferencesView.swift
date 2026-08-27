@@ -14,6 +14,9 @@ struct PreferencesView: View {
     @AppStorage(PreferenceKeys.suppressLaunchMessage) private var suppressLaunchMessage = false
     @AppStorage(PreferenceKeys.deactivateOnManualSleep) private var deactivateOnManualSleep = false
     @AppStorage(PreferenceKeys.keepAppsActive) private var keepAppsActive = false
+    @AppStorage(PreferenceKeys.showMenuBarTimer) private var showMenuBarTimer = true
+    @AppStorage(PreferenceKeys.timerDisplayMode) private var timerDisplayMode = TimerDisplayMode.elapsed
+    @AppStorage(PreferenceKeys.timerFormat) private var timerFormat = TimerFormat.compact
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -95,6 +98,32 @@ struct PreferencesView: View {
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
                     .padding(.leading, 20)
+
+                Divider()
+                    .padding(.vertical, 4)
+
+                Toggle("Show timer in menu bar", isOn: self.$showMenuBarTimer)
+                    .font(.system(size: 13))
+
+                HStack(spacing: 16) {
+                    Picker("Timer display:", selection: self.$timerDisplayMode) {
+                        Text("Elapsed").tag(TimerDisplayMode.elapsed)
+                        Text("Remaining").tag(TimerDisplayMode.remaining)
+                    }
+                    .frame(width: 240)
+
+                    Picker("Time format:", selection: self.$timerFormat) {
+                        Text("Compact").tag(TimerFormat.compact)
+                        Text("Verbose").tag(TimerFormat.verbose)
+                    }
+                    .frame(width: 240)
+
+                    Spacer()
+                }
+                .font(.system(size: 13))
+                .pickerStyle(.menu)
+                .disabled(!self.showMenuBarTimer)
+                .padding(.leading, 20)
             }
 
             Spacer()

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Menu bar timer showing how long Caffeine has been active, with preferences to hide it, switch between elapsed and remaining time, and choose a compact (`1:23:45`) or verbose (`1h 23m`) format. Indefinite activations show ∞ in remaining mode.
+
 ### Changed
 
 - Improved Ukrainian translation.

@@ -42,3 +42,12 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "O Caffeine impede o repouso";
+
+/* Timer display preferences */
+"Show timer in menu bar" = "Mostrar o cronômetro na barra de menus";
+"Timer display:" = "Exibição do cronômetro:";
+"Elapsed" = "Decorrido";
+"Remaining" = "Restante";
+"Time format:" = "Formato de hora:";
+"Compact" = "Compacto";
+"Verbose" = "Detalhado";

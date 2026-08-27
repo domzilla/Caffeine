@@ -58,6 +58,16 @@ class MenuBarController: NSObject {
             }
             .store(in: &self.cancellables)
 
+        // Keeps the menu bar title ticking while Caffeine is active
+        self.viewModel.$elapsedTime
+            .sink { [weak self] _ in
+                guard let self else { return }
+                DispatchQueue.main.async {
+                    self.updateIcon()
+                }
+            }
+            .store(in: &self.cancellables)
+
         self.viewModel.$showPreferences
             .sink { [weak self] show in
                 if show {
@@ -74,6 +84,25 @@ class MenuBarController: NSObject {
         if let image = NSImage(named: NSImage.Name(imageName)) {
             button.image = image
         }
+
+        self.updateTitle(of: button)
+    }
+
+    private func updateTitle(of button: NSStatusBarButton) {
+        guard let title = viewModel.menuBarTitle() else {
+            button.attributedTitle = NSAttributedString(string: "")
+            button.imagePosition = .imageOnly
+            return
+        }
+
+        // Monospaced digits keep the status item from jittering as the time changes
+        let font = NSFont.monospacedDigitSystemFont(
+            ofSize: NSFont.systemFontSize(for: .small),
+            weight: .regular
+        )
+        button.attributedTitle = NSAttributedString(string: " " + title, attributes: [.font: font])
+        button.imagePosition = .imageLeading
+        button.imageHugsTitle = true
     }
 
     @objc
@@ -91,7 +120,7 @@ class MenuBarController: NSObject {
         let menu = NSMenu()
 
         // Status info (only show if active)
-        if self.viewModel.isActive, let timeString = viewModel.formattedTimeRemaining() {
+        if self.viewModel.isActive, let timeString = viewModel.formattedStatusText() {
             let infoItem = NSMenuItem(title: timeString, action: nil, keyEquivalent: "")
             infoItem.isEnabled = false
             menu.addItem(infoItem)
