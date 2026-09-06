@@ -98,8 +98,8 @@ struct PreferencesView: View {
             }
 
             Divider().padding(.vertical, 12)
-            ProtectedLidControls(manager: self.viewModel.protectedLid) {
-                self.viewModel.startProtectedLidSession()
+            AutomaticLidControls(manager: self.viewModel.automaticLid, isActive: self.viewModel.isActive) {
+                self.viewModel.toggleActive()
             }
 
             Spacer()

@@ -1,12 +1,12 @@
-# Caffeine Lid — قفل الجهاز والعمل والغطاء مغلق
+# Caffeine Lid — إضاءة مطفأة عند الإغلاق، وقفل عند الفتح
 
-Fork of [domzilla/Caffeine](https://github.com/domzilla/Caffeine) with an experimental protected lid session for macOS.
+Fork of [domzilla/Caffeine](https://github.com/domzilla/Caffeine) with automatic lid behavior tied to the normal Caffeine toggle.
 
-**العربية:** من الإعدادات اختر «قفل الجهاز والعمل والغطاء مغلق…». يُطلب إذن المسؤول مرة واحدة لتثبيت المساعد. يقفل جهازك فورًا ثم يبقي المهام تعمل مع إطفاء الشاشات، ويمكنك إغلاق الغطاء. عند العودة يلزم فتح قفل حساب Mac، وتنتهي جلسة الغطاء المحمي بعد فتح القفل. يلزم اختبار الغطاء والطاقة فعليًا على جهازك؛ هذه نسخة تجريبية وليست إصدارًا موثقًا من Apple.
+**العربية:** فعّل Caffeine من أيقونة الفنجان. عند إغلاق الغطاء ينخفض سطوع الشاشة وإضاءة الكيبورد إلى صفر مع بقاء الجهاز يعمل دون طلب قفله. عند فتح الغطاء يُقفل حساب Mac تلقائيًا، ثم تعود الإضاءة السابقة. يبقى Caffeine مفعّلًا بعد فتح القفل ويكرر السلوك تلقائيًا. صلاحية المسؤول مطلوبة عند تثبيت المساعد أول مرة فقط. يلزم اختبار السلوك على الجهاز فعليًا.
 
-**English:** A dedicated action locks macOS before keeping work running with the lid closed and displays off. Administrator approval is needed only for the first helper installation. Unlocking ends the protected session. Hardware verification is still required.
+**English:** Activate Caffeine normally. Closing the lid dims the built-in display and keyboard to zero while keeping the Mac awake without requesting a lock. Opening requests the native lock, then restores brightness after confirmation. Unlocking keeps Caffeine active for future cycles. Administrator approval is needed only for the helper's initial installation.
 
-Build with `bash scripts/build-lid.sh`. Read [usage, helper removal, recovery, and validation](docs/PROTECTED-LID.md) before testing.
+Build with `bash scripts/build-lid.sh`. See [behavior, recovery and validation](docs/PROTECTED-LID.md).
 
 ---
 

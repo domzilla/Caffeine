@@ -43,16 +43,17 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine prevents sleep";
 
-
-/* Protected lid mode */
-"Protected lid mode requires a Mac laptop." = "Protected lid mode requires a Mac laptop.";
-"The macOS lock service is unavailable. Protected lid mode was not enabled." = "The macOS lock service is unavailable. Protected lid mode was not enabled.";
-"Protected lid mode stopped because the battery is low or the Mac is too warm." = "Protected lid mode stopped because the battery is low or the Mac is too warm.";
-"Protected lid mode could not be confirmed and has been stopped. Allow the administrator request, check that no other app disables lid sleep, and try again." = "Protected lid mode could not be confirmed and has been stopped. Allow the administrator request, check that no other app disables lid sleep, and try again.";
-"Protected lid mode" = "Protected lid mode";
-"Locks your Mac now, then keeps tasks running with the lid closed and displays off. Unlock with your Mac password or Touch ID when you return. Unlocking ends this mode." = "Locks your Mac now, then keeps tasks running with the lid closed and displays off. Unlock with your Mac password or Touch ID when you return. Unlocking ends this mode.";
-"Requires administrator approval once to install a small helper. Later sessions need no administrator prompt. Normal sleep returns when Caffeine stops, the timer expires, or the app exits. Keep the Mac ventilated; this uses more battery than sleep." = "Requires administrator approval once to install a small helper. Later sessions need no administrator prompt. Normal sleep returns when Caffeine stops, the timer expires, or the app exits. Keep the Mac ventilated; this uses more battery than sleep.";
-"Preparing protected lid mode…" = "Preparing protected lid mode…";
-"Protected lid mode is active." = "Protected lid mode is active.";
-"Stop protected lid mode" = "Stop protected lid mode";
-"Lock & keep awake with lid closed…" = "Lock & keep awake with lid closed…";
+/* Automatic lid control */
+"Automatic lid control is unavailable on this Mac. Caffeine was deactivated." = "Automatic lid control is unavailable on this Mac. Caffeine was deactivated.";
+"Keyboard backlight control is unavailable on this Mac; automatic display and lid control will still work." = "Keyboard backlight control is unavailable on this Mac; automatic display and lid control will still work.";
+"Caffeine stopped because the battery is low or the Mac is too warm." = "Caffeine stopped because the battery is low or the Mac is too warm.";
+"macOS did not confirm the lock. The screen remains dark. Use the brightness keys if you need to recover the display." = "macOS did not confirm the lock. The screen remains dark. Use the brightness keys if you need to recover the display.";
+"Automatic lid control could not start or stopped responding. Caffeine was deactivated. Check the administrator request and other sleep-control apps, then try again." = "Automatic lid control could not start or stopped responding. Caffeine was deactivated. Check the administrator request and other sleep-control apps, then try again.";
+"Automatic lid control" = "Automatic lid control";
+"While Caffeine is active, closing the lid sets the display and keyboard brightness to zero and keeps the Mac awake without locking. Opening the lid locks your Mac, then restores the previous brightness. Caffeine stays active for the next lid cycle." = "While Caffeine is active, closing the lid sets the display and keyboard brightness to zero and keeps the Mac awake without locking. Opening the lid locks your Mac, then restores the previous brightness. Caffeine stays active for the next lid cycle.";
+"The helper needs administrator approval only for its first installation. Activation does not lock your Mac. Keep the laptop ventilated while it works with the lid closed." = "The helper needs administrator approval only for its first installation. Activation does not lock your Mac. Keep the laptop ventilated while it works with the lid closed.";
+"Preparing automatic lid control…" = "Preparing automatic lid control…";
+"Ready: lights off on close, lock on open." = "Ready: lights off on close, lock on open.";
+"Deactivate Caffeine" = "Deactivate Caffeine";
+"Activate Caffeine" = "Activate Caffeine";
+"Lid: lights off on close, lock on open" = "Lid: lights off on close, lock on open";

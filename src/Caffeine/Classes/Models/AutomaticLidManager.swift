@@ -2,19 +2,28 @@ import AppKit
 import Combine
 import IOKit
 import IOKit.ps
+import IOKit.pwr_mgt
 
-/// A protected session is locked BEFORE lid sleep is disabled. It ends on
-/// authentication, so opening the lid can never expose an unlocked desktop.
+/// Watches every lid cycle while Caffeine is active. Closing only darkens the
+/// built-in panel. Opening requests the native lock before restoring brightness.
 @MainActor
-final class ProtectedLidManager: ObservableObject {
+final class AutomaticLidManager: ObservableObject {
     @Published private(set) var isPreparing = false
     @Published private(set) var isRunning = false
+    @Published private(set) var isLidClosed = false
     @Published var errorMessage: String?
-    var didStop: (() -> Void)?
+    var didFail: (() -> Void)?
 
     private var sessionID: UUID?
     private var leaseURL: URL?
     private var monitor: Task<Void, Never>?
+    private var lockTask: Task<Void, Never>?
+    private var cycle = LidCycleState()
+    private let display = BuiltInDisplay()
+    private let keyboard = KeyboardBacklight()
+    private var lidMonitor: LidMonitor?
+    private var activityID: IOPMAssertionID = 0
+    private var lastActivity = Date.distantPast
     private let loginLibrary = dlopen("/System/Library/PrivateFrameworks/login.framework/login", RTLD_LAZY)
     private let helperDirectory = URL(fileURLWithPath: "/Library/Application Support/CaffeineLid", isDirectory: true)
     private var statusURL: URL {
@@ -28,106 +37,102 @@ final class ProtectedLidManager: ObservableObject {
     func start() async {
         guard !self.isEngaged else { return }
         self.errorMessage = nil
-        guard Self.lidIsClosed() != nil else {
-            self.errorMessage = String(localized: "Protected lid mode requires a Mac laptop.")
-            self.didStop?()
+        guard
+            let closed = LidMonitor.readClosed(), self.lockFunction != nil,
+            self.display.prepare() else
+        {
+            self.fail(String(localized: "Automatic lid control is unavailable on this Mac. Caffeine was deactivated."))
             return
         }
-        guard
-            let library = self.loginLibrary,
-            let symbol = dlsym(library, "SACLockScreenImmediate") else
-        {
+        if !self.keyboard.prepare() {
             self
                 .errorMessage =
-                String(localized: "The macOS lock service is unavailable. Protected lid mode was not enabled.")
-            self.didStop?()
-            return
+                String(
+                    localized: "Keyboard backlight control is unavailable on this Mac; automatic display and lid control will still work."
+                )
         }
         let id = UUID()
         self.sessionID = id
         self.isPreparing = true
+        // Monitor before enabling the override: no close/open transition during
+        // administrator approval or helper startup is silently discarded.
+        self.cycle = LidCycleState()
+        let watcher = LidMonitor { [weak self] closed in self?.handleLid(closed) }
+        guard watcher.start() else {
+            self.fail(String(localized: "Automatic lid control is unavailable on this Mac. Caffeine was deactivated."))
+            return
+        }
+        self.lidMonitor = watcher
+        self.handleLid(closed)
         do {
             if !self.helperIsInstalled() {
                 guard let scriptURL = Bundle.main.url(forResource: "protected-lid-watchdog", withExtension: "sh") else {
                     throw LidError.unavailable
                 }
-                let script = try String(contentsOf: scriptURL, encoding: .utf8)
-                try await Self.authorize(Self.installCommand(script: script))
+                try await Self.authorize(Self.installCommand(script: String(contentsOf: scriptURL, encoding: .utf8)))
             }
             guard self.sessionID == id else { return }
-            // An existing session belongs to another running copy of Caffeine.
             for _ in 0..<50 {
-                let status = self.readStatus()
-                if self.helperIsInstalled(), status != nil, status != "offline" {
+                if self.helperIsInstalled(), let status = self.readStatus(), status != "offline" {
                     break
                 }
                 try await Task.sleep(for: .milliseconds(100))
             }
             guard
-                self.helperIsInstalled(),
-                let status = self.readStatus(), status != "offline",
-                !status.hasPrefix("active:"), !status.hasPrefix("ready:") else
-            {
-                throw LidError.unavailable
-            }
+                self.helperIsInstalled(), let status = self.readStatus(), status != "offline",
+                !status.hasPrefix("active:"), !status.hasPrefix("ready:") else { throw LidError.unavailable }
             self.leaseURL = self.helperDirectory.appendingPathComponent("request/lease")
-            try self.refreshLease(locked: false)
+            try self.refreshLease(allowOverride: false)
             try await self.waitForStatus("ready", id: id)
-            guard self.sessionID == id else { return }
-
-            typealias LockFunction = @convention(c) () -> Void
-            let lock = unsafeBitCast(symbol, to: LockFunction.self)
-            lock()
-            var confirmed = false
-            for _ in 0..<50 {
-                guard self.sessionID == id else { return }
-                if Self.isScreenLocked() == true {
-                    confirmed = true
-                    break
-                }
-                try await Task.sleep(for: .milliseconds(100))
-            }
-            guard confirmed else { throw LidError.unavailable }
-            try self.refreshLease(locked: true)
+            // The helper only manages power. No lock is requested at activation.
+            try self.refreshLease(allowOverride: true)
             try await self.waitForStatus("active", id: id)
             guard self.sessionID == id else { return }
-            guard Self.isScreenLocked() == true else { throw LidError.unavailable }
             self.isPreparing = false
             self.isRunning = true
-            self.sleepDisplays()
             self.monitor = Task { [weak self] in
-                var wasClosed = Self.lidIsClosed()
+                var heartbeat = Date.distantPast
                 while !Task.isCancelled {
-                    do { try await Task.sleep(for: .seconds(1)) } catch { return }
+                    do { try await Task.sleep(for: .milliseconds(250)) } catch { return }
                     guard let self, self.sessionID == id else { return }
-                    // Unknown lock state fails closed: stop renewing the lease.
-                    guard Self.isScreenLocked() == true else { self.stop()
+                    guard let closed = LidMonitor.readClosed() else { self.fail()
                         return
                     }
-                    guard self.readStatus() == "active:\(id.uuidString)" else {
-                        self.fail()
-                        return
+                    self.handleLid(closed) // Fallback for dropped IOKit notifications.
+                    if Date().timeIntervalSince(heartbeat) >= 1 {
+                        if closed {
+                            // Keep the logical display awake and prevent idle lock;
+                            // darkness is brightness=0, never display sleep.
+                            if Date().timeIntervalSince(self.lastActivity) >= 20, Self.isScreenLocked() != true {
+                                IOPMAssertionDeclareUserActivity(
+                                    "Caffeine closed lid" as CFString,
+                                    kIOPMUserActiveLocal,
+                                    &self.activityID
+                                )
+                                self.lastActivity = Date()
+                            }
+                            self.darkenLights()
+                        } else if !self.cycle.lockPending {
+                            self.display.rememberBrightness()
+                            self.keyboard.rememberBrightness()
+                        }
+                        guard self.readStatus() == "active:\(id.uuidString)" else { self.fail()
+                            return
+                        }
+                        if Self.shouldStopForPower() {
+                            self
+                                .fail(
+                                    String(
+                                        localized: "Caffeine stopped because the battery is low or the Mac is too warm."
+                                    )
+                                )
+                            return
+                        }
+                        do { try self.refreshLease(allowOverride: true) } catch { self.fail()
+                            return
+                        }
+                        heartbeat = Date()
                     }
-                    guard !Self.shouldStopForPower() else {
-                        self.stop()
-                        self
-                            .errorMessage =
-                            String(
-                                localized: "Protected lid mode stopped because the battery is low or the Mac is too warm."
-                            )
-                        return
-                    }
-                    do { try self.refreshLease(locked: true) } catch { self.fail()
-                        return
-                    }
-                    let closed = Self.lidIsClosed()
-                    guard closed != nil else { self.fail()
-                        return
-                    }
-                    if closed == true, wasClosed != true {
-                        self.sleepDisplays()
-                    }
-                    wasClosed = closed
                 }
             }
         } catch {
@@ -137,39 +142,100 @@ final class ProtectedLidManager: ObservableObject {
     }
 
     func stop() {
-        let wasEngaged = self.isEngaged
         let oldID = self.sessionID
         self.sessionID = nil
         self.monitor?.cancel()
         self.monitor = nil
+        self.lidMonitor?.stop()
+        self.lidMonitor = nil
         if
             let leaseURL, let oldID,
-            let value = try? String(contentsOf: leaseURL, encoding: .utf8),
-            value.hasSuffix(":" + oldID.uuidString)
+            let value = try? String(contentsOf: leaseURL, encoding: .utf8), value.hasSuffix(":" + oldID.uuidString)
         {
             try? FileManager.default.removeItem(at: leaseURL)
         }
         self.leaseURL = nil
-        self.isRunning = false
         self.isPreparing = false
-        // Keep the dynamically loaded lock function valid for the app lifetime.
-        if wasEngaged {
-            self.didStop?()
+        self.isRunning = false
+        if self.activityID != 0 {
+            IOPMAssertionRelease(self.activityID)
+            self.activityID = 0
+        }
+        // A lock already requested on opening must finish before making the
+        // desktop visible, even when a timeout/stop races with that opening.
+        if !self.cycle.lockPending {
+            self.restoreLights()
         }
     }
 
-    private func fail() {
-        self.stop()
-        self
-            .errorMessage =
-            String(
-                localized: "Protected lid mode could not be confirmed and has been stopped. Allow the administrator request, check that no other app disables lid sleep, and try again."
-            )
+    private func handleLid(_ closed: Bool) {
+        if self.isLidClosed != closed {
+            self.isLidClosed = closed
+        }
+        guard let action = self.cycle.update(closed: closed) else { return }
+        switch action {
+        case .darken:
+            self.darkenLights()
+        case .lock:
+            // Called directly on the main queue by the IOKit callback.
+            self.darkenLights()
+            self.lockFunction?()
+            self.lockTask?.cancel()
+            self.lockTask = Task { [weak self] in
+                for attempt in 0..<100 {
+                    guard let self, !Task.isCancelled else { return }
+                    if Self.isScreenLocked() == true {
+                        if self.cycle.confirmLock() {
+                            self.restoreLights()
+                        }
+                        return
+                    }
+                    if attempt > 0, attempt % 10 == 0 {
+                        self.lockFunction?()
+                    }
+                    do { try await Task.sleep(for: .milliseconds(100)) } catch { return }
+                }
+                // Do not reveal an unlocked desktop if native locking failed.
+                self?
+                    .errorMessage =
+                    String(
+                        localized: "macOS did not confirm the lock. The screen remains dark. Use the brightness keys if you need to recover the display."
+                    )
+            }
+        }
     }
 
-    private func refreshLease(locked: Bool) throws {
+    private func darkenLights() {
+        self.display.darken()
+        self.keyboard.darken()
+    }
+
+    private func restoreLights() {
+        self.display.restore()
+        self.keyboard.restore()
+    }
+
+    private typealias LockFunction = @convention(c) () -> Void
+    private var lockFunction: LockFunction? {
+        guard let library = self.loginLibrary, let symbol = dlsym(library, "SACLockScreenImmediate") else { return nil }
+        return unsafeBitCast(symbol, to: LockFunction.self)
+    }
+
+    private func fail(_ message: String? = nil) {
+        self.stop()
+        self
+            .errorMessage = message ??
+            String(
+                localized: "Automatic lid control could not start or stopped responding. Caffeine was deactivated. Check the administrator request and other sleep-control apps, then try again."
+            )
+        self.didFail?()
+    }
+
+    private func refreshLease(allowOverride: Bool) throws {
         guard let leaseURL, let sessionID else { throw LidError.unavailable }
-        let value = "\(locked ? "locked" : "pending"):\(ProcessInfo.processInfo.processIdentifier):\(sessionID.uuidString)"
+        // "locked" is the legacy v1 helper's activation opcode. Reusing its
+        // power-only protocol avoids another administrator installation prompt.
+        let value = "\(allowOverride ? "locked" : "pending"):\(ProcessInfo.processInfo.processIdentifier):\(sessionID.uuidString)"
         try value.write(to: leaseURL, atomically: true, encoding: .utf8)
     }
 
@@ -186,15 +252,6 @@ final class ProtectedLidManager: ObservableObject {
             try await Task.sleep(for: .milliseconds(100))
         }
         throw LidError.unavailable
-    }
-
-    private func sleepDisplays() {
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/usr/bin/pmset")
-        process.arguments = ["displaysleepnow"]
-        process.standardOutput = FileHandle.nullDevice
-        process.standardError = FileHandle.nullDevice
-        try? process.run()
     }
 
     private func helperIsInstalled() -> Bool {
@@ -263,14 +320,6 @@ final class ProtectedLidManager: ObservableObject {
     private static func isScreenLocked() -> Bool? {
         guard let session = CGSessionCopyCurrentDictionary() as? [String: Any] else { return nil }
         return session["CGSSessionScreenIsLocked"] as? Bool
-    }
-
-    private static func lidIsClosed() -> Bool? {
-        let root = IOServiceGetMatchingService(kIOMainPortDefault, IOServiceMatching("IOPMrootDomain"))
-        guard root != 0 else { return nil }
-        defer { IOObjectRelease(root) }
-        return IORegistryEntryCreateCFProperty(root, "AppleClamshellState" as CFString, kCFAllocatorDefault, 0)?
-            .takeRetainedValue() as? Bool
     }
 
     private static func shouldStopForPower() -> Bool {

@@ -55,6 +55,7 @@ final class ActivitySimulator {
     // MARK: - Private Methods
 
     private func checkAndSimulateIfNeeded() {
+        guard LidMonitor.readClosed() != true else { return }
         guard self.getSystemIdleTime() >= self.idleThreshold else { return }
         self.simulateActivity()
     }

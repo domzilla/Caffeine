@@ -1,126 +1,138 @@
-# Protected lid sessions
+# Automatic lid control
 
-This fork adds an **experimental direct-distribution** feature for Mac laptops.
-The ordinary coffee-cup toggle retains its existing behavior. The separate
-**Lock & keep awake with lid closed…** action starts a protected session.
+This direct-distribution fork couples lid behavior to the normal Caffeine toggle.
+There is no separate protected-session button and activation never requests a lock.
 
-## Use
+## Behavior
 
-1. Build with `bash scripts/build-lid.sh` and open `dist/Caffeine Lid.app`.
-   It uses a separate bundle identifier and preferences from upstream Caffeine.
-   Quit the original Caffeine while using this fork: another display assertion
-   or simulated mouse activity can interfere with turning the displays off.
-2. Open preferences from the menu bar, choose a duration if desired, and select
-   **Lock & keep awake with lid closed…**.
-3. **The first session only** asks macOS to install a small privileged helper.
-   Authenticate in the native macOS administrator dialog. Caffeine never reads,
-   stores, or creates a password. Canceling leaves lid sleep unchanged.
-4. The Mac locks immediately. After the lock is confirmed, the helper disables
-   system sleep and Caffeine requests display sleep. Close the lid when the
-   lock screen/display turns off. Background work can continue on battery or AC.
-5. Opening the lid reveals the native lock screen. Use the account password or
-   the authentication methods permitted by macOS, such as Touch ID.
-   **Unlocking ends the protected session** and resumes ordinary Caffeine.
-   Start a new protected session before closing the lid again.
+| Event while Caffeine is active | Result |
+| --- | --- |
+| Activate with the lid open | Arm monitoring and prevent system sleep; stay unlocked |
+| Close the lid | Set built-in screen brightness and keyboard backlight to zero; remain awake without requesting a lock |
+| Open the lid | Request the native macOS lock immediately, then restore both saved brightness levels after lock confirmation |
+| Authenticate | Caffeine remains active; the next lid cycle works automatically |
+| Deactivate, timer expires, or quit | Release the helper lease and restore ordinary sleep/brightness |
 
-Locking before enabling the override avoids relying on a notification after the
-display has already become visible. This mode intentionally locks immediately;
-it does not let you keep editing with an unlocked screen until lid closure.
-It turns off external displays too. It does not shut down the Mac or log out.
+The user's existing Mac login credentials apply; Caffeine never creates, reads,
+or stores a password. macOS may allow Touch ID or other configured authentication.
+Manual locking and managed security policies are not overridden or undone.
 
-## Lifetime and recovery
+## Installation and usage
 
-- Caffeine holds a short lease that it renews only while the screen is confirmed
-  locked. Stop, Quit, timer expiry, unlock, or failure removes that lease.
-- The helper restores normal sleep on its next poll, normally within one second.
-  If Caffeine hangs, the lease expires after ten seconds. PID, UID, process start
-  time, a fresh UUID, and a pending-to-locked handshake guard against stale requests.
-- launchd restarts the helper after failure. A root-owned durable ownership marker
-  triggers restoration after a helper crash or reboot, before accepting a session.
-- A pre-existing `SleepDisabled` override is treated as a conflict and left alone.
-  Avoid running other tools that change the same global setting during a session;
-  macOS does not provide independent ownership of that setting for each app.
-- The app ends the protected session at 10% battery on battery power, or on a
-  serious/critical thermal state. Hardware protection and shutdown cannot and
-  should not be overridden. Keep ventilation clear; do not run it in a closed bag.
+Build with `bash scripts/build-lid.sh`, open `dist/Caffeine Lid.app`, and activate
+Caffeine using the menu-bar cup or **Activate Caffeine** in preferences. Wait for
+**Ready: lights off on close, lock on open** before testing the lid. First activation
+installs a limited helper using the native administrator dialog. Later activations
+need no administrator prompt. The previously installed version-1 helper is reused;
+this behavior change requires no new privileged operation or installation.
 
-## Helper scope
+Quit other keep-awake/brightness utilities while testing. This fork has its own
+bundle identifier `net.ziyad.caffeine.lid` and does not accept upstream auto-updates.
+The build is universal (Apple Silicon and Intel), targets macOS 14.6+, and is ad-hoc
+signed, not Developer ID signed or notarized. Build outside App Sandbox using the
+provided script; the upstream Xcode project is intentionally unchanged.
 
-The first-use installer writes these fixed locations with administrator approval:
+## How it works
+
+- A continuous `PreventUserIdleDisplaySleep` assertion avoids the upstream
+  assertion's two-second gap. Screen darkness is brightness zero, not display
+  sleep, so the normal display-sleep/password trigger is not intentionally invoked.
+- `IOPMrootDomain` lid-change notifications run on the main queue; their event
+  bitfield drives close/open transitions directly. A 250 ms poll catches missed
+  notifications. Duplicate events never relock an already open laptop.
+- The built-in display uses `DisplayServicesGetBrightness/SetBrightness`.
+  The built-in keyboard uses `KeyboardBrightnessClient` from CoreBrightness.
+  Current levels are remembered while open and reapplied after confirmed locking.
+  Zero brightness is reasserted once per second while closed. External monitors
+  are not dimmed; native locking still locks the session across all displays.
+- During a closed-lid session, periodic IOKit user-activity assertions postpone
+  idle behavior. Synthetic mouse activity from the optional Keep apps active
+  feature is suppressed while the lid is closed.
+- Opening calls `SACLockScreenImmediate`. Brightness restoration waits for
+  `CGSSessionScreenIsLocked`. If confirmation fails, the screen remains dark;
+  the brightness keys provide manual recovery. No lock is requested on closing.
+
+macOS controls the timing of panel power and lock-screen presentation. This is
+**not a guarantee that zero pixels can ever be visible before locking on every
+Mac or OS version**. Notification/brightness/lock APIs and hardware ordering need
+physical validation. Unlike locking before closure, this requested behavior leaves
+an unlocked session running while the lid is closed. Private Apple interfaces may
+change, and organizational security policy can enforce independent locking.
+
+## Power helper and recovery
+
+The first-use installer writes fixed root-owned locations:
 
 - `/Library/PrivilegedHelperTools/net.ziyad.caffeine.lid-helper.sh`
 - `/Library/LaunchDaemons/net.ziyad.caffeine.lid-helper.plist`
 - `/Library/Application Support/CaffeineLid/`
 
-The script, plist, ownership marker, and status are root-owned. A single request
-directory is owned by the installing user's numeric UID with mode 0700. The helper
-accepts bounded data from that user only, validates it, and runs fixed `pmset`
-commands. It never executes a client-supplied command or sources a user-writable
-script. No sudoers exception is installed. Other processes running as that same
-user can request the same limited power operation; this is not code-signature
-authenticated IPC. The helper supports one installing account and one session.
+Only the installing UID may write the request directory (mode 0700). Requests are
+bounded data, never commands. The helper validates UID, PID/start identity, UUID,
+freshness and a two-step handshake, then runs fixed `pmset` operations. The wire
+opcode `locked` is the historical version-1 name for **activate the power override**;
+it does not ask the helper to lock the screen or attest to lock state. Keeping that
+wire format permits the one-time-installed helper to serve this updated client.
+No sudoers exception or stored password is used. This IPC authorizes the installing
+user, not a specific code signature; other processes under that UID can request
+this same limited power operation. Only one installing account/session is supported.
 
-The helper remains installed and idle between sessions, so subsequent sessions
-do not require another administrator prompt. A future helper upgrade or removal
-may require administrator approval. Removing the app alone does not remove the
-helper. After quitting the app, uninstall it with:
+The helper normally restores sleep within one poll (about one second) after lease
+removal. A stalled client loses its lease after ten seconds. launchd restarts the
+helper after a crash; a durable ownership marker restores this helper's override
+before accepting new sessions, including after a reboot. An external pre-existing
+SleepDisabled override is preserved and reported as a conflict. Avoid other apps
+that change the same global setting mid-session, as macOS exposes no per-app ownership.
+
+The app stops at 10% battery while unplugged or a serious/critical thermal state.
+Brightness zero reduces lighting power; the running CPU still consumes more energy
+than sleep. Do not run the laptop in a closed bag; keep ventilation clear.
+
+After quitting Caffeine, remove the persistent helper with:
 
 ```sh
 sudo /bin/sh scripts/uninstall-lid-helper.sh
 ```
 
-If powerd or launchd cannot restore sleep, recovery is:
+Emergency power recovery, if launchd/powerd is unavailable:
 
 ```sh
 sudo pmset -a disablesleep 0
 ```
 
-## Build, tests, and limitations
+The helper is deliberately idle between sessions and is not removed by deleting
+the application alone. A future helper upgrade/removal can require administrator
+approval; ordinary toggling does not.
 
-The build script preserves the upstream Xcode project and overrides its sandbox
-and bundle identifier at build time. The privileged feature requires a build
-outside App Sandbox. Upstream automatic updates are disabled so they cannot
-replace this fork. Builds are ad-hoc signed, not Developer ID signed or notarized.
-They target macOS 14.6 or newer and include Apple Silicon and Intel code.
+## Validation
 
 ```sh
 python3 -m unittest discover -s tests -v
+swiftc src/Caffeine/Classes/Models/LidCycleState.swift tests/LidCycleTests.swift -o /tmp/caffeine-lid-tests
+/tmp/caffeine-lid-tests
 bash scripts/build-lid.sh
 swiftformat .
 ```
 
-New UI is localized in English and Arabic; other existing languages fall back to
-English for the new strings. Upstream developer guides referenced by AGENTS.md
-are not included in the repository; existing style and SwiftFormat are used.
+The existing 16 isolated watchdog tests cover heartbeat expiration, client/helper
+crashes, failed enable/restore, conflicts and untrusted request data. The transition
+suite covers activation without locking, close without locking, open with locking,
+confirmation-before-brightness restoration, repeated events, successive cycles and
+rapid reclosure while locking. Neither suite closes the physical lid or locks the
+user's actual session. Read-only probes confirmed display-brightness and keyboard
+backlight interfaces are available on the development Mac.
 
-Automated tests run the actual watchdog with an isolated fake power backend;
-they never change real power settings, install the helper, or lock the computer.
-They cover confirmed-lock gating, stale leases, client and helper crashes,
-termination, conflicting overrides, invalid input, and failed enable/restore.
-
-Physical lid closure, panel darkness, uninterrupted work on battery/AC,
-authentication on reopening, the first administrator prompt and subsequent
-prompt-free sessions still require manual hardware validation. The lock operation
-uses the private macOS `SACLockScreenImmediate` symbol and confirmation uses
-`CGSSessionScreenIsLocked`; either can change in macOS updates. Missing lock
-support or confirmation aborts the session. Successful compilation and mocked
-tests do not establish hardware compatibility or a production security guarantee.
-
-### Manual acceptance checklist
-
-- Cancel first-use authorization: no helper and no power override.
-- Approve once, stop, start again: no second administrator prompt.
-- Start a background timestamp log, activate, close the lid on battery and AC:
-  timestamps continue and the built-in panel is off.
-- Open the lid: no desktop is exposed before authentication; unlock ends mode.
-- Stop, timeout, quit, force-quit, and stop client heartbeat: `pmset -g` returns
-  `SleepDisabled 0` within the documented window.
-- Kill the helper during a session: launchd restarts it and restores the override.
-- Reboot during a session: recovery runs, and no protected session starts itself.
-- Check low battery, thermal stop, an existing external override, and uninstall.
+Manual acceptance requires closing/opening the lid on battery and AC, observing
+both lights go off while a background job continues, verifying authentication is
+required on reopening, and repeating the cycle after unlocking. Also verify that
+an extended closed-lid session does not trigger independent idle locking and that
+the former brightness levels return. Hardware checks cannot be substituted by a
+successful build. New strings are localized in Arabic and English; other languages
+fall back to English for this feature.
 
 ## References
 
-- [Apple PowerManagement implementation of pmset](https://github.com/apple-oss-distributions/PowerManagement/blob/main/pmset/pmset.m)
-- [Apple's IOPM definitions, including lid state](https://github.com/apple-oss-distributions/IOKitUser/blob/main/pwr_mgt.subproj/IOPM.h)
-- [Lock function and lock-state example](https://gist.github.com/pudquick/9797a9ce8ad97de6e326afc7c9894965)
+- [Apple pmset implementation](https://github.com/apple-oss-distributions/PowerManagement/blob/main/pmset/pmset.m)
+- [Apple IOPM API](https://github.com/opensource-apple/IOKitUser/blob/master/pwr_mgt.subproj/IOPMLib.h)
+- [DisplayServices brightness implementation example](https://github.com/nriley/brightness/blob/master/brightness.c)
+- [KeyboardBrightnessClient method signatures](https://github.com/rakalex/mac-brightnessctl/blob/master/KeyboardBrightnessClient.h)

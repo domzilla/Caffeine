@@ -37,16 +37,6 @@ class MenuBarController: NSObject {
         }
     }
 
-    @objc
-    private func toggleProtectedLid() {
-        if self.viewModel.protectedLid.isEngaged {
-            self.viewModel.protectedLid.stop()
-        } else {
-            // Show the explanation and explicit lock action before starting.
-            self.showPreferencesWindow()
-        }
-    }
-
     private func setupMenuBar() {
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
@@ -109,12 +99,12 @@ class MenuBarController: NSObject {
         }
 
         let lidItem = NSMenuItem(
-            title: self.viewModel.protectedLid.isEngaged
-                ? String(localized: "Stop protected lid mode")
-                : String(localized: "Lock & keep awake with lid closed…"),
-            action: #selector(self.toggleProtectedLid), keyEquivalent: ""
+            title: self.viewModel.automaticLid.isPreparing
+                ? String(localized: "Preparing automatic lid control…")
+                : String(localized: "Lid: lights off on close, lock on open"),
+            action: nil, keyEquivalent: ""
         )
-        lidItem.target = self
+        lidItem.isEnabled = false
         menu.addItem(lidItem)
         menu.addItem(NSMenuItem.separator())
 

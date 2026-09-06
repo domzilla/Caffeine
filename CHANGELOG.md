@@ -9,20 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Experimental protected lid sessions: lock macOS first, keep background work running with the lid closed, and request display sleep. Unlocking ends the protected session.
-- First-use administrator installation of a limited persistent helper; later sessions do not repeat the administrator prompt.
-- Short heartbeat lease, client/helper crash recovery, timer/quit cleanup, and low-battery/thermal stopping.
-- Arabic interface, protected-mode controls, isolated watchdog tests, universal build script, helper removal, and hardware validation instructions.
-
+- Automatic lid handling on the ordinary Caffeine toggle: darken the built-in display and keyboard without locking on closure, lock on reopening, then restore the saved brightness levels.
+- First-use administrator helper installation, reused across activations. The existing version-1 helper also supports the new automatic behavior.
+- Arabic interface, universal build and helper removal scripts, heartbeat/crash recovery, battery/thermal stopping, and isolated helper/transition tests.
 
 ### Changed
 
-- Disabled upstream automatic updates for this separately identified direct-distribution fork.
-
+- Replaced the earlier lock-at-activation session button with automatic behavior. Activation no longer locks; unlocking no longer ends Caffeine.
+- Disabled upstream automatic updates for the separately identified direct-distribution fork.
 - Improved Ukrainian translation.
 
 ### Fixed
 
+- Removed the two-second gap between sleep-prevention assertions, and suppressed simulated mouse activity while the lid is closed.
 - Timer no longer stays active and shows negative seconds after the Mac sleeps past the activation period.
 
 ## [1.6.3] - 2026-01-26
