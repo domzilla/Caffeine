@@ -11,7 +11,7 @@ separate session button, and activation never requests a lock.
 | --- | --- |
 | Activate with the lid open | Arm monitoring and prevent system sleep; stay unlocked |
 | Close the lid | Set built-in screen brightness and keyboard backlight to zero; remain awake without requesting a lock |
-| Open the lid | Request the native macOS lock immediately, then restore both saved brightness levels after lock confirmation |
+| Open the lid | Request the native macOS lock immediately, then restore both saved brightness levels after stable lock confirmation |
 | Authenticate | Caffeine remains active; the next lid cycle works automatically |
 | Deactivate, timer expires, or quit | Release the helper lease and restore ordinary sleep/brightness |
 
@@ -50,9 +50,17 @@ provided script; the upstream Xcode project is intentionally unchanged.
 - During a closed-lid session, periodic IOKit user-activity assertions postpone
   idle behavior. Synthetic mouse activity from the optional Keep apps active
   feature is suppressed while the lid is closed.
-- Opening calls `SACLockScreenImmediate`. Brightness restoration waits for
-  `CGSSessionScreenIsLocked`. If confirmation fails, the screen remains dark;
-  the brightness keys provide manual recovery. No lock is requested on closing.
+- Closing also paints an opaque, non-activating black cover over the internal
+  display before it can wake again. This cover does not authenticate or lock the
+  session; background work continues unlocked as requested.
+- Opening calls `SACLockScreenImmediate`. The cover stays in place and brightness
+  zero is reasserted every 50 ms while `CGSSessionScreenIsLocked` is checked.
+  Confirmation must stay true for 750 ms with the lid open before brightness is
+  restored behind the cover and the cover is removed. Unknown/false lock state or
+  reclosure resets that interval. Timeout never reveals an unlocked desktop;
+  late confirmation can still recover. If the private lock service fails entirely,
+  quitting Caffeine (for example from another display) or restarting the Mac
+  removes the cover. No lock is requested on closing.
 
 macOS controls the timing of panel power and lock-screen presentation. This is
 **not a guarantee that zero pixels can ever be visible before locking on every
@@ -110,6 +118,8 @@ approval; ordinary toggling does not.
 
 ```sh
 python3 -m unittest discover -s tests -v
+swiftc src/Caffeine/Classes/Models/LockRevealGate.swift tests/LockRevealTests.swift -o /tmp/caffeine-reveal-tests
+/tmp/caffeine-reveal-tests
 swiftc src/Caffeine/Classes/Models/LidCycleState.swift tests/LidCycleTests.swift -o /tmp/caffeine-lid-tests
 /tmp/caffeine-lid-tests
 bash scripts/build-lid.sh

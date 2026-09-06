@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Cover desktop pixels with an opaque black panel before lid reopening; keep forcing both brightness levels to zero until native lock confirmation stays stable. Late or unknown lock state never restores brightness on a timeout.
+
 - Rapid off/on toggling waits for the previous helper session to finish restoring power instead of failing and opening preferences. Canceled startup attempts cannot overwrite a newer session.
 
 - Removed the two-second gap between sleep-prevention assertions, and suppressed simulated mouse activity while the lid is closed.

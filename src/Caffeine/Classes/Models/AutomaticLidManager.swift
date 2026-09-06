@@ -18,8 +18,10 @@ final class AutomaticLidManager: ObservableObject {
     private let helperSession = LidHelperSession()
     private var monitor: Task<Void, Never>?
     private var lockTask: Task<Void, Never>?
+    private var lockRequestID: UUID?
     private var cycle = LidCycleState()
     private let display = BuiltInDisplay()
+    private let privacyShield = LidPrivacyShield()
     private let keyboard = KeyboardBacklight()
     private var lidMonitor: LidMonitor?
     private var activityID: IOPMAssertionID = 0
@@ -48,12 +50,15 @@ final class AutomaticLidManager: ObservableObject {
                     localized: "Keyboard backlight control is unavailable on this Mac; automatic display and lid control will still work."
                 )
         }
+        self.privacyShield.prepare()
         let id = UUID()
         self.sessionID = id
         self.isPreparing = true
         // Monitor before enabling the override: no close/open transition during
         // administrator approval or helper startup is silently discarded.
-        self.cycle = LidCycleState()
+        if !self.cycle.lockPending {
+            self.cycle = LidCycleState()
+        }
         let watcher = LidMonitor { [weak self] closed in self?.handleLid(closed) }
         guard watcher.start() else {
             self.fail(String(localized: "Automatic lid control is unavailable on this Mac. Caffeine was deactivated."))
@@ -82,6 +87,9 @@ final class AutomaticLidManager: ObservableObject {
                         return
                     }
                     self.handleLid(closed) // Fallback for dropped IOKit notifications.
+                    if self.cycle.lockPending {
+                        self.darkenLights()
+                    }
                     if Date().timeIntervalSince(heartbeat) >= 1 {
                         if closed {
                             // Keep the logical display awake and prevent idle lock;
@@ -136,7 +144,9 @@ final class AutomaticLidManager: ObservableObject {
         }
         // A lock already requested on opening must finish before making the
         // desktop visible, even when a timeout/stop races with that opening.
-        if !self.cycle.lockPending {
+        if !self.cycle.lockPending || self.cycle.closed {
+            self.lockTask?.cancel()
+            self.lockRequestID = nil
             self.restoreLights()
         }
     }
@@ -148,32 +158,55 @@ final class AutomaticLidManager: ObservableObject {
         guard let action = self.cycle.update(closed: closed) else { return }
         switch action {
         case .darken:
+            self.lockTask?.cancel()
+            self.lockRequestID = nil
+            // Paint black while the lid closes, before the next wake can show
+            // desktop pixels even if macOS resets hardware brightness itself.
+            self.privacyShield.show()
             self.darkenLights()
         case .lock:
-            // Called directly on the main queue by the IOKit callback.
+            self.privacyShield.show()
             self.darkenLights()
             self.lockFunction?()
             self.lockTask?.cancel()
+            let requestID = UUID()
+            self.lockRequestID = requestID
             self.lockTask = Task { [weak self] in
-                for attempt in 0..<100 {
-                    guard let self, !Task.isCancelled else { return }
-                    if Self.isScreenLocked() == true {
+                var revealGate = LockRevealGate()
+                var attempt = 0
+                while !Task.isCancelled {
+                    guard let self, !Task.isCancelled, self.lockRequestID == requestID else { return }
+                    // Hardware/ambient brightness may be reapplied during wake.
+                    // Continue forcing zero throughout the lock transition.
+                    self.darkenLights()
+                    let lidClosed = LidMonitor.readClosed() ?? true
+                    if
+                        revealGate.canReveal(
+                            locked: Self.isScreenLocked(), lidClosed: lidClosed,
+                            now: ProcessInfo.processInfo.systemUptime
+                        )
+                    {
                         if self.cycle.confirmLock() {
                             self.restoreLights()
                         }
+                        self.lockRequestID = nil
                         return
                     }
-                    if attempt > 0, attempt % 10 == 0 {
+                    if attempt > 0, attempt % 20 == 0, Self.isScreenLocked() != true {
                         self.lockFunction?()
                     }
-                    do { try await Task.sleep(for: .milliseconds(100)) } catch { return }
+                    if attempt == 150 {
+                        // Keep observing after the warning: a late valid lock
+                        // may recover, but elapsed time alone never reveals.
+                        self
+                            .errorMessage =
+                            String(
+                                localized: "Waiting for macOS to confirm locking. The screen remains covered for privacy."
+                            )
+                    }
+                    attempt += 1
+                    do { try await Task.sleep(for: .milliseconds(50)) } catch { return }
                 }
-                // Do not reveal an unlocked desktop if native locking failed.
-                self?
-                    .errorMessage =
-                    String(
-                        localized: "macOS did not confirm the lock. The screen remains dark. Use the brightness keys if you need to recover the display."
-                    )
             }
         }
     }
@@ -184,8 +217,11 @@ final class AutomaticLidManager: ObservableObject {
     }
 
     private func restoreLights() {
+        // Raise the backlights behind the cover; only then uncover the secure
+        // lock screen (or complete an explicit stop outside a pending lock).
         self.display.restore()
         self.keyboard.restore()
+        self.privacyShield.hide()
     }
 
     private typealias LockFunction = @convention(c) () -> Void

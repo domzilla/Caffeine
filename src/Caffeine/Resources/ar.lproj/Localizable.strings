@@ -44,3 +44,5 @@
 /* Minimal lid preference */
 "Turns off screen and keyboard lighting when closed, and locks your Mac when opened." = "يطفئ إضاءة الشاشة والكيبورد عند إغلاق الغطاء، ويقفل جهازك عند فتحه.";
 "Preparing…" = "جارٍ الإعداد…";
+
+"Waiting for macOS to confirm locking. The screen remains covered for privacy." = "بانتظار تأكيد القفل من macOS. تبقى الشاشة مغطاة لحماية الخصوصية.";

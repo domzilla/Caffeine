@@ -61,3 +61,5 @@
 /* Minimal lid preference */
 "Turns off screen and keyboard lighting when closed, and locks your Mac when opened." = "Turns off screen and keyboard lighting when closed, and locks your Mac when opened.";
 "Preparing…" = "Preparing…";
+
+"Waiting for macOS to confirm locking. The screen remains covered for privacy." = "Waiting for macOS to confirm locking. The screen remains covered for privacy.";
