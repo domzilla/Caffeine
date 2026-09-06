@@ -97,6 +97,11 @@ struct PreferencesView: View {
                     .padding(.leading, 20)
             }
 
+            Divider().padding(.vertical, 12)
+            ProtectedLidControls(manager: self.viewModel.protectedLid) {
+                self.viewModel.startProtectedLidSession()
+            }
+
             Spacer()
                 .frame(height: 30)
 

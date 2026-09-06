@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Experimental protected lid sessions: lock macOS first, keep background work running with the lid closed, and request display sleep. Unlocking ends the protected session.
+- First-use administrator installation of a limited persistent helper; later sessions do not repeat the administrator prompt.
+- Short heartbeat lease, client/helper crash recovery, timer/quit cleanup, and low-battery/thermal stopping.
+- Arabic interface, protected-mode controls, isolated watchdog tests, universal build script, helper removal, and hardware validation instructions.
+
+
 ### Changed
+
+- Disabled upstream automatic updates for this separately identified direct-distribution fork.
 
 - Improved Ukrainian translation.
 

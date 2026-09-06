@@ -37,6 +37,16 @@ class MenuBarController: NSObject {
         }
     }
 
+    @objc
+    private func toggleProtectedLid() {
+        if self.viewModel.protectedLid.isEngaged {
+            self.viewModel.protectedLid.stop()
+        } else {
+            // Show the explanation and explicit lock action before starting.
+            self.showPreferencesWindow()
+        }
+    }
+
     private func setupMenuBar() {
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
@@ -98,6 +108,16 @@ class MenuBarController: NSObject {
             menu.addItem(NSMenuItem.separator())
         }
 
+        let lidItem = NSMenuItem(
+            title: self.viewModel.protectedLid.isEngaged
+                ? String(localized: "Stop protected lid mode")
+                : String(localized: "Lock & keep awake with lid closed…"),
+            action: #selector(self.toggleProtectedLid), keyEquivalent: ""
+        )
+        lidItem.target = self
+        menu.addItem(lidItem)
+        menu.addItem(NSMenuItem.separator())
+
         // Duration options in submenu
         let activateForItem = NSMenuItem(
             title: String(localized: "Activate for"),
@@ -155,17 +175,6 @@ class MenuBarController: NSObject {
         aboutItem.target = self
         menu.addItem(aboutItem)
 
-        // Update
-        let updatesItem = NSMenuItem(
-            title: String(localized: "Check for Updates..."),
-            action: #selector(checkForUpdates(_:)),
-            keyEquivalent: ""
-        )
-        updatesItem.target = self
-        menu.addItem(updatesItem)
-
-        menu.addItem(NSMenuItem.separator())
-
         // Quit
         let quitItem = NSMenuItem(
             title: String(localized: "Quit"),
@@ -207,7 +216,7 @@ class MenuBarController: NSObject {
             let window = NSWindow(contentViewController: hostingController)
             window.title = String(localized: "Welcome to Caffeine")
             window.styleMask = [.titled, .closable]
-            window.setContentSize(NSSize(width: 640, height: 420))
+            window.setContentSize(hostingController.view.fittingSize)
             window.center()
 
             self.preferencesWindow = window

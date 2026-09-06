@@ -43,3 +43,16 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine prevents sleep";
 
+
+/* Protected lid mode */
+"Protected lid mode requires a Mac laptop." = "Protected lid mode requires a Mac laptop.";
+"The macOS lock service is unavailable. Protected lid mode was not enabled." = "The macOS lock service is unavailable. Protected lid mode was not enabled.";
+"Protected lid mode stopped because the battery is low or the Mac is too warm." = "Protected lid mode stopped because the battery is low or the Mac is too warm.";
+"Protected lid mode could not be confirmed and has been stopped. Allow the administrator request, check that no other app disables lid sleep, and try again." = "Protected lid mode could not be confirmed and has been stopped. Allow the administrator request, check that no other app disables lid sleep, and try again.";
+"Protected lid mode" = "Protected lid mode";
+"Locks your Mac now, then keeps tasks running with the lid closed and displays off. Unlock with your Mac password or Touch ID when you return. Unlocking ends this mode." = "Locks your Mac now, then keeps tasks running with the lid closed and displays off. Unlock with your Mac password or Touch ID when you return. Unlocking ends this mode.";
+"Requires administrator approval once to install a small helper. Later sessions need no administrator prompt. Normal sleep returns when Caffeine stops, the timer expires, or the app exits. Keep the Mac ventilated; this uses more battery than sleep." = "Requires administrator approval once to install a small helper. Later sessions need no administrator prompt. Normal sleep returns when Caffeine stops, the timer expires, or the app exits. Keep the Mac ventilated; this uses more battery than sleep.";
+"Preparing protected lid mode…" = "Preparing protected lid mode…";
+"Protected lid mode is active." = "Protected lid mode is active.";
+"Stop protected lid mode" = "Stop protected lid mode";
+"Lock & keep awake with lid closed…" = "Lock & keep awake with lid closed…";

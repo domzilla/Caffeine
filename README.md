@@ -1,3 +1,17 @@
+# Caffeine Lid — قفل الجهاز والعمل والغطاء مغلق
+
+Fork of [domzilla/Caffeine](https://github.com/domzilla/Caffeine) with an experimental protected lid session for macOS.
+
+**العربية:** من الإعدادات اختر «قفل الجهاز والعمل والغطاء مغلق…». يُطلب إذن المسؤول مرة واحدة لتثبيت المساعد. يقفل جهازك فورًا ثم يبقي المهام تعمل مع إطفاء الشاشات، ويمكنك إغلاق الغطاء. عند العودة يلزم فتح قفل حساب Mac، وتنتهي جلسة الغطاء المحمي بعد فتح القفل. يلزم اختبار الغطاء والطاقة فعليًا على جهازك؛ هذه نسخة تجريبية وليست إصدارًا موثقًا من Apple.
+
+**English:** A dedicated action locks macOS before keeping work running with the lid closed and displays off. Administrator approval is needed only for the first helper installation. Unlocking ends the protected session. Hardware verification is still required.
+
+Build with `bash scripts/build-lid.sh`. Read [usage, helper removal, recovery, and validation](docs/PROTECTED-LID.md) before testing.
+
+---
+
+## Upstream README
+
 <img src="https://github.caffeine-app.net/assets/icon.png" alt="Icon" width="239"/>
 
 # Caffeine

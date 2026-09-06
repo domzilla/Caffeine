@@ -17,6 +17,7 @@ class CaffeineViewModel: ObservableObject {
     @Published var isActive = false
     @Published var timeRemaining: TimeInterval?
     @Published var showPreferences = false
+    let protectedLid = ProtectedLidManager()
 
     // MARK: - Private Properties
 
@@ -32,6 +33,11 @@ class CaffeineViewModel: ObservableObject {
         self.timeRemaining = nil
 
         self.setupObservers()
+        self.protectedLid.didStop = { [weak self] in
+            guard let self, self.isActive else { return }
+            SleepPreventionManager.shared.preventSleep()
+            self.updateActivitySimulation(enabled: UserDefaults.standard.bool(forKey: PreferenceKeys.keepAppsActive))
+        }
 
         // Check if we should activate at launch
         if UserDefaults.standard.bool(forKey: PreferenceKeys.activateAtLaunch) {
@@ -108,9 +114,11 @@ class CaffeineViewModel: ObservableObject {
         }
 
         self.isActive = true
-        SleepPreventionManager.shared.preventSleep()
+        if !self.protectedLid.isEngaged {
+            SleepPreventionManager.shared.preventSleep()
+        }
 
-        if UserDefaults.standard.bool(forKey: PreferenceKeys.keepAppsActive) {
+        if !self.protectedLid.isEngaged, UserDefaults.standard.bool(forKey: PreferenceKeys.keepAppsActive) {
             ActivitySimulator.shared.startMonitoring()
         }
     }
@@ -120,19 +128,31 @@ class CaffeineViewModel: ObservableObject {
         self.cancelTimers()
         self.timeRemaining = nil
         self.isActive = false
+        self.protectedLid.stop()
         SleepPreventionManager.shared.allowSleep()
         ActivitySimulator.shared.stopMonitoring()
     }
 
+    /// Explicit action: authenticate first, then lock before allowing lid closure.
+    func startProtectedLidSession() {
+        guard !self.protectedLid.isEngaged else { return }
+        if !self.isActive {
+            self.activate()
+        }
+        SleepPreventionManager.shared.allowSleep()
+        ActivitySimulator.shared.stopMonitoring()
+        Task { await self.protectedLid.start() }
+    }
+
     /// Updates activity simulation based on preference
     func updateActivitySimulation(enabled: Bool) {
-        if enabled {
+        if enabled, !self.protectedLid.isEngaged {
             // Trigger the Accessibility permission prompt by posting a no-op event
             // This prompts for "Events" permission which CGEvent.post requires
             ActivitySimulator.shared.requestPermission()
         }
 
-        if enabled, self.isActive {
+        if enabled, self.isActive, !self.protectedLid.isEngaged {
             ActivitySimulator.shared.startMonitoring()
         } else {
             ActivitySimulator.shared.stopMonitoring()

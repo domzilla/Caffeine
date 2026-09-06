@@ -31,16 +31,13 @@ final class ActivitySimulator {
     func startMonitoring() {
         self.stopMonitoring()
 
-        // Ensure timer is scheduled on main run loop
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-
-            self.checkTimer = Timer.scheduledTimer(
-                withTimeInterval: self.checkInterval,
-                repeats: true
-            ) { [weak self] _ in
-                self?.checkAndSimulateIfNeeded()
-            }
+        // Callers are on the main actor. Schedule synchronously so a following
+        // stop cannot be undone by a previously queued start during screen lock.
+        self.checkTimer = Timer.scheduledTimer(
+            withTimeInterval: self.checkInterval,
+            repeats: true
+        ) { [weak self] _ in
+            self?.checkAndSimulateIfNeeded()
         }
     }
 
