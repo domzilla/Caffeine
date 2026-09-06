@@ -1,7 +1,9 @@
 # Automatic lid control
 
 This direct-distribution fork couples lid behavior to the normal Caffeine toggle.
-There is no separate protected-session button and activation never requests a lock.
+The **Automatic lid control** checkbox enables this behavior and defaults to on.
+Unchecking it keeps ordinary Caffeine active without lid handling. There is no
+separate session button, and activation never requests a lock.
 
 ## Behavior
 
@@ -20,8 +22,8 @@ Manual locking and managed security policies are not overridden or undone.
 ## Installation and usage
 
 Build with `bash scripts/build-lid.sh`, open `dist/Caffeine Lid.app`, and activate
-Caffeine using the menu-bar cup or **Activate Caffeine** in preferences. Wait for
-**Ready: lights off on close, lock on open** before testing the lid. First activation
+Caffeine using the menu-bar cup with the **Automatic lid control** checkbox enabled. Wait for the brief
+**Preparing…** message to disappear before testing the lid. First activation
 installs a limited helper using the native administrator dialog. Later activations
 need no administrator prompt. The previously installed version-1 helper is reused;
 this behavior change requires no new privileged operation or installation.
@@ -114,8 +116,10 @@ bash scripts/build-lid.sh
 swiftformat .
 ```
 
-The existing 16 isolated watchdog tests cover heartbeat expiration, client/helper
-crashes, failed enable/restore, conflicts and untrusted request data. The transition
+The 17 isolated watchdog/client tests cover heartbeat expiration, client/helper
+crashes, failed enable/restore, conflicts and untrusted request data. The actual
+Swift client is also tested against the helper for rapid off/on cycles and
+cancellation during startup; restarts wait for prior-session cleanup. The transition
 suite covers activation without locking, close without locking, open with locking,
 confirmation-before-brightness restoration, repeated events, successive cycles and
 rapid reclosure while locking. Neither suite closes the physical lid or locks the

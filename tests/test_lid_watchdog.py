@@ -95,6 +95,24 @@ fi
         self.wait_for(lambda: self.status() in ("idle", "offline") and self.power.read_text().strip() == "0")
         self.assertFalse((self.state / "owned").exists())
 
+    def test_swift_client_rapid_off_on_and_cancelled_start(self):
+        repo = SOURCE.parents[3]
+        executable = self.root / "session-tests"
+        subprocess.run([
+            "swiftc", str(repo / "src/Caffeine/Classes/Models/LidHelperSession.swift"),
+            str(repo / "tests/LidHelperSessionTests.swift"), "-o", str(executable),
+        ], check=True, capture_output=True, text=True)
+        helper = subprocess.Popen(
+            ["/bin/sh", "-c", self.script, "--", str(os.getuid())],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+        self.processes.append(helper)
+        self.wait_for(lambda: self.status() == "idle")
+        result = subprocess.run([str(executable), str(self.state)], capture_output=True, text=True, timeout=45)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("regression tests passed", result.stdout)
+        self.assert_restored(helper)
+
     def test_pending_does_not_change_power(self):
         process = self.launch()
         self.wait_for(lambda: self.status() == f"ready:{NONCE}")

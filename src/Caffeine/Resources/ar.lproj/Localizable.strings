@@ -40,3 +40,7 @@
 "Deactivate Caffeine" = "إيقاف Caffeine";
 "Activate Caffeine" = "تفعيل Caffeine";
 "Lid: lights off on close, lock on open" = "الغطاء: إطفاء الإضاءة عند الإغلاق، والقفل عند الفتح";
+
+/* Minimal lid preference */
+"Turns off screen and keyboard lighting when closed, and locks your Mac when opened." = "يطفئ إضاءة الشاشة والكيبورد عند إغلاق الغطاء، ويقفل جهازك عند فتحه.";
+"Preparing…" = "جارٍ الإعداد…";

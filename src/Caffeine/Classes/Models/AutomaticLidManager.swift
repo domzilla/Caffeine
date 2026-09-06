@@ -15,7 +15,7 @@ final class AutomaticLidManager: ObservableObject {
     var didFail: (() -> Void)?
 
     private var sessionID: UUID?
-    private var leaseURL: URL?
+    private let helperSession = LidHelperSession()
     private var monitor: Task<Void, Never>?
     private var lockTask: Task<Void, Never>?
     private var cycle = LidCycleState()
@@ -26,9 +26,6 @@ final class AutomaticLidManager: ObservableObject {
     private var lastActivity = Date.distantPast
     private let loginLibrary = dlopen("/System/Library/PrivateFrameworks/login.framework/login", RTLD_LAZY)
     private let helperDirectory = URL(fileURLWithPath: "/Library/Application Support/CaffeineLid", isDirectory: true)
-    private var statusURL: URL {
-        self.helperDirectory.appendingPathComponent("status")
-    }
 
     var isEngaged: Bool {
         self.isPreparing || self.isRunning
@@ -72,21 +69,7 @@ final class AutomaticLidManager: ObservableObject {
                 try await Self.authorize(Self.installCommand(script: String(contentsOf: scriptURL, encoding: .utf8)))
             }
             guard self.sessionID == id else { return }
-            for _ in 0..<50 {
-                if self.helperIsInstalled(), let status = self.readStatus(), status != "offline" {
-                    break
-                }
-                try await Task.sleep(for: .milliseconds(100))
-            }
-            guard
-                self.helperIsInstalled(), let status = self.readStatus(), status != "offline",
-                !status.hasPrefix("active:"), !status.hasPrefix("ready:") else { throw LidError.unavailable }
-            self.leaseURL = self.helperDirectory.appendingPathComponent("request/lease")
-            try self.refreshLease(allowOverride: false)
-            try await self.waitForStatus("ready", id: id)
-            // The helper only manages power. No lock is requested at activation.
-            try self.refreshLease(allowOverride: true)
-            try await self.waitForStatus("active", id: id)
+            try await self.helperSession.start(id: id) { self.helperIsInstalled() }
             guard self.sessionID == id else { return }
             self.isPreparing = false
             self.isRunning = true
@@ -116,9 +99,6 @@ final class AutomaticLidManager: ObservableObject {
                             self.display.rememberBrightness()
                             self.keyboard.rememberBrightness()
                         }
-                        guard self.readStatus() == "active:\(id.uuidString)" else { self.fail()
-                            return
-                        }
                         if Self.shouldStopForPower() {
                             self
                                 .fail(
@@ -128,7 +108,7 @@ final class AutomaticLidManager: ObservableObject {
                                 )
                             return
                         }
-                        do { try self.refreshLease(allowOverride: true) } catch { self.fail()
+                        do { try self.helperSession.renew() } catch { self.fail()
                             return
                         }
                         heartbeat = Date()
@@ -142,19 +122,12 @@ final class AutomaticLidManager: ObservableObject {
     }
 
     func stop() {
-        let oldID = self.sessionID
         self.sessionID = nil
         self.monitor?.cancel()
         self.monitor = nil
         self.lidMonitor?.stop()
         self.lidMonitor = nil
-        if
-            let leaseURL, let oldID,
-            let value = try? String(contentsOf: leaseURL, encoding: .utf8), value.hasSuffix(":" + oldID.uuidString)
-        {
-            try? FileManager.default.removeItem(at: leaseURL)
-        }
-        self.leaseURL = nil
+        self.helperSession.stop()
         self.isPreparing = false
         self.isRunning = false
         if self.activityID != 0 {
@@ -229,29 +202,6 @@ final class AutomaticLidManager: ObservableObject {
                 localized: "Automatic lid control could not start or stopped responding. Caffeine was deactivated. Check the administrator request and other sleep-control apps, then try again."
             )
         self.didFail?()
-    }
-
-    private func refreshLease(allowOverride: Bool) throws {
-        guard let leaseURL, let sessionID else { throw LidError.unavailable }
-        // "locked" is the legacy v1 helper's activation opcode. Reusing its
-        // power-only protocol avoids another administrator installation prompt.
-        let value = "\(allowOverride ? "locked" : "pending"):\(ProcessInfo.processInfo.processIdentifier):\(sessionID.uuidString)"
-        try value.write(to: leaseURL, atomically: true, encoding: .utf8)
-    }
-
-    private func readStatus() -> String? {
-        try? String(contentsOf: self.statusURL, encoding: .utf8)
-    }
-
-    private func waitForStatus(_ status: String, id: UUID) async throws {
-        for _ in 0..<50 {
-            guard self.sessionID == id else { throw CancellationError() }
-            if self.readStatus() == "\(status):\(id.uuidString)" {
-                return
-            }
-            try await Task.sleep(for: .milliseconds(100))
-        }
-        throw LidError.unavailable
     }
 
     private func helperIsInstalled() -> Bool {

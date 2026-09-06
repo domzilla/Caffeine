@@ -57,3 +57,7 @@
 "Deactivate Caffeine" = "Deactivate Caffeine";
 "Activate Caffeine" = "Activate Caffeine";
 "Lid: lights off on close, lock on open" = "Lid: lights off on close, lock on open";
+
+/* Minimal lid preference */
+"Turns off screen and keyboard lighting when closed, and locks your Mac when opened." = "Turns off screen and keyboard lighting when closed, and locks your Mac when opened.";
+"Preparing…" = "Preparing…";

@@ -98,15 +98,17 @@ class MenuBarController: NSObject {
             menu.addItem(NSMenuItem.separator())
         }
 
-        let lidItem = NSMenuItem(
-            title: self.viewModel.automaticLid.isPreparing
-                ? String(localized: "Preparing automatic lid control…")
-                : String(localized: "Lid: lights off on close, lock on open"),
-            action: nil, keyEquivalent: ""
-        )
-        lidItem.isEnabled = false
-        menu.addItem(lidItem)
-        menu.addItem(NSMenuItem.separator())
+        if UserDefaults.standard.bool(forKey: PreferenceKeys.automaticLidControl) {
+            let lidItem = NSMenuItem(
+                title: self.viewModel.automaticLid.isPreparing
+                    ? String(localized: "Preparing automatic lid control…")
+                    : String(localized: "Lid: lights off on close, lock on open"),
+                action: nil, keyEquivalent: ""
+            )
+            lidItem.isEnabled = false
+            menu.addItem(lidItem)
+            menu.addItem(NSMenuItem.separator())
+        }
 
         // Duration options in submenu
         let activateForItem = NSMenuItem(

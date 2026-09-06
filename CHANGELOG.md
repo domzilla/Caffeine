@@ -15,11 +15,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Replaced the large lid-control panel with one persistent checkbox and a short description; enabled by default.
+
 - Replaced the earlier lock-at-activation session button with automatic behavior. Activation no longer locks; unlocking no longer ends Caffeine.
 - Disabled upstream automatic updates for the separately identified direct-distribution fork.
 - Improved Ukrainian translation.
 
 ### Fixed
+
+- Rapid off/on toggling waits for the previous helper session to finish restoring power instead of failing and opening preferences. Canceled startup attempts cannot overwrite a newer session.
 
 - Removed the two-second gap between sleep-prevention assertions, and suppressed simulated mouse activity while the lid is closed.
 - Timer no longer stays active and shows negative seconds after the Mac sleeps past the activation period.

@@ -32,6 +32,7 @@ class CaffeineViewModel: ObservableObject {
         self.isActive = false
         self.timeRemaining = nil
 
+        UserDefaults.standard.register(defaults: [PreferenceKeys.automaticLidControl: true])
         self.setupObservers()
         self.automaticLid.didFail = { [weak self] in
             self?.deactivate()
@@ -115,9 +116,11 @@ class CaffeineViewModel: ObservableObject {
         self.isActive = true
         SleepPreventionManager.shared.preventSleep()
         self.updateActivitySimulation(enabled: UserDefaults.standard.bool(forKey: PreferenceKeys.keepAppsActive))
-        if !self.automaticLid.isEngaged {
+        if UserDefaults.standard.bool(forKey: PreferenceKeys.automaticLidControl), !self.automaticLid.isEngaged {
             Task { [weak self] in
-                guard let self, self.isActive else { return }
+                guard
+                    let self, self.isActive,
+                    UserDefaults.standard.bool(forKey: PreferenceKeys.automaticLidControl) else { return }
                 await self.automaticLid.start()
             }
         }
@@ -131,6 +134,21 @@ class CaffeineViewModel: ObservableObject {
         self.automaticLid.stop()
         SleepPreventionManager.shared.allowSleep()
         ActivitySimulator.shared.stopMonitoring()
+    }
+
+    func updateAutomaticLidControl(enabled: Bool) {
+        UserDefaults.standard.set(enabled, forKey: PreferenceKeys.automaticLidControl)
+        if enabled, self.isActive {
+            Task { [weak self] in
+                guard
+                    let self, self.isActive,
+                    UserDefaults.standard.bool(forKey: PreferenceKeys.automaticLidControl) else { return }
+                await self.automaticLid.start()
+            }
+        } else {
+            self.automaticLid.stop()
+            self.automaticLid.errorMessage = nil
+        }
     }
 
     /// Updates activity simulation based on preference
@@ -220,5 +238,6 @@ enum PreferenceKeys {
     static let defaultDuration = "CADefaultDuration"
     static let suppressLaunchMessage = "CASuppressLaunchMessage"
     static let deactivateOnManualSleep = "CADeactivateOnManualSleep"
+    static let automaticLidControl = "CAAutomaticLidControl"
     static let keepAppsActive = "CAKeepAppsActive"
 }
