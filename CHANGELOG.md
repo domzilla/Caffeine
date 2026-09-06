@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Automatic lid handling on the ordinary Caffeine toggle: darken the built-in display and keyboard without locking on closure, lock on reopening, then restore the saved brightness levels.
-- First-use administrator helper installation, reused across activations. The existing version-1 helper also supports the new automatic behavior.
+- First-use administrator helper installation, reused across activations. Version-1 installations receive a one-time administrator prompt to upgrade to the corrected version-2 helper.
 - Arabic interface, universal build and helper removal scripts, heartbeat/crash recovery, battery/thermal stopping, and isolated helper/transition tests.
 
 ### Changed
@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved Ukrainian translation.
 
 ### Fixed
+
+- Prevent intermittent lid-control deactivation when a fresh heartbeat crosses a clock-second boundary. Publish helper status atomically, renew the lease independently of the UI loop, and prevent App Nap while the session is active. Crash and stale-heartbeat cleanup remain enabled.
 
 - Cover desktop pixels with an opaque black panel before lid reopening; keep forcing both brightness levels to zero until native lock confirmation stays stable. Late or unknown lock state never restores brightness on a timeout.
 

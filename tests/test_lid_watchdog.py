@@ -100,6 +100,7 @@ fi
         executable = self.root / "session-tests"
         subprocess.run([
             "swiftc", str(repo / "src/Caffeine/Classes/Models/LidHelperSession.swift"),
+            str(repo / "src/Caffeine/Classes/Models/LidLeaseHeartbeat.swift"),
             str(repo / "tests/LidHelperSessionTests.swift"), "-o", str(executable),
         ], check=True, capture_output=True, text=True)
         helper = subprocess.Popen(
@@ -108,10 +109,34 @@ fi
         )
         self.processes.append(helper)
         self.wait_for(lambda: self.status() == "idle")
-        result = subprocess.run([str(executable), str(self.state)], capture_output=True, text=True, timeout=45)
+        result = subprocess.run([str(executable), str(self.state), "block-main-actor"], capture_output=True, text=True, timeout=65)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("regression tests passed", result.stdout)
         self.assert_restored(helper)
+
+    def test_renewal_between_clock_and_timestamp_reads_stays_active(self):
+        # Emulate a legitimate renewal crossing a second boundary after date
+        # sampled the clock but before the old helper reads the lease timestamp.
+        import shlex
+        trigger = self.root / "renew-during-clock-read"
+        clock = self.root / "clock"
+        clock.write_text(f'''#!/bin/sh
+now=$(/bin/date +%s)
+if [ -f {shlex.quote(str(trigger))} ]; then
+    /usr/bin/touch -t "$(/bin/date -r "$((now + 1))" +%Y%m%d%H%M.%S)" {shlex.quote(str(self.lease))}
+fi
+printf '%s\\n' "$now"
+''')
+        clock.chmod(0o700)
+        self.script = self.script.replace("/bin/date +%s", shlex.quote(str(clock)))
+        process = self.active()
+        trigger.touch()
+        time.sleep(4)
+        self.assertEqual(self.status(), f"active:{NONCE}")
+        self.assertEqual(self.calls.read_text().splitlines(), ["-a disablesleep 1"])
+        trigger.unlink()
+        self.lease.unlink()
+        self.assert_restored(process)
 
     def test_pending_does_not_change_power(self):
         process = self.launch()
@@ -210,6 +235,12 @@ fi
         os.utime(self.lease, (old, old))
         self.assert_restored(process)
         self.assertEqual(self.calls.read_text(), "")
+
+    def test_future_dated_heartbeat_restores_sleep(self):
+        process = self.active()
+        future = time.time() + 60
+        os.utime(self.lease, (future, future))
+        self.assert_restored(process)
 
     def test_invalid_pid_is_never_executed(self):
         self.launch(pid="1; touch /tmp/should-not-exist")

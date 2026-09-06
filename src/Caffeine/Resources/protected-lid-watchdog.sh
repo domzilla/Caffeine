@@ -11,6 +11,11 @@ lease="$state/request/lease"
 umask 022
 changed=0
 nonce=''
+set_status() {
+    # Clients must never observe a truncated/partially written status.
+    printf '%s' "$1" > "$state/status.next"
+    /bin/mv -f "$state/status.next" "$state/status"
+}
 restore() {
     if [ "$changed" = 1 ] || [ -f "$state/owned" ]; then
         until /usr/bin/pmset -a disablesleep 0; do /bin/sleep 2; done
@@ -21,7 +26,7 @@ restore() {
 cleanup() {
     trap '' HUP INT TERM
     restore
-    printf 'offline' > "$state/status"
+    set_status offline
 }
 trap cleanup EXIT
 trap 'exit 0' HUP INT TERM
@@ -29,8 +34,8 @@ trap 'exit 0' HUP INT TERM
 # machine restarts. Never restore a power override that this helper didn't own.
 restore
 printf '%s' "$owner_uid" > "$state/owner"
-printf '1' > "$state/version"
-printf 'idle' > "$state/status"
+printf '2' > "$state/version"
+set_status idle
 phase=idle
 last_nonce=''
 while :; do
@@ -48,8 +53,10 @@ while :; do
     case "$pid" in ''|*[!0-9]*) valid=0 ;; esac
     case "$incoming_nonce" in ''|*[!A-Fa-f0-9-]*) valid=0 ;; esac
     [ "${#incoming_nonce}" = 36 ] || valid=0
-    now=$(/bin/date +%s)
+    # Sample the lease before the clock. A concurrent atomic renewal can cross
+    # a second boundary; reading date first falsely rejects it as future-dated.
     modified=$(/usr/bin/stat -f %m "$lease" 2>/dev/null) || modified=0
+    now=$(/bin/date +%s)
     if [ "$((now - modified))" -gt 10 ] || [ "$modified" -gt "$now" ]; then valid=0; fi
     if [ "$valid" = 1 ]; then
         user=$(/bin/ps -p "$pid" -o uid= | /usr/bin/tr -d ' ') || user=''
@@ -63,7 +70,7 @@ while :; do
            { [ "$phase" = ready ] && [ "$((now - started))" -gt 30 ]; }; then
             restore
             phase=idle
-            printf 'idle' > "$state/status"
+            set_status idle
         fi
     fi
     if [ "$phase" = idle ] && [ "$valid" = 1 ] &&
@@ -76,9 +83,9 @@ while :; do
             identity=$(/bin/ps -p "$pid" -o lstart=) || identity=''
             started=$now
             phase=ready
-            printf 'ready:%s' "$nonce" > "$state/status"
+            set_status "ready:$nonce"
         else
-            printf 'conflict:%s' "$nonce" > "$state/status"
+            set_status "conflict:$nonce"
         fi
     elif [ "$phase" = ready ] && [ "$valid" = 1 ] && [ "$kind" = locked ]; then
         # Recheck after the lock handshake: another app may have changed the
@@ -86,7 +93,7 @@ while :; do
         before=$(/usr/bin/pmset -g | /usr/bin/awk '$1 == "SleepDisabled" {print $2}') || before=''
         if [ "$before" != 0 ]; then
             phase=idle
-            printf 'conflict:%s' "$nonce" > "$state/status"
+            set_status "conflict:$nonce"
             /bin/sleep 1
             continue
         fi
@@ -99,11 +106,11 @@ while :; do
         fi
         if [ "$current" = 1 ]; then
             phase=active
-            printf 'active:%s' "$nonce" > "$state/status"
+            set_status "active:$nonce"
         else
             restore
             phase=idle
-            printf 'failed:%s' "$nonce" > "$state/status"
+            set_status "failed:$nonce"
         fi
     fi
     /bin/sleep 1

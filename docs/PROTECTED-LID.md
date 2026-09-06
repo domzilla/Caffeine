@@ -24,9 +24,9 @@ Manual locking and managed security policies are not overridden or undone.
 Build with `bash scripts/build-lid.sh`, open `dist/Caffeine Lid.app`, and activate
 Caffeine using the menu-bar cup with the **Automatic lid control** checkbox enabled. Wait for the brief
 **Preparing…** message to disappear before testing the lid. First activation
-installs a limited helper using the native administrator dialog. Later activations
-need no administrator prompt. The previously installed version-1 helper is reused;
-this behavior change requires no new privileged operation or installation.
+installs a limited helper using the native administrator dialog. Version-1
+installations need administrator approval once to install the corrected version-2
+helper. Later activations reuse version 2 without another administrator prompt.
 
 Quit other keep-awake/brightness utilities while testing. This fork has its own
 bundle identifier `net.ziyad.caffeine.lid` and does not accept upstream auto-updates.
@@ -82,13 +82,21 @@ bounded data, never commands. The helper validates UID, PID/start identity, UUID
 freshness and a two-step handshake, then runs fixed `pmset` operations. The wire
 opcode `locked` is the historical version-1 name for **activate the power override**;
 it does not ask the helper to lock the screen or attest to lock state. Keeping that
-wire format permits the one-time-installed helper to serve this updated client.
+wire format remains unchanged in version 2, which fixes heartbeat validation and
+publishes status by atomic replacement so readers cannot see a partial value.
 No sudoers exception or stored password is used. This IPC authorizes the installing
 user, not a specific code signature; other processes under that UID can request
 this same limited power operation. Only one installing account/session is supported.
 
 The helper normally restores sleep within one poll (about one second) after lease
-removal. A stalled client loses its lease after ten seconds. launchd restarts the
+removal. A stopped heartbeat loses its lease after ten seconds. Renewal runs once
+per second on a serial utility queue, independently of the UI loop and brightness
+calls. A scoped process activity prevents App Nap during the session. Stopping
+drains any in-flight renewal before removing the lease, so a queued callback cannot
+recreate it. The helper samples the lease timestamp before reading the clock:
+sampling in the opposite order could reject a valid concurrent renewal at a second
+boundary as future-dated. Stale and truly future-dated requests remain invalid.
+launchd restarts the
 helper after a crash; a durable ownership marker restores this helper's override
 before accepting new sessions, including after a reboot. An external pre-existing
 SleepDisabled override is preserved and reported as a conflict. Avoid other apps
@@ -126,10 +134,13 @@ bash scripts/build-lid.sh
 swiftformat .
 ```
 
-The 17 isolated watchdog/client tests cover heartbeat expiration, client/helper
+The 19 isolated watchdog/client tests cover heartbeat expiration, client/helper
 crashes, failed enable/restore, conflicts and untrusted request data. The actual
 Swift client is also tested against the helper for rapid off/on cycles and
-cancellation during startup; restarts wait for prior-session cleanup. The transition
+cancellation during startup; restarts wait for prior-session cleanup. A regression
+test renews between the helper's timestamp and clock reads, and another blocks the
+Swift main actor for 13 seconds (longer than the ten-second lease) while verifying
+that the background heartbeat remains active. The transition
 suite covers activation without locking, close without locking, open with locking,
 confirmation-before-brightness restoration, repeated events, successive cycles and
 rapid reclosure while locking. Neither suite closes the physical lid or locks the

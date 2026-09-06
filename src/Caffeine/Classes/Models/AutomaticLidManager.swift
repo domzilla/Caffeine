@@ -116,7 +116,7 @@ final class AutomaticLidManager: ObservableObject {
                                 )
                             return
                         }
-                        do { try self.helperSession.renew() } catch { self.fail()
+                        do { try self.helperSession.checkHealth() } catch { self.fail()
                             return
                         }
                         heartbeat = Date()
@@ -243,7 +243,7 @@ final class AutomaticLidManager: ObservableObject {
     private func helperIsInstalled() -> Bool {
         let owner = try? String(contentsOf: self.helperDirectory.appendingPathComponent("owner"), encoding: .utf8)
         let version = try? String(contentsOf: self.helperDirectory.appendingPathComponent("version"), encoding: .utf8)
-        return owner == String(getuid()) && version == "1"
+        return owner == String(getuid()) && version == "2"
     }
 
     private nonisolated static func installCommand(script: String) -> String {
