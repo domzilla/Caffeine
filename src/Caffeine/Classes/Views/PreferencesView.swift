@@ -13,6 +13,7 @@ struct PreferencesView: View {
     @AppStorage(PreferenceKeys.activateAtLaunch) private var activateAtLaunch = false
     @AppStorage(PreferenceKeys.suppressLaunchMessage) private var suppressLaunchMessage = false
     @AppStorage(PreferenceKeys.deactivateOnManualSleep) private var deactivateOnManualSleep = false
+    @AppStorage(PreferenceKeys.automaticLidControl) private var automaticLidControl = true
     @AppStorage(PreferenceKeys.keepAppsActive) private var keepAppsActive = false
 
     var body: some View {
@@ -95,6 +96,24 @@ struct PreferencesView: View {
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
                     .padding(.leading, 20)
+            }
+
+            Divider().padding(.vertical, 8)
+            AutomaticLidControls(manager: self.viewModel.automaticLid, isEnabled: Binding(
+                get: { self.automaticLidControl },
+                set: { enabled in
+                    self.automaticLidControl = enabled
+                    self.viewModel.updateAutomaticLidControl(enabled: enabled)
+                }
+            ))
+
+            if let reason = self.viewModel.pauseReason {
+                Text(reason.message)
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+                    .padding(.top, 8)
+                    .padding(.leading, 20)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Spacer()

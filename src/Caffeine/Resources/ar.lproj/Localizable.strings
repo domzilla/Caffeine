@@ -1,0 +1,51 @@
+"1 minute" = "دقيقة واحدة";
+"5 minutes" = "٥ دقائق";
+"10 minutes" = "١٠ دقائق";
+"15 minutes" = "١٥ دقيقة";
+"30 minutes" = "٣٠ دقيقة";
+"1 hour" = "ساعة واحدة";
+"2 hours" = "ساعتان";
+"5 hours" = "٥ ساعات";
+"Indefinitely" = "بلا مدة محددة";
+"Caffeine is active" = "Caffeine مفعّل";
+"%d minutes" = "%d دقيقة";
+"%d seconds" = "%d ثانية";
+"Check for Updates..." = "البحث عن تحديثات…";
+"Preferences..." = "الإعدادات…";
+"About Caffeine" = "حول Caffeine";
+"Quit" = "إنهاء";
+"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "تطبيق Caffeine يعمل الآن. ستجد أيقونته في شريط القوائم. انقر عليها لمنع السكون التلقائي، وانقر مرة أخرى للسماح به.";
+"Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu." = "انقر بزر الفأرة الأيمن (أو مع الضغط على ⌃) على الأيقونة لعرض قائمة Caffeine.";
+"Default duration:" = "المدة الافتراضية:";
+"Activate when starting Caffeine" = "التفعيل عند تشغيل Caffeine";
+"Deactivate when device goes to sleep manually" = "إلغاء التفعيل عند إدخال الجهاز في السكون يدويًا";
+"Show this message when starting Caffeine" = "إظهار هذه الرسالة عند تشغيل Caffeine";
+"Keep apps active" = "إبقاء التطبيقات نشطة";
+"Prevents apps from becoming inactive and the screen saver from starting." = "يمنع التطبيقات من التحول إلى حالة غير نشطة ويمنع بدء شاشة التوقف.";
+"Close" = "إغلاق";
+"Activate for" = "التفعيل لمدة";
+"Welcome to Caffeine" = "مرحبًا بك في Caffeine";
+"© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net";
+"Caffeine prevents sleep" = "Caffeine يمنع السكون";
+"Automatic lid control is unavailable on this Mac. Caffeine was deactivated." = "التحكم التلقائي بالغطاء غير متاح على هذا الجهاز. تم إيقاف Caffeine.";
+"Keyboard backlight control is unavailable on this Mac; automatic display and lid control will still work." = "التحكم بإضاءة الكيبورد غير متاح على هذا الجهاز؛ سيستمر التحكم التلقائي بالشاشة والغطاء.";
+"macOS did not confirm the lock. The screen remains dark. Use the brightness keys if you need to recover the display." = "لم يؤكد macOS قفل الجهاز، لذا بقيت الشاشة مظلمة. استخدم مفاتيح السطوع إذا احتجت إلى استعادة إضاءة الشاشة.";
+"Automatic lid control could not start or stopped responding. Caffeine was deactivated. Check the administrator request and other sleep-control apps, then try again." = "تعذر تشغيل التحكم التلقائي بالغطاء أو توقف عن الاستجابة، فتم إيقاف Caffeine. تحقق من طلب صلاحية المسؤول ومن التطبيقات الأخرى التي تتحكم بالسكون، ثم أعد المحاولة.";
+"Automatic lid control" = "التحكم التلقائي بالغطاء";
+"While Caffeine is active, closing the lid sets the display and keyboard brightness to zero and keeps the Mac awake without locking. Opening the lid locks your Mac, then restores the previous brightness. Caffeine stays active for the next lid cycle." = "أثناء تفعيل Caffeine، يؤدي إغلاق الغطاء إلى خفض سطوع الشاشة وإضاءة الكيبورد إلى صفر، مع إبقاء الجهاز يعمل دون قفله. عند فتح الغطاء يُقفل الجهاز، ثم تعود الإضاءة إلى مستواها السابق. يبقى Caffeine مفعّلًا لتكرار ذلك تلقائيًا.";
+"The helper needs administrator approval only for its first installation. Activation does not lock your Mac. Keep the laptop ventilated while it works with the lid closed." = "يحتاج المساعد إلى صلاحية المسؤول عند تثبيته لأول مرة فقط. تفعيل Caffeine لا يقفل جهازك. أبقِ الجهاز جيد التهوية أثناء العمل والغطاء مغلق.";
+"Preparing automatic lid control…" = "جارٍ إعداد التحكم التلقائي بالغطاء…";
+"Ready: lights off on close, lock on open." = "جاهز: إطفاء الإضاءة عند الإغلاق، والقفل عند الفتح.";
+"Deactivate Caffeine" = "إيقاف Caffeine";
+"Activate Caffeine" = "تفعيل Caffeine";
+"Lid: lights off on close, lock on open" = "الغطاء: إطفاء الإضاءة عند الإغلاق، والقفل عند الفتح";
+
+/* Minimal lid preference */
+"Turns off screen and keyboard lighting when closed, and locks your Mac when opened." = "يطفئ إضاءة الشاشة والكيبورد عند إغلاق الغطاء، ويقفل جهازك عند فتحه.";
+"Preparing…" = "جارٍ الإعداد…";
+
+"Waiting for macOS to confirm locking. The screen remains covered for privacy." = "بانتظار تأكيد القفل من macOS. تبقى الشاشة مغطاة لحماية الخصوصية.";
+
+/* Quiet power pauses */
+"Paused for low battery. Connect the charger to resume." = "متوقف مؤقتًا لانخفاض البطارية. وصّل الشاحن للاستئناف تلقائيًا.";
+"Paused because the Mac is too hot. Resumes after it cools down." = "متوقف مؤقتًا بسبب ارتفاع حرارة الجهاز. يُستأنف تلقائيًا بعد أن يبرد.";

@@ -43,3 +43,26 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine prevents sleep";
 
+/* Automatic lid control */
+"Automatic lid control is unavailable on this Mac. Caffeine was deactivated." = "Automatic lid control is unavailable on this Mac. Caffeine was deactivated.";
+"Keyboard backlight control is unavailable on this Mac; automatic display and lid control will still work." = "Keyboard backlight control is unavailable on this Mac; automatic display and lid control will still work.";
+"macOS did not confirm the lock. The screen remains dark. Use the brightness keys if you need to recover the display." = "macOS did not confirm the lock. The screen remains dark. Use the brightness keys if you need to recover the display.";
+"Automatic lid control could not start or stopped responding. Caffeine was deactivated. Check the administrator request and other sleep-control apps, then try again." = "Automatic lid control could not start or stopped responding. Caffeine was deactivated. Check the administrator request and other sleep-control apps, then try again.";
+"Automatic lid control" = "Automatic lid control";
+"While Caffeine is active, closing the lid sets the display and keyboard brightness to zero and keeps the Mac awake without locking. Opening the lid locks your Mac, then restores the previous brightness. Caffeine stays active for the next lid cycle." = "While Caffeine is active, closing the lid sets the display and keyboard brightness to zero and keeps the Mac awake without locking. Opening the lid locks your Mac, then restores the previous brightness. Caffeine stays active for the next lid cycle.";
+"The helper needs administrator approval only for its first installation. Activation does not lock your Mac. Keep the laptop ventilated while it works with the lid closed." = "The helper needs administrator approval only for its first installation. Activation does not lock your Mac. Keep the laptop ventilated while it works with the lid closed.";
+"Preparing automatic lid control…" = "Preparing automatic lid control…";
+"Ready: lights off on close, lock on open." = "Ready: lights off on close, lock on open.";
+"Deactivate Caffeine" = "Deactivate Caffeine";
+"Activate Caffeine" = "Activate Caffeine";
+"Lid: lights off on close, lock on open" = "Lid: lights off on close, lock on open";
+
+/* Minimal lid preference */
+"Turns off screen and keyboard lighting when closed, and locks your Mac when opened." = "Turns off screen and keyboard lighting when closed, and locks your Mac when opened.";
+"Preparing…" = "Preparing…";
+
+"Waiting for macOS to confirm locking. The screen remains covered for privacy." = "Waiting for macOS to confirm locking. The screen remains covered for privacy.";
+
+/* Quiet power pauses */
+"Paused for low battery. Connect the charger to resume." = "Paused for low battery. Connect the charger to resume.";
+"Paused because the Mac is too hot. Resumes after it cools down." = "Paused because the Mac is too hot. Resumes after it cools down.";

@@ -7,12 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Automatic lid handling on the ordinary Caffeine toggle: darken the built-in display and keyboard without locking on closure, lock on reopening, then restore the saved brightness levels.
+- First-use administrator helper installation, reused across activations. Version-1 installations receive a one-time administrator prompt to upgrade to the corrected version-2 helper.
+- Arabic interface, universal build and helper removal scripts, heartbeat/crash recovery, battery/thermal pauses, and isolated helper/transition tests.
+
 ### Changed
 
+- Pause Caffeine quietly at 10% battery or less while unplugged and resume automatically on external power. Show the specific pause reason in the menu and preferences instead of opening preferences as an error. Thermal pauses resume after cooling; manual deactivation and expired timers cancel automatic resume.
+
+- Replaced the large lid-control panel with one persistent checkbox and a short description; enabled by default.
+
+- Replaced the earlier lock-at-activation session button with automatic behavior. Activation no longer locks; unlocking no longer ends Caffeine.
+- Disabled upstream automatic updates for the separately identified direct-distribution fork.
 - Improved Ukrainian translation.
 
 ### Fixed
 
+- Prevent intermittent lid-control deactivation when a fresh heartbeat crosses a clock-second boundary. Publish helper status atomically, renew the lease independently of the UI loop, and prevent App Nap while the session is active. Crash and stale-heartbeat cleanup remain enabled.
+
+- Cover desktop pixels with an opaque black panel before lid reopening; keep forcing both brightness levels to zero until native lock confirmation stays stable. Late or unknown lock state never restores brightness on a timeout.
+
+- Rapid off/on toggling waits for the previous helper session to finish restoring power instead of failing and opening preferences. Canceled startup attempts cannot overwrite a newer session.
+
+- Removed the two-second gap between sleep-prevention assertions, and suppressed simulated mouse activity while the lid is closed.
 - Timer no longer stays active and shows negative seconds after the Mac sleeps past the activation period.
 
 ## [1.6.3] - 2026-01-26

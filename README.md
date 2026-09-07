@@ -1,3 +1,17 @@
+# Caffeine Lid — إضاءة مطفأة عند الإغلاق، وقفل عند الفتح
+
+Fork of [domzilla/Caffeine](https://github.com/domzilla/Caffeine) with automatic lid behavior tied to the normal Caffeine toggle.
+
+**العربية:** فعّل Caffeine من أيقونة الفنجان. عند إغلاق الغطاء ينخفض سطوع الشاشة وإضاءة الكيبورد إلى صفر مع بقاء الجهاز يعمل دون طلب قفله. عند فتح الغطاء يُقفل حساب Mac تلقائيًا، ثم تعود الإضاءة السابقة. يبقى Caffeine مفعّلًا بعد فتح القفل ويكرر السلوك تلقائيًا. صلاحية المسؤول مطلوبة عند تثبيت المساعد أول مرة فقط. يلزم اختبار السلوك على الجهاز فعليًا.
+
+**English:** Activate Caffeine normally. Closing the lid dims the built-in display and keyboard to zero while keeping the Mac awake without requesting a lock. Opening requests the native lock, then restores brightness after confirmation. Unlocking keeps Caffeine active for future cycles. Administrator approval is needed only for the helper's initial installation.
+
+Build with `bash scripts/build-lid.sh`. See [behavior, recovery and validation](docs/PROTECTED-LID.md).
+
+---
+
+## Upstream README
+
 <img src="https://github.caffeine-app.net/assets/icon.png" alt="Icon" width="239"/>
 
 # Caffeine
