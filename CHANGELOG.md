@@ -11,9 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Automatic lid handling on the ordinary Caffeine toggle: darken the built-in display and keyboard without locking on closure, lock on reopening, then restore the saved brightness levels.
 - First-use administrator helper installation, reused across activations. Version-1 installations receive a one-time administrator prompt to upgrade to the corrected version-2 helper.
-- Arabic interface, universal build and helper removal scripts, heartbeat/crash recovery, battery/thermal stopping, and isolated helper/transition tests.
+- Arabic interface, universal build and helper removal scripts, heartbeat/crash recovery, battery/thermal pauses, and isolated helper/transition tests.
 
 ### Changed
+
+- Pause Caffeine quietly at 10% battery or less while unplugged and resume automatically on external power. Show the specific pause reason in the menu and preferences instead of opening preferences as an error. Thermal pauses resume after cooling; manual deactivation and expired timers cancel automatic resume.
 
 - Replaced the large lid-control panel with one persistent checkbox and a short description; enabled by default.
 

@@ -107,6 +107,15 @@ struct PreferencesView: View {
                 }
             ))
 
+            if let reason = self.viewModel.pauseReason {
+                Text(reason.message)
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+                    .padding(.top, 8)
+                    .padding(.leading, 20)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
             Spacer()
                 .frame(height: 30)
 

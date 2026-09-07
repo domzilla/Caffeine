@@ -18,16 +18,25 @@ class CaffeineViewModel: ObservableObject {
     @Published var timeRemaining: TimeInterval?
     @Published var showPreferences = false
     let automaticLid = AutomaticLidManager()
+    @Published private(set) var pauseReason: PowerPauseReason?
+    var isPaused: Bool {
+        self.pauseReason != nil
+    }
 
     // MARK: - Private Properties
 
+    private let readPower: () -> PowerSnapshot
+    private var powerPolicy = PowerPauseState()
+    private var powerMonitor: Task<Void, Never>?
+    private lazy var powerSourceMonitor = PowerSourceMonitor { [weak self] in self?.refreshPowerState() }
     private var timeoutTimer: Timer?
     private var displayTimer: Timer?
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
 
-    init() {
+    init(readPower: @escaping () -> PowerSnapshot = { PowerSnapshot.current() }) {
+        self.readPower = readPower
         // Explicitly ensure we start inactive
         self.isActive = false
         self.timeRemaining = nil
@@ -114,12 +123,47 @@ class CaffeineViewModel: ObservableObject {
         }
 
         self.isActive = true
+        self.refreshPowerState(force: true)
+        guard self.isActive else { return }
+        self.powerSourceMonitor.start()
+        if self.powerMonitor == nil {
+            self.powerMonitor = Task { [weak self] in
+                while !Task.isCancelled {
+                    do { try await Task.sleep(for: .seconds(2)) } catch { return }
+                    guard let self, self.isActive else { return }
+                    self.refreshPowerState()
+                }
+            }
+        }
+    }
+
+    func refreshPowerState(force: Bool = false) {
+        guard self.isActive else { return }
+        // A paused session keeps its original deadline, including across sleep.
+        if let timer = self.timeoutTimer, timer.fireDate <= Date() {
+            self.deactivate()
+            return
+        }
+        let reason = self.powerPolicy.update(self.readPower())
+        guard force || reason != self.pauseReason else { return }
+        self.pauseReason = reason
+        self.applyActivationState()
+    }
+
+    private func applyActivationState() {
+        guard self.isActive else { return }
+        if self.isPaused {
+            self.automaticLid.stop(preservingLidPrivacy: true)
+            SleepPreventionManager.shared.allowSleep()
+            ActivitySimulator.shared.stopMonitoring()
+            return
+        }
         SleepPreventionManager.shared.preventSleep()
         self.updateActivitySimulation(enabled: UserDefaults.standard.bool(forKey: PreferenceKeys.keepAppsActive))
         if UserDefaults.standard.bool(forKey: PreferenceKeys.automaticLidControl), !self.automaticLid.isEngaged {
             Task { [weak self] in
                 guard
-                    let self, self.isActive,
+                    let self, self.isActive, !self.isPaused,
                     UserDefaults.standard.bool(forKey: PreferenceKeys.automaticLidControl) else { return }
                 await self.automaticLid.start()
             }
@@ -131,6 +175,11 @@ class CaffeineViewModel: ObservableObject {
         self.cancelTimers()
         self.timeRemaining = nil
         self.isActive = false
+        self.powerSourceMonitor.stop()
+        self.powerMonitor?.cancel()
+        self.powerMonitor = nil
+        self.powerPolicy = PowerPauseState()
+        self.pauseReason = nil
         self.automaticLid.stop()
         SleepPreventionManager.shared.allowSleep()
         ActivitySimulator.shared.stopMonitoring()
@@ -138,28 +187,22 @@ class CaffeineViewModel: ObservableObject {
 
     func updateAutomaticLidControl(enabled: Bool) {
         UserDefaults.standard.set(enabled, forKey: PreferenceKeys.automaticLidControl)
-        if enabled, self.isActive {
-            Task { [weak self] in
-                guard
-                    let self, self.isActive,
-                    UserDefaults.standard.bool(forKey: PreferenceKeys.automaticLidControl) else { return }
-                await self.automaticLid.start()
-            }
-        } else {
+        if !enabled {
             self.automaticLid.stop()
             self.automaticLid.errorMessage = nil
         }
+        self.refreshPowerState(force: true)
     }
 
     /// Updates activity simulation based on preference
     func updateActivitySimulation(enabled: Bool) {
-        if enabled, !self.automaticLid.isLidClosed {
+        if enabled, !self.isPaused, !self.automaticLid.isLidClosed {
             // Trigger the Accessibility permission prompt by posting a no-op event
             // This prompts for "Events" permission which CGEvent.post requires
             ActivitySimulator.shared.requestPermission()
         }
 
-        if enabled, self.isActive, !self.automaticLid.isLidClosed {
+        if enabled, self.isActive, !self.isPaused, !self.automaticLid.isLidClosed {
             ActivitySimulator.shared.startMonitoring()
         } else {
             ActivitySimulator.shared.stopMonitoring()
@@ -174,6 +217,9 @@ class CaffeineViewModel: ObservableObject {
         }
 
         // If there's time remaining, format it
+        if let reason = self.pauseReason {
+            return reason.message
+        }
         if let remaining = timeRemaining, remaining > 0 {
             let seconds = Int(remaining)
 
@@ -202,7 +248,10 @@ class CaffeineViewModel: ObservableObject {
         NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.willSleepNotification)
             .sink { [weak self] _ in
                 Task { @MainActor in
-                    if UserDefaults.standard.bool(forKey: PreferenceKeys.deactivateOnManualSleep) {
+                    if
+                        self?.isPaused == false,
+                        UserDefaults.standard.bool(forKey: PreferenceKeys.deactivateOnManualSleep)
+                    {
                         self?.deactivate()
                     }
                 }
@@ -214,10 +263,7 @@ class CaffeineViewModel: ObservableObject {
         NSWorkspace.shared.notificationCenter.publisher(for: NSWorkspace.didWakeNotification)
             .sink { [weak self] _ in
                 Task { @MainActor in
-                    guard let self, let timeoutTimer = self.timeoutTimer else { return }
-                    if timeoutTimer.fireDate.timeIntervalSinceNow <= 0 {
-                        self.deactivate()
-                    }
+                    self?.refreshPowerState()
                 }
             }
             .store(in: &self.cancellables)

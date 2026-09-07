@@ -29,7 +29,6 @@
 "Caffeine prevents sleep" = "Caffeine يمنع السكون";
 "Automatic lid control is unavailable on this Mac. Caffeine was deactivated." = "التحكم التلقائي بالغطاء غير متاح على هذا الجهاز. تم إيقاف Caffeine.";
 "Keyboard backlight control is unavailable on this Mac; automatic display and lid control will still work." = "التحكم بإضاءة الكيبورد غير متاح على هذا الجهاز؛ سيستمر التحكم التلقائي بالشاشة والغطاء.";
-"Caffeine stopped because the battery is low or the Mac is too warm." = "توقف Caffeine بسبب انخفاض البطارية أو ارتفاع حرارة الجهاز.";
 "macOS did not confirm the lock. The screen remains dark. Use the brightness keys if you need to recover the display." = "لم يؤكد macOS قفل الجهاز، لذا بقيت الشاشة مظلمة. استخدم مفاتيح السطوع إذا احتجت إلى استعادة إضاءة الشاشة.";
 "Automatic lid control could not start or stopped responding. Caffeine was deactivated. Check the administrator request and other sleep-control apps, then try again." = "تعذر تشغيل التحكم التلقائي بالغطاء أو توقف عن الاستجابة، فتم إيقاف Caffeine. تحقق من طلب صلاحية المسؤول ومن التطبيقات الأخرى التي تتحكم بالسكون، ثم أعد المحاولة.";
 "Automatic lid control" = "التحكم التلقائي بالغطاء";
@@ -46,3 +45,7 @@
 "Preparing…" = "جارٍ الإعداد…";
 
 "Waiting for macOS to confirm locking. The screen remains covered for privacy." = "بانتظار تأكيد القفل من macOS. تبقى الشاشة مغطاة لحماية الخصوصية.";
+
+/* Quiet power pauses */
+"Paused for low battery. Connect the charger to resume." = "متوقف مؤقتًا لانخفاض البطارية. وصّل الشاحن للاستئناف تلقائيًا.";
+"Paused because the Mac is too hot. Resumes after it cools down." = "متوقف مؤقتًا بسبب ارتفاع حرارة الجهاز. يُستأنف تلقائيًا بعد أن يبرد.";

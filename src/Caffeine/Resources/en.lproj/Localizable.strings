@@ -46,7 +46,6 @@
 /* Automatic lid control */
 "Automatic lid control is unavailable on this Mac. Caffeine was deactivated." = "Automatic lid control is unavailable on this Mac. Caffeine was deactivated.";
 "Keyboard backlight control is unavailable on this Mac; automatic display and lid control will still work." = "Keyboard backlight control is unavailable on this Mac; automatic display and lid control will still work.";
-"Caffeine stopped because the battery is low or the Mac is too warm." = "Caffeine stopped because the battery is low or the Mac is too warm.";
 "macOS did not confirm the lock. The screen remains dark. Use the brightness keys if you need to recover the display." = "macOS did not confirm the lock. The screen remains dark. Use the brightness keys if you need to recover the display.";
 "Automatic lid control could not start or stopped responding. Caffeine was deactivated. Check the administrator request and other sleep-control apps, then try again." = "Automatic lid control could not start or stopped responding. Caffeine was deactivated. Check the administrator request and other sleep-control apps, then try again.";
 "Automatic lid control" = "Automatic lid control";
@@ -63,3 +62,7 @@
 "Preparing…" = "Preparing…";
 
 "Waiting for macOS to confirm locking. The screen remains covered for privacy." = "Waiting for macOS to confirm locking. The screen remains covered for privacy.";
+
+/* Quiet power pauses */
+"Paused for low battery. Connect the charger to resume." = "Paused for low battery. Connect the charger to resume.";
+"Paused because the Mac is too hot. Resumes after it cools down." = "Paused because the Mac is too hot. Resumes after it cools down.";

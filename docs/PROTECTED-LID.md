@@ -13,6 +13,8 @@ separate session button, and activation never requests a lock.
 | Close the lid | Set built-in screen brightness and keyboard backlight to zero; remain awake without requesting a lock |
 | Open the lid | Request the native macOS lock immediately, then restore both saved brightness levels after stable lock confirmation |
 | Authenticate | Caffeine remains active; the next lid cycle works automatically |
+| Battery reaches 10% or less while unplugged | Pause sleep prevention and app-activity simulation quietly; wait for external power |
+| Connect the charger | Resume the enabled session automatically, unless it expired, was switched off, or the Mac is still too hot |
 | Deactivate, timer expires, or quit | Release the helper lease and restore ordinary sleep/brightness |
 
 The user's existing Mac login credentials apply; Caffeine never creates, reads,
@@ -102,7 +104,25 @@ before accepting new sessions, including after a reboot. An external pre-existin
 SleepDisabled override is preserved and reported as a conflict. Avoid other apps
 that change the same global setting mid-session, as macOS exposes no per-app ownership.
 
-The app stops at 10% battery while unplugged or a serious/critical thermal state.
+The app pauses at 10% battery or less while unplugged. It releases the power
+override, ordinary sleep assertion, and activity simulation without opening
+preferences or reporting an error. Caffeine remains enabled, with an inactive cup
+icon and a specific pause reason in its menu/tooltip and, if opened manually,
+preferences. A low-battery pause waits for external power, even if the battery
+percentage fluctuates above 10%; charging resumes the session even below 10%.
+Power-source notifications detect charger changes, with a two-second polling
+fallback while awake and another check on wake. A sleeping Mac
+must wake before Caffeine can observe the charger and resume.
+
+Serious/critical thermal pressure has its own overheating message and pauses until
+macOS reports cooling, including on external power. If both conditions apply, the
+thermal message takes priority; cooling without AC then shows the battery reason.
+Manual deactivation or expiration of the original timer cancels automatic resume.
+Power pauses apply to Caffeine's sleep prevention and app activity with or without
+automatic lid control. A pause during a protected closed-lid cycle retains its
+black cover and lid-open lock handling until locking is confirmed; it does not
+restore an unlocked desktop while releasing the power override.
+
 Brightness zero reduces lighting power; the running CPU still consumes more energy
 than sleep. Do not run the laptop in a closed bag; keep ventilation clear.
 
@@ -126,6 +146,8 @@ approval; ordinary toggling does not.
 
 ```sh
 python3 -m unittest discover -s tests -v
+swiftc -target "$(uname -m)-apple-macosx14.6" src/Caffeine/Classes/Models/PowerPauseState.swift src/Caffeine/Classes/ViewModels/CaffeineViewModel.swift tests/PowerPauseTests.swift -o /tmp/caffeine-power-tests
+/tmp/caffeine-power-tests
 swiftc src/Caffeine/Classes/Models/LockRevealGate.swift tests/LockRevealTests.swift -o /tmp/caffeine-reveal-tests
 /tmp/caffeine-reveal-tests
 swiftc src/Caffeine/Classes/Models/LidCycleState.swift tests/LidCycleTests.swift -o /tmp/caffeine-lid-tests
@@ -154,6 +176,12 @@ an extended closed-lid session does not trigger independent idle locking and tha
 the former brightness levels return. Hardware checks cannot be substituted by a
 successful build. New strings are localized in Arabic and English; other languages
 fall back to English for this feature.
+
+The power-pause suite exercises the real view model with inert hardware adapters:
+quiet low-battery activation, threshold crossing, charging below the threshold,
+unknown/fluctuating battery readings, distinct thermal reasons, wake handling,
+manual cancellation, expired timers, and a queued-start/pause race. No real battery
+drain, charger changes, screen locking, or installed preferences are used by tests.
 
 ## References
 

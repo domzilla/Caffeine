@@ -58,6 +58,12 @@ class MenuBarController: NSObject {
             }
             .store(in: &self.cancellables)
 
+        self.viewModel.$pauseReason
+            .sink { [weak self] _ in
+                DispatchQueue.main.async { self?.updateIcon() }
+            }
+            .store(in: &self.cancellables)
+
         self.viewModel.$showPreferences
             .sink { [weak self] show in
                 if show {
@@ -70,7 +76,8 @@ class MenuBarController: NSObject {
     private func updateIcon() {
         guard let button = statusItem?.button else { return }
 
-        let imageName = self.viewModel.isActive ? "active" : "inactive"
+        button.toolTip = self.viewModel.pauseReason?.message
+        let imageName = self.viewModel.isActive && !self.viewModel.isPaused ? "active" : "inactive"
         if let image = NSImage(named: NSImage.Name(imageName)) {
             button.image = image
         }
@@ -98,7 +105,7 @@ class MenuBarController: NSObject {
             menu.addItem(NSMenuItem.separator())
         }
 
-        if UserDefaults.standard.bool(forKey: PreferenceKeys.automaticLidControl) {
+        if !self.viewModel.isPaused, UserDefaults.standard.bool(forKey: PreferenceKeys.automaticLidControl) {
             let lidItem = NSMenuItem(
                 title: self.viewModel.automaticLid.isPreparing
                     ? String(localized: "Preparing automatic lid control…")

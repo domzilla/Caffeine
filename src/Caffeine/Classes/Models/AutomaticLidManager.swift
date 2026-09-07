@@ -1,7 +1,6 @@
 import AppKit
 import Combine
 import IOKit
-import IOKit.ps
 import IOKit.pwr_mgt
 
 /// Watches every lid cycle while Caffeine is active. Closing only darkens the
@@ -56,7 +55,7 @@ final class AutomaticLidManager: ObservableObject {
         self.isPreparing = true
         // Monitor before enabling the override: no close/open transition during
         // administrator approval or helper startup is silently discarded.
-        if !self.cycle.lockPending {
+        if self.lidMonitor == nil, !self.cycle.lockPending {
             self.cycle = LidCycleState()
         }
         let watcher = LidMonitor { [weak self] closed in self?.handleLid(closed) }
@@ -64,6 +63,7 @@ final class AutomaticLidManager: ObservableObject {
             self.fail(String(localized: "Automatic lid control is unavailable on this Mac. Caffeine was deactivated."))
             return
         }
+        self.lidMonitor?.stop()
         self.lidMonitor = watcher
         self.handleLid(closed)
         do {
@@ -107,15 +107,6 @@ final class AutomaticLidManager: ObservableObject {
                             self.display.rememberBrightness()
                             self.keyboard.rememberBrightness()
                         }
-                        if Self.shouldStopForPower() {
-                            self
-                                .fail(
-                                    String(
-                                        localized: "Caffeine stopped because the battery is low or the Mac is too warm."
-                                    )
-                                )
-                            return
-                        }
                         do { try self.helperSession.checkHealth() } catch { self.fail()
                             return
                         }
@@ -129,12 +120,15 @@ final class AutomaticLidManager: ObservableObject {
         }
     }
 
-    func stop() {
+    func stop(preservingLidPrivacy: Bool = false) {
+        let keepPrivacy = preservingLidPrivacy && (self.cycle.closed || self.cycle.lockPending)
         self.sessionID = nil
         self.monitor?.cancel()
         self.monitor = nil
-        self.lidMonitor?.stop()
-        self.lidMonitor = nil
+        if !keepPrivacy {
+            self.lidMonitor?.stop()
+            self.lidMonitor = nil
+        }
         self.helperSession.stop()
         self.isPreparing = false
         self.isRunning = false
@@ -144,7 +138,7 @@ final class AutomaticLidManager: ObservableObject {
         }
         // A lock already requested on opening must finish before making the
         // desktop visible, even when a timeout/stop races with that opening.
-        if !self.cycle.lockPending || self.cycle.closed {
+        if !keepPrivacy, !self.cycle.lockPending || self.cycle.closed {
             self.lockTask?.cancel()
             self.lockRequestID = nil
             self.restoreLights()
@@ -188,6 +182,10 @@ final class AutomaticLidManager: ObservableObject {
                     {
                         if self.cycle.confirmLock() {
                             self.restoreLights()
+                            if !self.isEngaged {
+                                self.lidMonitor?.stop()
+                                self.lidMonitor = nil
+                            }
                         }
                         self.lockRequestID = nil
                         return
@@ -306,27 +304,6 @@ final class AutomaticLidManager: ObservableObject {
     private static func isScreenLocked() -> Bool? {
         guard let session = CGSessionCopyCurrentDictionary() as? [String: Any] else { return nil }
         return session["CGSSessionScreenIsLocked"] as? Bool
-    }
-
-    private static func shouldStopForPower() -> Bool {
-        if [.serious, .critical].contains(ProcessInfo.processInfo.thermalState) {
-            return true
-        }
-        guard
-            let info = IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
-            let sources = IOPSCopyPowerSourcesList(info)?.takeRetainedValue() as? [CFTypeRef] else { return false }
-        for source in sources {
-            guard
-                let values = IOPSGetPowerSourceDescription(info, source)?.takeUnretainedValue() as? [String: Any],
-                values[kIOPSTransportTypeKey] as? String == kIOPSInternalType,
-                values[kIOPSPowerSourceStateKey] as? String == kIOPSBatteryPowerValue,
-                let current = values[kIOPSCurrentCapacityKey] as? Int,
-                let maximum = values[kIOPSMaxCapacityKey] as? Int, maximum > 0 else { continue }
-            if Double(current) / Double(maximum) <= 0.10 {
-                return true
-            }
-        }
-        return false
     }
 
     private enum LidError: Error { case unavailable }
