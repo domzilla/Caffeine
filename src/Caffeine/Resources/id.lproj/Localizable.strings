@@ -1,0 +1,44 @@
+/* Activation durations */
+"1 minute" = "1 menit";
+"5 minutes" = "5 menit";
+"10 minutes" = "10 menit";
+"15 minutes" = "15 menit";
+"30 minutes" = "30 menit";
+"1 hour" = "1 jam";
+"2 hours" = "2 jam";
+"5 hours" = "5 jam";
+"Indefinitely" = "Tanpa batas";
+
+/* Status messages */
+"Caffeine is active" = "Caffeine aktif";
+"%d minutes" = "%d menit";
+"%d seconds" = "%d detik";
+
+/* Menu items */
+"Check for Updates..." = "Periksa Pembaruan...";
+"Preferences..." = "Preferensi...";
+"About Caffeine" = "Tentang Caffeine";
+"Quit" = "Keluar";
+
+/* Preferences instructions */
+"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine sedang berjalan. Anda dapat menemukan ikonnya di sisi kanan bar menu Anda. Klik untuk menonaktifkan tidur otomatis, klik lagi untuk mengaktifkan tidur otomatis.";
+"Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu." = "Klik kanan (atau ⌃-klik) ikon bar menu untuk menampilkan menu Caffeine.";
+
+/* Preferences labels */
+"Default duration:" = "Durasi default:";
+"Activate when starting Caffeine" = "Aktifkan saat memulai Caffeine";
+"Deactivate when device goes to sleep manually" = "Nonaktifkan saat perangkat tidur secara manual";
+"Show this message when starting Caffeine" = "Tampilkan pesan ini saat memulai Caffeine";
+"Keep apps active" = "Jaga app tetap aktif";
+"Prevents apps from becoming inactive and the screen saver from starting." = "Mencegah app menjadi tidak aktif dan penghemat layar menyala.";
+"Close" = "Tutup";
+
+/* Menu additions */
+"Activate for" = "Aktifkan selama";
+"Welcome to Caffeine" = "Selamat Datang di Caffeine";
+
+/* About credits */
+"© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nKode sumber:\nhttps://github.caffeine-app.net";
+
+/* System messages */
+"Caffeine prevents sleep" = "Caffeine mencegah tidur";
