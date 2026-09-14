@@ -12,6 +12,24 @@ struct LidHelperSessionTests {
     static func main() async throws {
         let directory = URL(fileURLWithPath: CommandLine.arguments[1], isDirectory: true)
         let client = LidHelperSession(directory: directory)
+        if CommandLine.arguments.contains("conflict") {
+            let started = ProcessInfo.processInfo.systemUptime
+            do {
+                try await client.start(id: UUID())
+                fatalError("Existing external override was accepted")
+            } catch LidHelperSession.SessionError.conflict {
+                precondition(ProcessInfo.processInfo.systemUptime - started < 5, "Conflict waited for the full timeout")
+            }
+            precondition(!FileManager.default
+                .fileExists(atPath: directory.appendingPathComponent("request/lease").path))
+            // This is the isolated fake-power file supplied by the test runner.
+            try "0".write(toFile: CommandLine.arguments[3], atomically: true, encoding: .utf8)
+            try await client.start(id: UUID())
+            try client.checkHealth()
+            client.stop()
+            print("Conflict detection and recovery regression tests passed")
+            return
+        }
         for _ in 0..<4 {
             try await client.start(id: UUID())
             try client.checkHealth()

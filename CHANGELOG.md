@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Report an existing system-wide sleep override immediately with a specific conflict message, instead of waiting for startup to time out and showing a generic helper error. Retrying after the conflict is cleared ignores the previous session's rejection.
+
 - Prevent intermittent lid-control deactivation when a fresh heartbeat crosses a clock-second boundary. Publish helper status atomically, renew the lease independently of the UI loop, and prevent App Nap while the session is active. Crash and stale-heartbeat cleanup remain enabled.
 
 - Cover desktop pixels with an opaque black panel before lid reopening; keep forcing both brightness levels to zero until native lock confirmation stays stable. Late or unknown lock state never restores brightness on a timeout.

@@ -49,3 +49,8 @@
 /* Quiet power pauses */
 "Paused for low battery. Connect the charger to resume." = "متوقف مؤقتًا لانخفاض البطارية. وصّل الشاحن للاستئناف تلقائيًا.";
 "Paused because the Mac is too hot. Resumes after it cools down." = "متوقف مؤقتًا بسبب ارتفاع حرارة الجهاز. يُستأنف تلقائيًا بعد أن يبرد.";
+
+/* Helper startup failures */
+"Caffeine could not start: sleep is already disabled by another app or a system setting. Restore normal sleep, then activate Caffeine again." = "تعذر تشغيل Caffeine: السكون معطّل مسبقًا بواسطة تطبيق آخر أو أحد إعدادات النظام. أعد السكون إلى وضعه الطبيعي، ثم فعّل Caffeine مجددًا.";
+"Caffeine could not start: macOS did not enable the helper’s sleep override." = "تعذر تشغيل Caffeine: لم يفعّل macOS منع السكون الخاص بالخدمة المساعدة.";
+"Caffeine stopped because its helper did not respond. Try activating Caffeine again." = "توقف Caffeine لأن الخدمة المساعدة لم تستجب. حاول تفعيله مجددًا.";

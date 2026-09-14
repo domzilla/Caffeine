@@ -138,6 +138,28 @@ printf '%s\\n' "$now"
         self.lease.unlink()
         self.assert_restored(process)
 
+    def test_swift_client_reports_conflict_and_recovers_after_reset(self):
+        repo = SOURCE.parents[3]
+        executable = self.root / "conflict-tests"
+        subprocess.run([
+            "swiftc", str(repo / "src/Caffeine/Classes/Models/LidHelperSession.swift"),
+            str(repo / "src/Caffeine/Classes/Models/LidLeaseHeartbeat.swift"),
+            str(repo / "tests/LidHelperSessionTests.swift"), "-o", str(executable),
+        ], check=True, capture_output=True, text=True)
+        self.power.write_text("1")
+        helper = subprocess.Popen(
+            ["/bin/sh", "-c", self.script, "--", str(os.getuid())],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+        self.processes.append(helper)
+        self.wait_for(lambda: self.status() == "idle")
+        result = subprocess.run([str(executable), str(self.state), "conflict", str(self.power)],
+                                capture_output=True, text=True, timeout=20)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Conflict detection and recovery regression tests passed", result.stdout)
+        self.assert_restored(helper)
+        self.assertEqual(self.calls.read_text().splitlines(), ["-a disablesleep 1", "-a disablesleep 0"])
+
     def test_pending_does_not_change_power(self):
         process = self.launch()
         self.wait_for(lambda: self.status() == f"ready:{NONCE}")

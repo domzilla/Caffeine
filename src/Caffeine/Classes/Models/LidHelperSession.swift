@@ -31,9 +31,9 @@ final class LidHelperSession {
                 return status == "idle" || status.hasPrefix("failed:") || status.hasPrefix("conflict:")
             }
             try self.writeRequest(active: false, id: id)
-            try await self.wait(id: id) { self.status == "ready:\(id.uuidString)" }
+            try await self.wait(id: id, detectRejection: true) { self.status == "ready:\(id.uuidString)" }
             try self.writeRequest(active: true, id: id)
-            try await self.wait(id: id) { self.status == "active:\(id.uuidString)" }
+            try await self.wait(id: id, detectRejection: true) { self.status == "active:\(id.uuidString)" }
             try self.heartbeat.start(value: self.request(active: true, id: id))
         } catch {
             if self.sessionID == id {
@@ -78,16 +78,41 @@ final class LidHelperSession {
         "\(active ? "locked" : "pending"):\(ProcessInfo.processInfo.processIdentifier):\(id.uuidString)"
     }
 
-    private func wait(id: UUID, until ready: () -> Bool) async throws {
+    private func wait(id: UUID, detectRejection: Bool = false, until ready: () -> Bool) async throws {
         for _ in 0..<120 {
             guard self.sessionID == id, !Task.isCancelled else { throw CancellationError() }
             if ready() {
                 return
+            }
+            if detectRejection {
+                // Only the current nonce can reject this handshake. A prior
+                // conflict must not prevent retrying after the setting is fixed.
+                if self.status == "conflict:\(id.uuidString)" {
+                    throw SessionError.conflict
+                }
+                if self.status == "failed:\(id.uuidString)" {
+                    throw SessionError.enableFailed
+                }
             }
             try await Task.sleep(for: .milliseconds(100))
         }
         throw SessionError.unavailable
     }
 
-    private enum SessionError: Error { case unavailable }
+    enum SessionError: LocalizedError {
+        case unavailable, conflict, enableFailed
+
+        var errorDescription: String? {
+            switch self {
+            case .conflict:
+                String(
+                    localized: "Caffeine could not start: sleep is already disabled by another app or a system setting. Restore normal sleep, then activate Caffeine again."
+                )
+            case .enableFailed:
+                String(localized: "Caffeine could not start: macOS did not enable the helper’s sleep override.")
+            case .unavailable:
+                String(localized: "Caffeine stopped because its helper did not respond. Try activating Caffeine again.")
+            }
+        }
+    }
 }

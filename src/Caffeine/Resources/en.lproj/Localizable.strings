@@ -66,3 +66,8 @@
 /* Quiet power pauses */
 "Paused for low battery. Connect the charger to resume." = "Paused for low battery. Connect the charger to resume.";
 "Paused because the Mac is too hot. Resumes after it cools down." = "Paused because the Mac is too hot. Resumes after it cools down.";
+
+/* Helper startup failures */
+"Caffeine could not start: sleep is already disabled by another app or a system setting. Restore normal sleep, then activate Caffeine again." = "Caffeine could not start: sleep is already disabled by another app or a system setting. Restore normal sleep, then activate Caffeine again.";
+"Caffeine could not start: macOS did not enable the helper’s sleep override." = "Caffeine could not start: macOS did not enable the helper’s sleep override.";
+"Caffeine stopped because its helper did not respond. Try activating Caffeine again." = "Caffeine stopped because its helper did not respond. Try activating Caffeine again.";

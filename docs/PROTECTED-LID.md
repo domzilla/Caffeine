@@ -126,6 +126,14 @@ restore an unlocked desktop while releasing the power override.
 Brightness zero reduces lighting power; the running CPU still consumes more energy
 than sleep. Do not run the laptop in a closed bag; keep ventilation clear.
 
+If startup reports that sleep is already disabled by another app or system setting,
+the helper is rejecting an existing global `SleepDisabled` override. This differs
+from ordinary keep-awake assertions. Caffeine does not take ownership of or silently
+clear that external setting. Restore it through the tool that enabled it, or, if
+it is no longer wanted, use `sudo pmset -a disablesleep 0` while Caffeine is off,
+then activate Caffeine again. The client reports this rejection immediately and
+matches it to the current session, so an older conflict does not block a new retry.
+
 After quitting Caffeine, remove the persistent helper with:
 
 ```sh
@@ -156,13 +164,15 @@ bash scripts/build-lid.sh
 swiftformat .
 ```
 
-The 19 isolated watchdog/client tests cover heartbeat expiration, client/helper
+The 20 isolated watchdog/client tests cover heartbeat expiration, client/helper
 crashes, failed enable/restore, conflicts and untrusted request data. The actual
 Swift client is also tested against the helper for rapid off/on cycles and
 cancellation during startup; restarts wait for prior-session cleanup. A regression
 test renews between the helper's timestamp and clock reads, and another blocks the
 Swift main actor for 13 seconds (longer than the ten-second lease) while verifying
-that the background heartbeat remains active. The transition
+that the background heartbeat remains active. The client
+suite also checks immediate conflict reporting and successful retry after clearing
+the fake external setting. The lid transition
 suite covers activation without locking, close without locking, open with locking,
 confirmation-before-brightness restoration, repeated events, successive cycles and
 rapid reclosure while locking. Neither suite closes the physical lid or locks the

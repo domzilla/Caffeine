@@ -107,7 +107,8 @@ final class AutomaticLidManager: ObservableObject {
                             self.display.rememberBrightness()
                             self.keyboard.rememberBrightness()
                         }
-                        do { try self.helperSession.checkHealth() } catch { self.fail()
+                        do { try self.helperSession.checkHealth() } catch {
+                            self.fail((error as? LidHelperSession.SessionError)?.errorDescription)
                             return
                         }
                         heartbeat = Date()
@@ -116,7 +117,7 @@ final class AutomaticLidManager: ObservableObject {
             }
         } catch {
             guard self.sessionID == id else { return }
-            self.fail()
+            self.fail((error as? LidHelperSession.SessionError)?.errorDescription)
         }
     }
 
