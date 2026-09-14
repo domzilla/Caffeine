@@ -134,6 +134,7 @@
 				"zh-Hans",
 				fr,
 				ja,
+				id,
 				it,
 				ko,
 				nl,
