@@ -73,3 +73,8 @@ iOSInjectionProject/
 /sparkle/framework/sparkle.app
 /sparkle/framework/Sparkle.framework
 /sparkle/release
+
+# Local builds and test caches
+.build/
+dist/
+__pycache__/

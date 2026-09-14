@@ -12,7 +12,7 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegate {
     /// Make this lazy so `self` can be used safely
     private lazy var updaterController = SPUStandardUpdaterController(
-        startingUpdater: true,
+        startingUpdater: false,
         updaterDelegate: nil,
         userDriverDelegate: self
     )

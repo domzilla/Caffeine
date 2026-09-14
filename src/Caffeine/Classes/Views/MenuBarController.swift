@@ -58,6 +58,12 @@ class MenuBarController: NSObject {
             }
             .store(in: &self.cancellables)
 
+        self.viewModel.$pauseReason
+            .sink { [weak self] _ in
+                DispatchQueue.main.async { self?.updateIcon() }
+            }
+            .store(in: &self.cancellables)
+
         self.viewModel.$showPreferences
             .sink { [weak self] show in
                 if show {
@@ -70,7 +76,8 @@ class MenuBarController: NSObject {
     private func updateIcon() {
         guard let button = statusItem?.button else { return }
 
-        let imageName = self.viewModel.isActive ? "active" : "inactive"
+        button.toolTip = self.viewModel.pauseReason?.message
+        let imageName = self.viewModel.isActive && !self.viewModel.isPaused ? "active" : "inactive"
         if let image = NSImage(named: NSImage.Name(imageName)) {
             button.image = image
         }
@@ -95,6 +102,18 @@ class MenuBarController: NSObject {
             let infoItem = NSMenuItem(title: timeString, action: nil, keyEquivalent: "")
             infoItem.isEnabled = false
             menu.addItem(infoItem)
+            menu.addItem(NSMenuItem.separator())
+        }
+
+        if !self.viewModel.isPaused, UserDefaults.standard.bool(forKey: PreferenceKeys.automaticLidControl) {
+            let lidItem = NSMenuItem(
+                title: self.viewModel.automaticLid.isPreparing
+                    ? String(localized: "Preparing automatic lid control…")
+                    : String(localized: "Lid: lights off on close, lock on open"),
+                action: nil, keyEquivalent: ""
+            )
+            lidItem.isEnabled = false
+            menu.addItem(lidItem)
             menu.addItem(NSMenuItem.separator())
         }
 
@@ -155,17 +174,6 @@ class MenuBarController: NSObject {
         aboutItem.target = self
         menu.addItem(aboutItem)
 
-        // Update
-        let updatesItem = NSMenuItem(
-            title: String(localized: "Check for Updates..."),
-            action: #selector(checkForUpdates(_:)),
-            keyEquivalent: ""
-        )
-        updatesItem.target = self
-        menu.addItem(updatesItem)
-
-        menu.addItem(NSMenuItem.separator())
-
         // Quit
         let quitItem = NSMenuItem(
             title: String(localized: "Quit"),
@@ -207,7 +215,7 @@ class MenuBarController: NSObject {
             let window = NSWindow(contentViewController: hostingController)
             window.title = String(localized: "Welcome to Caffeine")
             window.styleMask = [.titled, .closable]
-            window.setContentSize(NSSize(width: 640, height: 420))
+            window.setContentSize(hostingController.view.fittingSize)
             window.center()
 
             self.preferencesWindow = window
