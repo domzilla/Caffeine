@@ -25,12 +25,12 @@
 "Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu." = "Клацніть правою кнопкою миші (або ⌃+клік) по іконці у смузі меню, щоб відкрити меню Caffeine.";
 
 /* Preferences labels */
-"Default duration:" = "Тривалість за замовчуванням:";
+"Default duration:" = "Типова тривалість:";
 "Activate when starting Caffeine" = "Увімкнути при запуску Caffeine";
 "Deactivate when device goes to sleep manually" = "Вимикати, коли пристрій переходить у сон вручну";
 "Show this message when starting Caffeine" = "Показувати це повідомлення при запуску Caffeine";
 "Keep apps active" = "Тримати застосунки активними";
-"Prevents apps from becoming inactive and the screen saver from starting." = "Не дає застосункам переходити в неактивний режим і запускатися заставці.";
+"Prevents apps from becoming inactive and the screen saver from starting." = "Не дає застосункам переходити в неактивний режим і запобігає запуску заставки.";
 "Close" = "Закрити";
 
 /* Menu additions */

@@ -24,6 +24,7 @@ struct PreferencesView: View {
                     Image(nsImage: NSImage(named: NSImage.applicationIconName) ?? NSImage())
                         .resizable()
                         .frame(width: 140, height: 140)
+                        .accessibilityHidden(true)
                 }
 
                 // Description text
@@ -60,6 +61,7 @@ struct PreferencesView: View {
                 }
                 .pickerStyle(.menu)
                 .frame(width: 180)
+                .accessibilityIdentifier("PreferencesView.defaultDurationPicker")
 
                 Spacer()
             }
@@ -69,18 +71,22 @@ struct PreferencesView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Toggle("Activate when starting Caffeine", isOn: self.$activateAtLaunch)
                     .font(.system(size: 13))
+                    .accessibilityIdentifier("PreferencesView.activateAtLaunchToggle")
 
                 Toggle("Deactivate when device goes to sleep manually", isOn: self.$deactivateOnManualSleep)
                     .font(.system(size: 13))
+                    .accessibilityIdentifier("PreferencesView.deactivateOnManualSleepToggle")
 
                 Toggle("Show this message when starting Caffeine", isOn: Binding(
                     get: { !self.suppressLaunchMessage },
                     set: { self.suppressLaunchMessage = !$0 }
                 ))
                 .font(.system(size: 13))
+                .accessibilityIdentifier("PreferencesView.showLaunchMessageToggle")
 
                 Divider()
                     .padding(.vertical, 4)
+                    .accessibilityHidden(true)
 
                 Toggle("Keep apps active", isOn: Binding(
                     get: { self.keepAppsActive },
@@ -90,6 +96,7 @@ struct PreferencesView: View {
                     }
                 ))
                 .font(.system(size: 13))
+                .accessibilityIdentifier("PreferencesView.keepAppsActiveToggle")
 
                 Text("Prevents apps from becoming inactive and the screen saver from starting.")
                     .font(.system(size: 11))
@@ -106,6 +113,7 @@ struct PreferencesView: View {
                     NSApp.terminate(nil)
                 }
                 .controlSize(.large)
+                .accessibilityIdentifier("PreferencesView.quitButton")
 
                 Spacer()
 
@@ -115,6 +123,7 @@ struct PreferencesView: View {
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
                 .keyboardShortcut(.defaultAction)
+                .accessibilityIdentifier("PreferencesView.closeButton")
             }
             .padding(.bottom, 20)
         }

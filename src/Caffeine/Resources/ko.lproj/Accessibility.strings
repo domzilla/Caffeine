@@ -1,0 +1,8 @@
+/* Accessibility label for a duration menu item, %@ is the duration */
+"Activate: %@" = "%@ 활성화";
+
+/* Accessibility value announced when Caffeine is preventing sleep */
+"Active, sleep prevented" = "활성, 잠자기 방지 중";
+
+/* Accessibility value announced when Caffeine is not preventing sleep */
+"Inactive, sleep allowed" = "비활성, 잠자기 허용";

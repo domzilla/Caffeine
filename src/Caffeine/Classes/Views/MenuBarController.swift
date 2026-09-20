@@ -46,6 +46,9 @@ class MenuBarController: NSObject {
         button.action = #selector(self.statusItemClicked(_:))
         button.target = self
         button.sendAction(on: [.leftMouseUp, .rightMouseUp])
+
+        button.setAccessibilityLabel("Caffeine")
+        button.setAccessibilityIdentifier("MenuBarController.statusItem.button")
     }
 
     private func setupObservers() {
@@ -74,6 +77,20 @@ class MenuBarController: NSObject {
         if let image = NSImage(named: NSImage.Name(imageName)) {
             button.image = image
         }
+
+        if self.viewModel.isActive {
+            button.setAccessibilityValue(NSLocalizedString(
+                "Active, sleep prevented",
+                tableName: "Accessibility",
+                comment: "Accessibility value announced when Caffeine is preventing sleep"
+            ))
+        } else {
+            button.setAccessibilityValue(NSLocalizedString(
+                "Inactive, sleep allowed",
+                tableName: "Accessibility",
+                comment: "Accessibility value announced when Caffeine is not preventing sleep"
+            ))
+        }
     }
 
     @objc
@@ -94,6 +111,7 @@ class MenuBarController: NSObject {
         if self.viewModel.isActive, let timeString = viewModel.formattedTimeRemaining() {
             let infoItem = NSMenuItem(title: timeString, action: nil, keyEquivalent: "")
             infoItem.isEnabled = false
+            infoItem.setAccessibilityIdentifier("MenuBarController.statusMenuItem")
             menu.addItem(infoItem)
             menu.addItem(NSMenuItem.separator())
         }
@@ -104,6 +122,7 @@ class MenuBarController: NSObject {
             action: nil,
             keyEquivalent: ""
         )
+        activateForItem.setAccessibilityIdentifier("MenuBarController.activateForMenuItem")
         let submenu = NSMenu()
 
         var durations: [(String, Int)] = [
@@ -129,6 +148,15 @@ class MenuBarController: NSObject {
             )
             item.target = self
             item.tag = minutes
+            item.setAccessibilityLabel(String(
+                format: NSLocalizedString(
+                    "Activate: %@",
+                    tableName: "Accessibility",
+                    comment: "Accessibility label for a duration menu item, %@ is the duration"
+                ),
+                title
+            ))
+            item.setAccessibilityIdentifier("MenuBarController.durationMenuItem.\(minutes)")
             submenu.addItem(item)
         }
 
@@ -144,6 +172,7 @@ class MenuBarController: NSObject {
             keyEquivalent: ","
         )
         prefsItem.target = self
+        prefsItem.setAccessibilityIdentifier("MenuBarController.preferencesMenuItem")
         menu.addItem(prefsItem)
 
         // About
@@ -153,6 +182,7 @@ class MenuBarController: NSObject {
             keyEquivalent: ""
         )
         aboutItem.target = self
+        aboutItem.setAccessibilityIdentifier("MenuBarController.aboutMenuItem")
         menu.addItem(aboutItem)
 
         // Update
@@ -162,6 +192,7 @@ class MenuBarController: NSObject {
             keyEquivalent: ""
         )
         updatesItem.target = self
+        updatesItem.setAccessibilityIdentifier("MenuBarController.checkForUpdatesMenuItem")
         menu.addItem(updatesItem)
 
         menu.addItem(NSMenuItem.separator())
@@ -173,6 +204,7 @@ class MenuBarController: NSObject {
             keyEquivalent: "q"
         )
         quitItem.target = self
+        quitItem.setAccessibilityIdentifier("MenuBarController.quitMenuItem")
         menu.addItem(quitItem)
 
         self.statusItem?.menu = menu

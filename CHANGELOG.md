@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- VoiceOver support: the menu bar icon announces whether sleep is currently prevented, and the duration menu items announce what they activate.
+
 ### Changed
 
 - Improved Ukrainian translation.
