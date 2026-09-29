@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- 8-hour activation option in the menu and default duration preference.
+
 ### Changed
 
 - Improved Ukrainian translation.

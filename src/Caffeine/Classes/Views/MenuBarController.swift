@@ -115,6 +115,7 @@ class MenuBarController: NSObject {
             (String(localized: "1 hour"), 60),
             (String(localized: "2 hours"), 120),
             (String(localized: "5 hours"), 300),
+            (String(localized: "8 hours"), 480),
         ]
 
         #if DEBUG
