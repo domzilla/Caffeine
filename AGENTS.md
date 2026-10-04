@@ -24,13 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Follow formality rules per language
 - Consistency is paramount
 
-## Additional Guides
-- Modern SwiftUI patterns: `~/Agents/Guides/swift-modern-development-guide.md`
-- Observable migration: `~/Agents/Guides/swift-observable-migration-guide.md`
-- Swift 6 concurrency: `~/Agents/Guides/swift6-concurrency-guide.md`
-- Swift 6 migration (compact): `~/Agents/Guides/swift6-migration-compact-guide.md`
-- Swift 6 migration (full): `~/Agents/Guides/swift6-migration-full-guide.md`
-
 ## Logging (MANDATORY)
 This project uses **DZFoundation** (`~/GIT/Libraries/DZFoundation`) for logging.
 
