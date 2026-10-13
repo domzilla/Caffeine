@@ -20,11 +20,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUStandardUserDriverDelegat
     private var menuBarController: MenuBarController?
 
     func applicationDidFinishLaunching(_: Notification) {
+        // Hide the dock icon before creating the menu bar-only interface
+        NSApp.setActivationPolicy(.accessory)
+
         // Create the menu bar controller
         self.menuBarController = MenuBarController(updaterController: self.updaterController)
-
-        // Hide the dock icon - this is a menu bar only app
-        NSApp.setActivationPolicy(.accessory)
     }
 
     func applicationWillTerminate(_: Notification) {
