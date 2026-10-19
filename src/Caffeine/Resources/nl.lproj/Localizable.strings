@@ -42,3 +42,14 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine voorkomt sluimerstand";
+
+/* Lid-closed mode */
+"Keep awake with the lid closed" = "Wakker blijven met gesloten deksel";
+"Lets your Mac keep running with the lid closed while Caffeine is active, with the built-in speakers muted. Turns off below 10% battery." = "Je Mac blijft werken met gesloten deksel zolang Caffeine actief is, met de ingebouwde luidsprekers gedempt. Schakelt uit onder 10% batterij.";
+"Allow Caffeine in System Settings to finish turning this on." = "Sta Caffeine toe in Systeeminstellingen om het inschakelen af te ronden.";
+"Open Login Items" = "Open inlogonderdelen";
+"Caffeine's helper isn't set up." = "De helper van Caffeine is niet ingesteld.";
+"Set Up" = "Stel in";
+"Lid can be closed" = "Deksel kan dicht";
+"Caffeine couldn't turn off lid-close sleep." = "Caffeine kon de sluimerstand bij het sluiten van het deksel niet uitschakelen.";
+"Lid-closed mode turned off at %d%% battery." = "Modus met gesloten deksel uitgeschakeld bij %d%% batterij.";

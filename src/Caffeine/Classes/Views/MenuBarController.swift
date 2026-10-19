@@ -105,10 +105,14 @@ class MenuBarController: NSObject {
     }
 
     private func showContextMenu() {
+        ClosedLidManager.shared.refreshStatus()
         let menu = NSMenu()
 
         // Status info (only show if active)
-        if self.viewModel.isActive, let timeString = viewModel.formattedTimeRemaining() {
+        if self.viewModel.isActive, var timeString = viewModel.formattedTimeRemaining() {
+            if ClosedLidManager.shared.isHolding {
+                timeString += " · " + String(localized: "Lid can be closed")
+            }
             let infoItem = NSMenuItem(title: timeString, action: nil, keyEquivalent: "")
             infoItem.isEnabled = false
             infoItem.setAccessibilityIdentifier("MenuBarController.statusMenuItem")

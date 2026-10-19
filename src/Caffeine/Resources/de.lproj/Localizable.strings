@@ -43,3 +43,13 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine verhindert den Ruhezustand";
 
+/* Lid-closed mode */
+"Keep awake with the lid closed" = "Bei geschlossenem Deckel wach bleiben";
+"Lets your Mac keep running with the lid closed while Caffeine is active, with the built-in speakers muted. Turns off below 10% battery." = "Dein Mac läuft bei geschlossenem Deckel weiter, solange Caffeine aktiv ist, mit stummgeschalteten integrierten Lautsprechern. Schaltet sich unter 10 % Akku aus.";
+"Allow Caffeine in System Settings to finish turning this on." = "Erlaube Caffeine in den Systemeinstellungen, um die Einrichtung abzuschließen.";
+"Open Login Items" = "Anmeldeobjekte öffnen";
+"Caffeine's helper isn't set up." = "Der Helfer von Caffeine ist nicht eingerichtet.";
+"Set Up" = "Einrichten";
+"Lid can be closed" = "Deckel kann geschlossen werden";
+"Caffeine couldn't turn off lid-close sleep." = "Caffeine konnte den Ruhezustand beim Schließen des Deckels nicht deaktivieren.";
+"Lid-closed mode turned off at %d%% battery." = "Modus für geschlossenen Deckel bei %d %% Akku ausgeschaltet.";

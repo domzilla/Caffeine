@@ -43,3 +43,13 @@
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine empêche la mise en veille";
 
+/* Lid-closed mode */
+"Keep awake with the lid closed" = "Rester éveillé avec l’écran rabattu";
+"Lets your Mac keep running with the lid closed while Caffeine is active, with the built-in speakers muted. Turns off below 10% battery." = "Votre Mac continue de fonctionner écran rabattu tant que Caffeine est actif, avec les haut-parleurs intégrés coupés. Se désactive sous 10 % de batterie.";
+"Allow Caffeine in System Settings to finish turning this on." = "Autorisez Caffeine dans Réglages Système pour terminer l’activation.";
+"Open Login Items" = "Ouvrir les éléments de connexion";
+"Caffeine's helper isn't set up." = "L’assistant de Caffeine n’est pas configuré.";
+"Set Up" = "Configurer";
+"Lid can be closed" = "Vous pouvez rabattre l’écran";
+"Caffeine couldn't turn off lid-close sleep." = "Caffeine n’a pas pu désactiver la suspension à la fermeture de l’écran.";
+"Lid-closed mode turned off at %d%% battery." = "Mode écran rabattu désactivé à %d %% de batterie.";

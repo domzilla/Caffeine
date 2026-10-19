@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Optional "Keep awake with the lid closed" preference. While Caffeine is active, your Mac keeps running with the lid closed, even on battery. The built-in speakers are muted while the lid is closed, and lid-closed mode turns itself off below 10% battery. A small helper, approved once in System Settings › Login Items, holds the setting and restores normal sleep when Caffeine deactivates, quits or crashes.
 - VoiceOver support: the menu bar icon announces whether sleep is currently prevented, and the duration menu items announce what they activate.
 
 ### Changed

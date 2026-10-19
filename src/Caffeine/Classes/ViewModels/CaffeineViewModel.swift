@@ -113,6 +113,10 @@ class CaffeineViewModel: ObservableObject {
         if UserDefaults.standard.bool(forKey: PreferenceKeys.keepAppsActive) {
             ActivitySimulator.shared.startMonitoring()
         }
+
+        if UserDefaults.standard.bool(forKey: PreferenceKeys.keepAwakeWithLidClosed) {
+            ClosedLidManager.shared.hold()
+        }
     }
 
     /// Deactivates Caffeine
@@ -122,6 +126,7 @@ class CaffeineViewModel: ObservableObject {
         self.isActive = false
         SleepPreventionManager.shared.allowSleep()
         ActivitySimulator.shared.stopMonitoring()
+        ClosedLidManager.shared.release()
     }
 
     /// Updates activity simulation based on preference
@@ -136,6 +141,18 @@ class CaffeineViewModel: ObservableObject {
             ActivitySimulator.shared.startMonitoring()
         } else {
             ActivitySimulator.shared.stopMonitoring()
+        }
+    }
+
+    /// Turns lid-closed mode on or off based on preference
+    func updateClosedLid(enabled: Bool) {
+        if enabled {
+            ClosedLidManager.shared.register()
+            if self.isActive {
+                ClosedLidManager.shared.hold()
+            }
+        } else {
+            ClosedLidManager.shared.unregister()
         }
     }
 
@@ -212,4 +229,5 @@ enum PreferenceKeys {
     static let suppressLaunchMessage = "CASuppressLaunchMessage"
     static let deactivateOnManualSleep = "CADeactivateOnManualSleep"
     static let keepAppsActive = "CAKeepAppsActive"
+    static let keepAwakeWithLidClosed = "CAKeepAwakeWithLidClosed"
 }

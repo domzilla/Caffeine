@@ -5,6 +5,7 @@
 //  Created by Dominic Rodemer on 11.11.25.
 //
 
+import ServiceManagement
 import SwiftUI
 
 struct PreferencesView: View {
@@ -14,6 +15,8 @@ struct PreferencesView: View {
     @AppStorage(PreferenceKeys.suppressLaunchMessage) private var suppressLaunchMessage = false
     @AppStorage(PreferenceKeys.deactivateOnManualSleep) private var deactivateOnManualSleep = false
     @AppStorage(PreferenceKeys.keepAppsActive) private var keepAppsActive = false
+    @AppStorage(PreferenceKeys.keepAwakeWithLidClosed) private var keepAwakeWithLidClosed = false
+    @ObservedObject private var closedLid = ClosedLidManager.shared
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -102,6 +105,30 @@ struct PreferencesView: View {
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
                     .padding(.leading, 20)
+
+                Toggle("Keep awake with the lid closed", isOn: Binding(
+                    get: { self.keepAwakeWithLidClosed },
+                    set: { newValue in
+                        self.keepAwakeWithLidClosed = newValue
+                        self.viewModel.updateClosedLid(enabled: newValue)
+                    }
+                ))
+                .font(.system(size: 13))
+                .padding(.top, 8)
+                .accessibilityIdentifier("PreferencesView.keepAwakeWithLidClosedToggle")
+
+                Text(
+                    "Lets your Mac keep running with the lid closed while Caffeine is active, with the built-in speakers muted. Turns off below 10% battery."
+                )
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.leading, 20)
+
+                if self.keepAwakeWithLidClosed {
+                    self.closedLidStatus
+                        .padding(.leading, 20)
+                }
             }
 
             Spacer()
@@ -129,7 +156,46 @@ struct PreferencesView: View {
         }
         .padding(.horizontal, 20)
         .frame(width: 640)
+        .onAppear {
+            self.closedLid.refreshStatus()
+        }
         .fixedSize(horizontal: false, vertical: true)
+    }
+}
+
+extension PreferencesView {
+    @ViewBuilder
+    private var closedLidStatus: some View {
+        switch self.closedLid.status {
+        case .enabled:
+            if let error = self.closedLid.lastError {
+                Text(error)
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+            }
+        case .requiresApproval:
+            HStack(spacing: 8) {
+                Text("Allow Caffeine in System Settings to finish turning this on.")
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+                Button(String(localized: "Open Login Items")) {
+                    SMAppService.openSystemSettingsLoginItems()
+                }
+                .controlSize(.small)
+                .accessibilityIdentifier("PreferencesView.openLoginItemsButton")
+            }
+        default:
+            HStack(spacing: 8) {
+                Text(self.closedLid.lastError ?? String(localized: "Caffeine's helper isn't set up."))
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+                Button(String(localized: "Set Up")) {
+                    self.viewModel.updateClosedLid(enabled: true)
+                }
+                .controlSize(.small)
+                .accessibilityIdentifier("PreferencesView.setUpClosedLidButton")
+            }
+        }
     }
 }
 

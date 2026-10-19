@@ -42,3 +42,14 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine предотвращает переход в сон";
+
+/* Lid-closed mode */
+"Keep awake with the lid closed" = "Не засыпать с закрытой крышкой";
+"Lets your Mac keep running with the lid closed while Caffeine is active, with the built-in speakers muted. Turns off below 10% battery." = "Mac продолжает работать с закрытой крышкой, пока Caffeine активен, а встроенные динамики отключены. Отключается при заряде ниже 10%.";
+"Allow Caffeine in System Settings to finish turning this on." = "Разрешите Caffeine в Системных настройках, чтобы завершить включение.";
+"Open Login Items" = "Открыть объекты входа";
+"Caffeine's helper isn't set up." = "Помощник Caffeine не настроен.";
+"Set Up" = "Настроить";
+"Lid can be closed" = "Можно закрыть крышку";
+"Caffeine couldn't turn off lid-close sleep." = "Caffeine не удалось отключить сон при закрытии крышки.";
+"Lid-closed mode turned off at %d%% battery." = "Режим закрытой крышки отключён при заряде %d%%.";

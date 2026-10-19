@@ -37,6 +37,10 @@ Tomas has graciously provided the source code under an open source license, allo
 
 No, this version requires at least macOS 11 (Big Sur). Caffeine for macOS Yosemite or later (including Catalina) is available at: https://www.intelliscapesolutions.com/apps/caffeine/
 
+##### Can Caffeine keep my Mac awake with the lid closed?
+
+Yes. Turn on "Keep awake with the lid closed" in the preferences, then approve Caffeine's helper once in System Settings › General › Login Items & Extensions. While Caffeine is active, your Mac keeps running with the lid closed, even on battery without an external display, and its built-in speakers stay muted until you open it. Normal lid-close sleep comes back as soon as Caffeine deactivates or quits, and lid-closed mode turns itself off below 10% battery.
+
 ##### How is Caffeine different or better than alternatives (such as Amphetamine, KeepingYouAwake, etc)?
 
 Due to the long period of inactivity for Caffeine, a lot of different and great options have been developed. While the alternatives are great apps and definitely worth your consideration, we believe that Caffeine's power lies in its simplicity and ease of use.

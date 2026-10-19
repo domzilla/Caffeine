@@ -42,3 +42,14 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine이 잠자기를 방지합니다";
+
+/* Lid-closed mode */
+"Keep awake with the lid closed" = "덮개를 닫아도 깨어 있기";
+"Lets your Mac keep running with the lid closed while Caffeine is active, with the built-in speakers muted. Turns off below 10% battery." = "Caffeine이 활성화되어 있는 동안 내장 스피커를 음소거한 채로 덮개를 닫아도 Mac이 계속 작동합니다. 배터리가 10% 미만이 되면 꺼집니다.";
+"Allow Caffeine in System Settings to finish turning this on." = "설정을 완료하려면 시스템 설정에서 Caffeine을 허용하세요.";
+"Open Login Items" = "로그인 항목 열기";
+"Caffeine's helper isn't set up." = "Caffeine 도우미가 설정되지 않았습니다.";
+"Set Up" = "설정";
+"Lid can be closed" = "덮개를 닫아도 됩니다";
+"Caffeine couldn't turn off lid-close sleep." = "Caffeine이 덮개를 닫을 때의 잠자기를 끄지 못했습니다.";
+"Lid-closed mode turned off at %d%% battery." = "배터리 %d%%에서 덮개 닫힘 모드가 꺼졌습니다.";

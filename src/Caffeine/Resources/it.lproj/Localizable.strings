@@ -42,3 +42,14 @@
 
 /* System messages */
 "Caffeine prevents sleep" = "Caffeine impedisce lo stop";
+
+/* Lid-closed mode */
+"Keep awake with the lid closed" = "Resta attivo con il coperchio chiuso";
+"Lets your Mac keep running with the lid closed while Caffeine is active, with the built-in speakers muted. Turns off below 10% battery." = "Il Mac continua a funzionare con il coperchio chiuso mentre Caffeine è attivo, con gli altoparlanti integrati disattivati. Si disattiva sotto il 10% di batteria.";
+"Allow Caffeine in System Settings to finish turning this on." = "Consenti Caffeine in Impostazioni di Sistema per completare l’attivazione.";
+"Open Login Items" = "Apri elementi login";
+"Caffeine's helper isn't set up." = "L’helper di Caffeine non è configurato.";
+"Set Up" = "Configura";
+"Lid can be closed" = "Puoi chiudere il coperchio";
+"Caffeine couldn't turn off lid-close sleep." = "Caffeine non è riuscito a disattivare lo stop alla chiusura del coperchio.";
+"Lid-closed mode turned off at %d%% battery." = "Modalità coperchio chiuso disattivata al %d%% di batteria.";
