@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - 8-hour activation option in the menu and default duration preference.
+- VoiceOver support: the menu bar icon announces whether sleep is currently prevented, and the duration menu items announce what they activate.
 
 ### Changed
 

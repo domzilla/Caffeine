@@ -1,0 +1,8 @@
+/* Accessibility label for a duration menu item, %@ is the duration */
+"Activate: %@" = "Увімкнути: %@";
+
+/* Accessibility value announced when Caffeine is preventing sleep */
+"Active, sleep prevented" = "Увімкнено, сон заблоковано";
+
+/* Accessibility value announced when Caffeine is not preventing sleep */
+"Inactive, sleep allowed" = "Вимкнено, сон дозволено";

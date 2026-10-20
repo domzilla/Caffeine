@@ -1,0 +1,8 @@
+/* Accessibility label for a duration menu item, %@ is the duration */
+"Activate: %@" = "激活：%@";
+
+/* Accessibility value announced when Caffeine is preventing sleep */
+"Active, sleep prevented" = "已激活，阻止睡眠";
+
+/* Accessibility value announced when Caffeine is not preventing sleep */
+"Inactive, sleep allowed" = "未激活，允许睡眠";

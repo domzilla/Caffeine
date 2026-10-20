@@ -1,0 +1,8 @@
+/* Accessibility label for a duration menu item, %@ is the duration */
+"Activate: %@" = "Ativar: %@";
+
+/* Accessibility value announced when Caffeine is preventing sleep */
+"Active, sleep prevented" = "Ativo, repouso impedido";
+
+/* Accessibility value announced when Caffeine is not preventing sleep */
+"Inactive, sleep allowed" = "Inativo, repouso permitido";
