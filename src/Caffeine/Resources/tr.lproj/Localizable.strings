@@ -1,0 +1,44 @@
+/* Activation durations */
+"1 minute" = "1 dakika";
+"5 minutes" = "5 dakika";
+"10 minutes" = "10 dakika";
+"15 minutes" = "15 dakika";
+"30 minutes" = "30 dakika";
+"1 hour" = "1 saat";
+"2 hours" = "2 saat";
+"5 hours" = "5 saat";
+"Indefinitely" = "Süresiz";
+
+/* Status messages */
+"Caffeine is active" = "Caffeine etkin";
+"%d minutes" = "%d dakika";
+"%d seconds" = "%d saniye";
+
+/* Menu items */
+"Check for Updates..." = "Güncellemeleri Denetle...";
+"Preferences..." = "Tercihler...";
+"About Caffeine" = "Caffeine Hakkında";
+"Quit" = "Çık";
+
+/* Preferences instructions */
+"Caffeine is now running. You can find its icon in the right side of your menu bar. Click it to disable automatic sleep, click it again to enable automatic sleep." = "Caffeine çalışıyor. Simgesini menü çubuğunun sağ tarafında bulabilirsiniz. Otomatik uyku modunu devre dışı bırakmak için tıklayın, yeniden etkinleştirmek için tekrar tıklayın.";
+"Right-click (or ⌃-click) the menu bar icon to show the Caffeine menu." = "Caffeine menüsünü göstermek için menü çubuğu simgesine sağ tıklayın (veya ⌃-tıklayın).";
+
+/* Preferences labels */
+"Default duration:" = "Varsayılan süre:";
+"Activate when starting Caffeine" = "Caffeine başlatıldığında etkinleştir";
+"Deactivate when device goes to sleep manually" = "Cihaz manuel olarak uyku moduna geçtiğinde devre dışı bırak";
+"Show this message when starting Caffeine" = "Caffeine başladığında bu iletiyi göster";
+"Keep apps active" = "Uygulamaları etkin tut";
+"Prevents apps from becoming inactive and the screen saver from starting." = "Uygulamaların etkinliğini kaybetmesini ve ekran koruyucunun başlamasını engeller.";
+"Close" = "Kapat";
+
+/* Menu additions */
+"Activate for" = "Şu süreyle etkinleştir";
+"Welcome to Caffeine" = "Caffeine'e hoş geldiniz";
+
+/* About credits */
+"© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nSource code:\nhttps://github.caffeine-app.net" = "© 2006 Tomas Franzén\n© 2018 Michael Jones\n© 2022 Dominic Rodemer\n\nKaynak kodu:\nhttps://github.caffeine-app.net";
+
+/* System messages */
+"Caffeine prevents sleep" = "Caffeine uyku modunu engeller";
