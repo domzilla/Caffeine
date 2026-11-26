@@ -31,6 +31,8 @@
 "Show this message when starting Caffeine" = "启动 Caffeine 时显示此消息";
 "Keep apps active" = "保持应用活跃";
 "Prevents apps from becoming inactive and the screen saver from starting." = "防止应用变为非活跃状态并阻止屏幕保护程序启动。";
+"Prevent sleep when lid is closed" = "合盖时阻止睡眠";
+"Keeps the Mac awake with the lid closed, even on battery, for use with external displays. Requires one-time administrator authorization." = "合盖后保持 Mac 不休眠,使用电池时也有效,适用于外接显示器场景。首次启用需要一次管理员授权。";
 "Close" = "关闭";
 
 /* Menu additions */

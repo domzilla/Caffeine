@@ -109,6 +109,7 @@ class CaffeineViewModel: ObservableObject {
 
         self.isActive = true
         SleepPreventionManager.shared.preventSleep()
+        ClamshellSleepController.shared.activationChanged(active: true)
 
         if UserDefaults.standard.bool(forKey: PreferenceKeys.keepAppsActive) {
             ActivitySimulator.shared.startMonitoring()
@@ -122,6 +123,7 @@ class CaffeineViewModel: ObservableObject {
         self.isActive = false
         SleepPreventionManager.shared.allowSleep()
         ActivitySimulator.shared.stopMonitoring()
+        ClamshellSleepController.shared.activationChanged(active: false)
     }
 
     /// Updates activity simulation based on preference
@@ -137,6 +139,11 @@ class CaffeineViewModel: ObservableObject {
         } else {
             ActivitySimulator.shared.stopMonitoring()
         }
+    }
+
+    /// Updates lid-close sleep prevention based on preference
+    func updateLidClosePrevention(enabled: Bool) {
+        ClamshellSleepController.shared.preferenceChanged(enabled: enabled, currentlyActive: self.isActive)
     }
 
     /// Returns a formatted string for the remaining time
@@ -212,4 +219,6 @@ enum PreferenceKeys {
     static let suppressLaunchMessage = "CASuppressLaunchMessage"
     static let deactivateOnManualSleep = "CADeactivateOnManualSleep"
     static let keepAppsActive = "CAKeepAppsActive"
+    static let preventSleepOnLidClose = "CAPreventSleepOnLidClose"
+    static let clamshellSleepDisabledByUs = "CAClamshellSleepDisabledByUs"
 }
