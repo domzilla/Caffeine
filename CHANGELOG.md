@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - VoiceOver support: the menu bar icon announces whether sleep is currently prevented, and the duration menu items announce what they activate.
+- New "Prevent sleep when lid is closed" preference: keeps the Mac awake in clamshell use (e.g. with an external display) even on battery power. Uses `pmset -a disablesleep` via sudo — the same mechanism Amphetamine's Power Protect uses. Caffeine requires its own explicit one-time authorization: on first use it asks for the administrator password once to install its own sudoers rule (`/etc/sudoers.d/caffeine_PowerProtect`, limited to exactly the two pmset commands); rules installed by other apps are not reused. Sleep is re-enabled automatically when Caffeine is deactivated or quits, and restored on the next launch if a crash left it disabled. macOS clears `disablesleep` during power source transitions, so Caffeine re-applies it on every transition and re-checks 2 seconds later — verified: without the re-apply, unplugging power in clamshell mode powered off the external display despite `disablesleep` being set.
 
 ### Changed
 
@@ -18,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Timer no longer stays active and shows negative seconds after the Mac sleeps past the activation period.
+- Display no longer sleeps when the power source changes (unplugging or plugging in the charger) while sleep prevention is active. The display-sleep assertion is now persistent instead of being re-created every 10 seconds with an 8-second timeout (which left a 2-second unprotected window in each cycle), and it is refreshed whenever macOS signals a power source transition.
 
 ## [1.6.3] - 2026-01-26
 

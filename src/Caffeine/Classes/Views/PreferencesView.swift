@@ -14,6 +14,7 @@ struct PreferencesView: View {
     @AppStorage(PreferenceKeys.suppressLaunchMessage) private var suppressLaunchMessage = false
     @AppStorage(PreferenceKeys.deactivateOnManualSleep) private var deactivateOnManualSleep = false
     @AppStorage(PreferenceKeys.keepAppsActive) private var keepAppsActive = false
+    @AppStorage(PreferenceKeys.preventSleepOnLidClose) private var preventSleepOnLidClose = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -99,6 +100,25 @@ struct PreferencesView: View {
                 .accessibilityIdentifier("PreferencesView.keepAppsActiveToggle")
 
                 Text("Prevents apps from becoming inactive and the screen saver from starting.")
+                    .font(.system(size: 11))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 20)
+
+                Divider()
+                    .padding(.vertical, 4)
+                    .accessibilityHidden(true)
+
+                Toggle("Prevent sleep when lid is closed", isOn: Binding(
+                    get: { self.preventSleepOnLidClose },
+                    set: { newValue in
+                        self.preventSleepOnLidClose = newValue
+                        self.viewModel.updateLidClosePrevention(enabled: newValue)
+                    }
+                ))
+                .font(.system(size: 13))
+                .accessibilityIdentifier("PreferencesView.preventSleepOnLidCloseToggle")
+
+                Text("Keeps the Mac awake with the lid closed, even on battery, for use with external displays. Requires one-time administrator authorization.")
                     .font(.system(size: 11))
                     .foregroundColor(.secondary)
                     .padding(.leading, 20)

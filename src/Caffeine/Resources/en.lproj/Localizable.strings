@@ -31,6 +31,8 @@
 "Show this message when starting Caffeine" = "Show this message when starting Caffeine";
 "Keep apps active" = "Keep apps active";
 "Prevents apps from becoming inactive and the screen saver from starting." = "Prevents apps from becoming inactive and the screen saver from starting.";
+"Prevent sleep when lid is closed" = "Prevent sleep when lid is closed";
+"Keeps the Mac awake with the lid closed, even on battery, for use with external displays. Requires one-time administrator authorization." = "Keeps the Mac awake with the lid closed, even on battery, for use with external displays. Requires one-time administrator authorization.";
 "Close" = "Close";
 
 /* Menu additions */
